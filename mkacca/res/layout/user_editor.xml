@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/tooltip_margin"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/ed_user_name"
+        android:text="Пользователь" />
+
+    <EditText
+        android:id="@+id/ed_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:inputType="text|textCapWords"
+        android:selectAllOnFocus="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+    <Switch
+        android:id="@+id/cb_is_active"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginEnd="2dp"
+        android:layout_height="wrap_content"
+        android:text="Активный" />
+
+    <TextView
+        android:id="@+id/v_set_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:background="@drawable/blue_button"
+        android:padding="6dp"
+        android:text="Установить PIN"
+        android:textColor="@drawable/blue_button_text" />
+	</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:labelFor="@+id/ed_max_discount"
+            android:text="Макс. скидка, %" />
+
+        <EditText
+            android:id="@+id/ed_max_discount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:hint="не ограничена"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Стартовый экран" />
+    <cs.ui.widgets.DialogSpinner android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/sp_screen"/>
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Роли" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/v_roles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            android:paddingEnd="0dp"
+            android:paddingStart="8dp" />
+    </ScrollView>
+
+</LinearLayout>

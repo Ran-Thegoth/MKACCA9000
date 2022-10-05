@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/tooltip_margin"
+    android:orientation="vertical" >
+	<TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+	    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+	    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Текущий" android:gravity="center"/>
+	    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Эталонный" android:gravity="center"/>
+	</TableRow>
+	<TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+	    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Имя пакета"/>
+	    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/lb_c_pkg" android:gravity="center"/>
+	    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/lb_e_pkg" android:gravity="center"/>
+	</TableRow>
+	<TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+	    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Версия"/>
+	    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/lb_c_ver" android:gravity="center"/>
+	    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/lb_e_ver" android:gravity="center"/>
+	</TableRow>
+	<TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+	    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="КС"/>
+	    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/lb_с_crc" android:gravity="center"/>
+	    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/lb_e_crc" android:gravity="center"/>
+	</TableRow>
+	<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:id="@+id/lb_result"/>
+				
+</TableLayout>

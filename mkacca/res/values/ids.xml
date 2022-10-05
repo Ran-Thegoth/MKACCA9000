@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <item type="id" name="v_list"/>
+   <item type="id" name="mi_edit" />
+   <item type="id" name="mi_used" />
+   <item type="id" name="mi_delete" />
+   <item type="id" name="mi_set_default" />
+   <item type="id" name="mi_move"/>
+   <item type="id" name="iv_setup" /> 
+</resources>

@@ -1,0 +1,21 @@
+{\table width:100%;\
+ {\tr\{\td align:center;style:bold;\$owner.Name$}}
+ {\tr\
+  {\td width:60%;\ИНН ПОЛЬЗОВАТЕЛЯ:}
+  {\td width:*;align:center;style:bold;\$owner.INN$}
+ }
+ {\tr\{\td\$Address$}}
+ {\tr\{\td\МЕСТО РАСЧЕТОВ}}
+ {\tr\{\td\$Location$}} 
+ {\tr\{\td padding:0,0,0,20; align:right;\$signature.Date$}}
+ {\tr\{\td align:center;\$order.Type$}}
+ {\tr\{\td align:center;\КАССОВЫЙ ЧЕК № $order.Number$}}
+ {\tr\
+  {\td width:40%;\СМЕНА №:}
+  {\td width:*;align:right;\$shift.Number$}
+ }
+ 
+ {\tr\
+  {\td width:30%;\Кассир}
+  {\td width:*;\$operator.Name$}
+ }

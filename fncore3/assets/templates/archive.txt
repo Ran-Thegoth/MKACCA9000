@@ -1,0 +1,50 @@
+{\table width:100%;\
+ {\tr\{\td align:center;style:bold;\$owner.Name$}}
+  {\tr\
+   {\td width:60%;\ИНН ПОЛЬЗОВАТЕЛЯ:}
+   {\td width:*;align:center;style:bold;\$owner.INN$}
+  }
+ {\tr\{\td align:right;\$signature.Date$}}
+ {\tr\{\td align:center;padding:0,0,0,20;\ОТЧ. О ЗАКР. ФН}}
+ {\tr\{\td padding:0,0,0,20;align:center;\$reason.Name$}}
+ {\tr\{\td\$Address$}}
+ {\tr\{\td\МЕСТО РАСЧЕТОВ}}
+ {\tr\{\td\$Location$}}
+ {\tr\
+   {\td width:25%;\СМЕНА №}
+   {\td width:*;\$shift.Number$}
+ }
+ {\tr\
+  {\td width:25%;\Кассир}
+  {\td width:*;\$operator.Name$}
+ }
+ {\p if:"$automation$"="Да";\
+  {\tr\{\td\Номер АВТОМАТА:}}
+  {\tr\{\td align:right;width:100%;\$automateNumber$}}
+ }  
+ {\tr\{\td\$counters.total$}}
+ {\tr\
+  {\td width:40%;\ЗН ККТ}
+  {\td width:*;align:right;\$device.Number$}
+ }
+ {\tr\
+  {\td width:40%;\РН ККТ}
+  {\td width:*;align:right;\$device.regNo$}
+ }
+ {\tr\
+  {\td width:40%;\ФН №}
+  {\td width:*;align:right;\$device.FN$}
+ }
+ {\tr\
+  {\td width:40%;\ФД №}
+  {\td width:*;align:right;\$signature.Number$}
+ }
+ {\tr\
+  {\td width:40%;\ВЕР.ККТ}
+  {\td width:*;align:right;\$device.Version$}
+ }
+ {\tr\
+  {\td width:40%;\ФПД}
+  {\td width:*;align:right;\$signature.sign$}
+ }
+}

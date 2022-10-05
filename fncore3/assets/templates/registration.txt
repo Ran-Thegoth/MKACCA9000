@@ -1,0 +1,157 @@
+{\table width:100%;\
+ {\tr\{\td align:center;style:bold;\$owner.Name$}}
+  {\tr\
+   {\td width:60%;\ИНН ПОЛЬЗОВАТЕЛЯ:}
+   {\td width:*;align:center;style:bold;\$owner.INN$}
+  }
+ {\tr\{\td align:right;\$signature.Date$}}
+ {\tr\{\td align:center;\$reason.Type$}}
+ {\tr if:"$reason.Name$!="";\
+   {\td align:center;\$reason.Name$}
+ }
+ {\tr\{\td\$Address$}}
+ {\tr\{\td\МЕСТО РАСЧЕТОВ}}
+ {\tr\{\td\$Location$}}
+ {\tr\
+   {\td width:25%;\КАССИР}
+   {\td width:*;\$operator.Name$}
+ }
+ {\tr\
+  {\td width:20%;\СНО:}
+  {\td width:*;align:right;\$TaxModes$}
+ }
+ {\p\ }
+ {\tr if:$offline$="Да";\
+  {\td width:80%;\АВТОНОМН. РЕЖИМ:}
+  {\td align:right;width:*;\$offline$}
+ }
+ {\tr if:$bso$="Да";\
+  {\td width:80%;\АC БСО:}
+  {\td align:right;width:*;\$bso$}
+ }
+ {\tr if:$encryption$="Да";\
+  {\td width:80%;\ШФД:}
+  {\td align:right;width:*\$encryption$}
+ }
+ {\tr if:$automation$="Да";\
+  {\td width:80%;\АВТОМАТ. РЕЖИМ:}
+  {\td align:right;width:*;\$automation$}
+ }
+ {\tr if:"$automation$"="Да";\{\td\Номер АВТОМАТА:}}
+ {\tr if:"$automation$"="Да";\{\td align:right;width:100%;\$automateNumber$}}
+ {\tr if:$isInternetMode$="Да";\
+  {\td width:80%;\ККТ ДЛЯ ИНТЕРНЕТ}
+  {\td align:right;width:*;\$isInternetMode$}
+ }
+ {\tr if:$isServiceMode$="Да";\
+  {\td width:80%;\ККТ ДЛЯ УСЛУГ}
+  {\td align:right;width:*;\$isServiceMode$}
+ }
+ {\tr if:$isExcisesMode$="Да";\
+  {\td width:80%;\Подакцизные товары:}
+  {\td align:right;width:*;\$isExcisesMode$}
+ }
+ {\tr if:$isCasinoMode$="Да";\
+  {\td width:80%;\ПРОВЕДЕНИЕ АЗАРТНОЙ ИГРЫ:}
+  {\td align:right;width:*;\$isCasinoMode$}
+ }
+
+ {\tr if:$isLotteryMode$="Да";\
+  {\td width:80%;\ПРОВЕДЕНИЕ ЛОТЕРЕИ}
+  {\td align:right;width:*;\$isLotteryMode$}
+ }
+
+ {\tr if:$isMarking$="Да";\
+   {\td width:80%;\ТМТ:}
+   {\td align:right;width:*;\$isMarking$}
+ }
+
+ {\tr if:$isPawnShop$="Да";\
+   {\td width:80%;\ЛОМБАРД:}
+   {\td align:right;width:*;\$isPawnShop$}
+ }
+
+ {\tr if:$isInsurance$="Да";\
+    {\td width:80%;\СТРАХОВАНИЕ:}
+    {\td align:right;width:*;\$isInsurance$}
+ }
+
+ {\tr if:"$owner.Name$!="";\
+    {\td width:40%;\ИМЯ ПОЛЬЗОВАТЕЛЯ}
+    {\td width:*;align:right;\$owner.Name$}
+ }
+ {\tr if:"$owner.INN$!="";\
+    {\td width:40%;\ИНН ПОЛЬЗОВАТЕЛЯ}
+    {\td width:*;align:right;\$owner.INN$}
+ }
+ {\tr if:"$sender_email$!="";\
+ 	{\td width:40%;\ЭЛ. АДР. ОТПРАВИТЕЛЯ}
+ 	{\td width:*;align:right;\$sender_email$}
+ }
+
+{\tr if:"$Registation.Reason$!="";\
+    {\td width:60%;\ИЗМ. СВЕД. О ККТ}
+    {\td width:*;align:right;\$Registation.Reason$}
+}
+ 
+ {\tr if:$AgentType$!="";\
+  {\td width:30%;\Агент:}
+  {\td align:right;width:*;\$AgentType$}
+ }
+ 
+ {\tr if:$offline$="Нет";\
+  {\td width:40%;\ИНН ОФД:}
+  {\td align:right;width:*;\$ofd.INN$}
+ }
+
+ {\tr if:$offline$="Нет";\
+  {\td width:45%;\Наименование ОФД:}
+  {\td align:right;width:*;\$ofd.Name$}
+ }
+ {\tr\
+ 	{\td width:30%;\САЙТ ФНС}
+ 	{\td width:*;align:right;\$fns_url$}
+ }
+{\p\ }
+{\tr\
+   {\td width:40%;\ФФД ККТ}
+   {\td width:*;align:right;\$FFD.KKT$}
+ }
+{\tr\
+  {\td width:40%;\ФФД ФН}
+  {\td width:*;align:right;\$FFD.FN$}
+}
+{\tr if:$Keys.Days.Remaning$!="";\
+   {\td width:60%;\РЕСУРС КЛЮЧЕЙ}
+   {\td width:*;align:right;\$Keys.Days.Remaning$}
+}
+{\p if:$is.counters.total$="Да";\
+{\tr\{\td align:center;\СЧЕТЧИКИ ФН}}
+{\tr\{\td\$counters.total$}}
+}
+{\tr\
+  {\td width:40%;\ЗН ККТ}
+  {\td width:*;align:right;\$device.Number$}
+}
+{\tr\
+  {\td width:40%;\РН ККТ}
+  {\td width:*;align:right;\$device.regNo$}
+ }
+{\tr\
+  {\td width:40%;\ФН №}
+  {\td width:*;align:right;\$device.FN$}
+}
+{\tr\
+  {\td width:40%;\ФД №}
+  {\td width:*;align:right;\$signature.Number$}
+}
+{\tr\
+  {\td width:40%;\ВЕР.ККТ}
+  {\td width:*;align:right;\$device.Version$}
+}
+{\tr\
+  {\td width:40%;\ФПД}
+  {\td width:*;align:right;\$signature.sign$}
+}
+}
+

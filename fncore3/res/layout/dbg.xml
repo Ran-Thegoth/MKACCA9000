@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="6dp">
+
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RESET" />
+
+    <Button
+        android:id="@+id/dof"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FISCALIZE" />
+
+    <Button
+        android:id="@+id/dos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHIFT" />
+
+    <Button
+        android:id="@+id/dor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REPORT" />
+
+    <Button
+        android:id="@+id/doa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ARCHIVE" />
+
+    <Button
+        android:id="@+id/dosl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SELL" />
+
+    <Button
+        android:id="@+id/docl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="COR" />
+
+    <Button
+        android:id="@+id/dox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XREP" />
+
+
+</LinearLayout>

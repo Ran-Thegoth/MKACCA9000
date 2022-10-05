@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/tooltip_margin" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="В демонстрационном режиме данные не передаются в ОФД, фискальный признак документа не формируется.\nЭтот режим предназначен для обучения работы с кассовым ПО.\n" />
+
+    <Switch
+        android:id="@+id/sw_demo_mode"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/tooltip_margin"
+        android:layout_height="wrap_content"
+        android:text="Демонстрационный режим" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="При включенном контроле наличности касса производит проверку на предемет непревышения суммы расхода наличности над остатками в кассе, а так же позволяет операции выемки/изъятя" />
+    <Switch
+        android:id="@+id/sw_cash_control"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/tooltip_margin"
+        android:layout_height="wrap_content"
+        android:text="Контроль наличности" />
+    
+
+</LinearLayout>

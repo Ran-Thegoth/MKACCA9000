@@ -1,0 +1,36 @@
+{\table width:100%;\
+ {\tr\{\td align:center;style:bold;\$owner.Name$}}
+  {\tr\
+   {\td width:60%;\ИНН ПОЛЬЗОВАТЕЛЯ:}
+   {\td width:*;align:center;style:bold;\$owner.INN$}
+  }
+ {\tr\{\td\$Address$}}
+ {\tr\{\td\МЕСТО РАСЧЕТОВ}}
+ {\tr\{\td\$Location$}} 
+ {\tr\{\td padding:0,0,0,20; align:right;\$signature.Date$}}
+ {\tr\{\td align:center;\$order.Type$}}
+ {\tr\{\td align:center;\ЧЕК КОРРЕКЦИИ № $order.Number$}}
+ {\tr\
+  {\td width:40%;\СМЕНА №:}
+  {\td width:*;align:right;\$shift.Number$}
+ }
+ {\tr\
+  {\td width:30%;\Кассир}
+  {\td width:*;\$operator.Name$}
+ }
+ {\tr\
+  {\td width:40%;\ТИП КОРРЕКЦИИ}
+  {\td width:*;align:right;\$correction.Type$}
+ }
+{\p if:$correction.Type$!="САМОСТОЯТЕЛЬНО";\
+{\tr\{\td\ОСН. ДЛЯ КОРР}}
+{\tr\{\td width:100%;\$correction.baseDocument$}}
+{\tr\{\td\ОТ}}
+{\tr\{\td width:100%;\$correction.baseDocument.Date$}}
+}
+
+ {\tr\
+  {\td width:40%;\СНО}
+  {\td width:*;align:right;\$taxMode$}
+ }
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/tooltip_margin" >
+
+    <RadioGroup
+        android:id="@+id/op_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/do_deposit"
+            android:layout_marginEnd="@dimen/tooltip_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Внести" />
+
+        <RadioButton
+            android:id="@+id/do_withdraw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Изъять" />
+    </RadioGroup>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/tooltip_margin"
+            android:labelFor="@+id/available_cash"
+            android:text="Наличных в кассе" />
+
+        <EditText
+            android:id="@+id/available_cash"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:gravity="end"
+            android:inputType="numberDecimal" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/tooltip_margin"
+            android:labelFor="@+id/op_sum"
+            android:text="Сумма операции" />
+
+        <EditText
+            android:id="@+id/op_sum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:selectAllOnFocus="true"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:inputType="numberDecimal" />
+    </TableRow>
+
+</TableLayout>

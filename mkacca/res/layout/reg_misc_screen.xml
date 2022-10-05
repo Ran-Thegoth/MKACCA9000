@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rs.mkacca.ui.widgets.pages.MiscInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="6dp" >
+
+            <CheckBox
+                android:id="@+id/sw_internet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="ККТ для интернета" />
+
+            <CheckBox
+                android:id="@+id/sw_excises"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Подакцызный товар" />
+
+            <CheckBox
+                android:id="@+id/sw_bso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Использование БСО" />
+
+            <CheckBox
+                android:id="@+id/sw_lottery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Проведение лотерей" />
+
+            <CheckBox
+                android:id="@+id/sw_gambling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Азартные игры" />
+
+            <CheckBox
+                android:id="@+id/sw_auto_printer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Установка принтера в автомате" />
+
+            <LinearLayout
+                android:id="@+id/v_auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="№ автомата" />
+
+                <EditText
+                    android:id="@+id/ed_auto_no"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:inputType="number" />
+            </LinearLayout>
+
+
+            <CheckBox
+                android:id="@+id/sw_encrypt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Шифрование" />
+
+            <CheckBox
+                android:id="@+id/sw_marking_goods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Работа с маркированными товарами" />
+
+            <CheckBox
+                android:id="@+id/sw_pawnshop_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Осуществление ломбардной деятельности" />
+
+            <CheckBox
+                android:id="@+id/sw_insurance_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                
+                android:text="Осуществление страховой деятельности" />
+            <CheckBox
+                android:id="@+id/sw_offline"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content"
+                android:text="Автономный режим" />
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Агентские услуги"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/v_agent_types"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+</rs.mkacca.ui.widgets.pages.MiscInfo>

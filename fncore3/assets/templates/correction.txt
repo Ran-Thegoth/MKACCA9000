@@ -1,0 +1,96 @@
+{\table width:100%;\
+ {\tr\{\td align:center;style:bold;\$owner.Name$}}
+  {\tr\
+   {\td width:60%;\ИНН ПОЛЬЗОВАТЕЛЯ:}
+   {\td width:*;align:center;style:bold;\$owner.INN$}
+  }
+ {\tr\{\td\$Address$}}
+ {\tr\{\td\МЕСТО РАСЧЕТОВ}}
+ {\tr\{\td\$Location$}} 
+ {\tr\{\td padding:0,0,0,20; align:right;\$signature.Date$}}
+ {\tr\{\td align:center;\$correction.checkType$}}
+ {\tr\{\td align:center;\ЧЕК КОРРЕКЦИИ № $correction.Number$}}
+ {\tr\
+  {\td width:40%;\СМЕНА №:}
+  {\td width:*;align:right;\$shift.Number$}
+ }
+ {\tr\
+  {\td width:30%;\Кассир}
+  {\td width:*;\$operator.Name$}
+ }
+ {\tr\
+  {\td width:40%;\ТИП КОРРЕКЦИИ}
+  {\td width:*;align:right;\$correction.Type$}
+ }
+ {\tr\{\td\ОСН. ДЛЯ КОРР}}
+ {\tr\{\td width:100%;\$correction.baseDocument$}}
+ {\tr\{\td\ОТ}}
+  {\tr\{\td width:100%;\$correction.baseDocument.Date$}}
+ 
+ {\tr fontSize:120%;style:bold;\
+  {\td width:40%; padding:0,0,0,20;\СУММА:}
+  {\td width:*;align:right; padding:0,0,0,20;\=$correction.Sum$}
+ }
+{\tr\
+ {\td width:60%;\$correction.Vat.Name$}
+ {\td width:*;align:right;if:$correction.Vat.Value$!=$correction.sum$;\= $correction.Vat.Value$}
+}
+ {\tr if:$correction.Payment.Cash$!=""\
+  {\td width:40%;\НАЛИЧНЫМИ}
+  {\td width:*;align:right;\$correction.Payment.Cash$}
+ }
+ {\tr if:$correction.Payment.Card$!="";\
+  {\td width:40%;\БЕЗНАЛИЧНЫМИ}
+  {\td width:*;align:right;\$correction.Payment.Card$}
+ }
+ {\tr if:$correction.Payment.Prepayment$!="";\
+    {\td width:70%;\ПРЕДВАРИТЕЛЬНАЯ ОПЛАТА(АВАНС)}
+    {\td width:*;align:right;\$correction.Payment.Prepayment$}
+ }
+ {\tr if:$correction.Payment.Credit$!="";\
+     {\td width:70%;\ПОСЛЕДУЮЩАЯ ОПЛАТА (КРЕДИТ)}
+     {\td width:*;align:right;\$correction.Payment.Credit$}
+ }
+ {\tr if:$correction.Payment.Ahead$!="";\
+      {\td width:70%;\ИНАЯ ФОРМА ОПЛАТЫ}
+      {\td width:*;align:right;\$correction.Payment.Ahead$}
+ }
+ {\tr\
+  {\td width:40%;\СНО}
+  {\td width:*;align:right;\$taxMode$}
+ }
+ {\tr\
+  {\td width:40%;\ЗН ККТ}
+  {\td width:*;align:right;\$device.Number$}
+ }
+ {\tr\
+  {\td width:40%;\РН ККТ}
+  {\td width:*;align:right;\$device.regNo$}
+ }
+ {\tr\
+  {\td width:40%;\ФН №}
+  {\td width:*;align:right;\$device.FN$}
+ }
+ {\tr\
+  {\td width:40%;\ФД №}
+  {\td width:*;align:right;\$signature.Number$}
+ }
+ {\tr\
+  {\td width:40%;\ВЕР.ККТ}
+  {\td width:*;align:right;\$device.Version$}
+ }
+ {\tr\
+  {\td width:40%;\ФПД}
+  {\td width:*;align:right;\$signature.sign$}
+ }
+}
+
+{\table width:100%;fontSize:20;\
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+}

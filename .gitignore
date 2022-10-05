@@ -1,0 +1,9 @@
+**/.settings
+**/bin
+**/obj
+**/gen
+**/libs/armeabi-v7a
+**/libs/x86
+**/libs/arm64-v8a
+**/built
+**/classes.h

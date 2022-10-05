@@ -1,0 +1,59 @@
+{\tr\{\td width:*;style:bold;\{\table width:100%\
+{\tr\{\td width:30%\$item.MarkCode$
+$item.CheckCode$}{\td width:*\$item.name$}}
+}}}
+{\tr\{\td width:100%;align:right;\$item.qtty$ $item.measure$ X $item.price$}}
+{\tr\{\td width:100%;align:right;\= $item.sum$}}
+{\tr\
+ {\td width:60%;\$item.Vat.Name$}
+ {\td width:*;align:right;if:$item.Vat.Value$!=$item.sum$;\= $item.Vat.Value$}
+}
+{\tr\{\td if:"$T_1230$"!="";width:50%;\Страна: $T_1230$}
+{\td if:"$T_1231$"!="";width:*;\ГТД № $T_1231$}
+} 
+{\tr if:$item.AgentType$!="";\
+ {\td width:50%;\Тип агента:}
+ {\td width:*;\$item.AgentType$}
+}
+{\tr if:$T_1223.1005$!="";\
+ {\td width:60%;\АДР.ОП.ПЕРЕВОДА}
+ {\td width:*;\$T_1223.1005$}
+}
+{\tr if:$T_1223.1016$!="";\
+ {\td width:60%;\ИНН ОП.ПЕРЕВОДА}
+ {\td width:*;\$T_1223.1016$}
+}
+{\tr if:$T_1223.1026$!="";\
+ {\td width:60%;\ОПЕРАТОР ПЕРЕВОДА}
+ {\td width:*;\$T_1223.1026$}
+}
+{\tr if:$T_1223.1044$!="";\
+ {\td width:60%;\ОП.АГЕНТА}
+ {\td width:*;\$T_1223.1044$}
+}
+{\tr if:$T_1223.1073$!="";\
+ {\td width:60%;\ТЛФ.ПЛ.АГЕНТА}
+ {\td width:*;\$T_1223.1073$}
+}
+{\tr if:$T_1223.1074$!="";\
+ {\td width:60%;\ТЛФ.ОП.ПР.ПЛАТЕЖА}
+ {\td width:*;\$T_1223.1074$}
+}
+{\tr if:$T_1223.1075$!="";\
+ {\td width:60%;\ТЛФ.ОП.ПЕРЕВОДА}
+ {\td width:*;\$T_1223.1075$}
+}
+{\tr if:$T_1224.1225$!="";\
+ {\td width:60%;\ПОСТАВЩИК: }
+ {\td width:*;\$T_1224.1225$}
+}
+{\tr if:$T_1224.1171$!="";\
+ {\td width:60%;\ТЛФ. ПОСТ.}
+ {\td width:*;\$T_1224.1171$}
+}
+{\tr if:$T_1224.1226$!="";\
+ {\td width:60%;\ИНН ПОСТАВЩИКА}
+ {\td width:*;\$T_1224.1226$}
+}
+{\tr\{\td width:100%;align:right;\$item.PaymentType$}}
+{\tr\{\td width:100%;align:right;\$item.ItemType$}}

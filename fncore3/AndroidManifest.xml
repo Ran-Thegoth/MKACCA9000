@@ -1,0 +1,71 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="302366"
+    android:versionName="3.02.34"
+    package="rs.fncore2">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_PROFILES" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.usb.host" />
+
+    <uses-sdk android:minSdkVersion="21"/>
+    <application
+        android:requestLegacyExternalStorage="true"
+        android:name="rs.fncore2.FNCore"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <receiver
+            android:enabled="true"
+            android:exported="true"
+            android:name="rs.fncore2.Restarter"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="rs.fncore2.restart" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="rs.fncore2.core.ServiceMain"
+            android:permission="android.permission.INTERNET"
+			android:process=":remote"	
+            android:singleUser="true"
+            android:stopWithTask="false">
+
+            <intent-filter>
+                <action android:name="rs.fncore2.FiscalStorage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="rs.fncore2.revision"
+                android:value="1" />
+        </service>
+        <provider
+            android:name="rs.fncore2.DataProvider"
+            android:authorities="rs.fncore2.data"
+            android:exported="true" />
+
+    </application>
+</manifest>

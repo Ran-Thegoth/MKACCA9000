@@ -1,0 +1,115 @@
+{\table width:100%;\
+ {\tr\{\td padding:0,0,0,20; align:right;\$Date$}}
+ {\tr\{\td align:center;\ОТЧЕТ О СОСТОЯНИИ СЧЕТЧИКОВ ККТ}}
+ {\tr\{\td align:center;\СМЕНА №: $shift.Number$}}
+ {\tr\{\td align:center;\ПРИХОД}}
+ {\tr\
+  {\td width:65%;\Наличными}
+  {\td width:*;align:right;\$Income.Cash$}
+ }
+ {\tr\
+  {\td width:65%;\Безналичными}
+  {\td width:*;align:right;\$Income.Card$}
+ }
+ {\tr\
+  {\td width:65%;\Предоплата}
+  {\td width:*;align:right;\$Income.Prepayment$}
+ }
+ {\tr\
+  {\td width:65%;\Кредит}
+  {\td width:*;align:right;\$Income.Credit$}
+ }
+ {\tr\
+  {\td width:65%;padding:0,0,0,20;\Иная форма оплаты}
+  {\td width:*;align:right;\$Income.Ahead$}
+ }
+ {\tr\{\td align:center;\РАСХОД}}
+ {\tr\
+  {\td width:65%;\Наличными}
+  {\td width:*;align:right;\$Outcome.Cash$}
+ }
+ {\tr\
+  {\td width:65%;\Безналичными}
+  {\td width:*;align:right;\$Outcome.Card$}
+ }
+ {\tr\
+  {\td width:65%;\Предоплата}
+  {\td width:*;align:right;\$Outcome.Prepayment$}
+ }
+ {\tr\
+  {\td width:65%;\Кредит}
+  {\td width:*;align:right;\$Outcome.Credit$}
+ }
+ {\tr\
+  {\td width:65%;padding:0,0,0,20;\Иная форма оплаты}
+  {\td width:*;align:right;\$Outcome.Ahead$}
+ }
+ {\tr\{\td align:center;\ВОЗВРАТ ПРИХОДА}}
+ {\tr\
+  {\td width:65%;\Наличными}
+  {\td width:*;align:right;\$ReturnIncome.Cash$}
+ }
+ {\tr\
+  {\td width:65%;\Безналичными}
+  {\td width:*;align:right;\$ReturnIncome.Card$}
+ }
+ {\tr\
+  {\td width:65%;\Предоплата}
+  {\td width:*;align:right;\$ReturnIncome.Prepayment$}
+ }
+ {\tr\
+  {\td width:65%;\Кредит}
+  {\td width:*;align:right;\$ReturnIncome.Credit$}
+ }
+ {\tr\
+  {\td width:65%;padding:0,0,0,20;\Иная форма оплаты}
+  {\td width:*;align:right;\$ReturnIncome.Ahead$}
+ }
+  {\tr\{\td align:center;\ВОЗВРАТ РАСХОДА}}
+ {\tr\
+  {\td width:65%;\Наличными}
+  {\td width:*;align:right;\$ReturnOutcome.Cash$}
+ }
+ {\tr\
+  {\td width:65%;\Безналичными}
+  {\td width:*;align:right;\$ReturnOutcome.Card$}
+ }
+ {\tr\
+  {\td width:65%;\Предоплата}
+  {\td width:*;align:right;\$ReturnOutcome.Prepayment$}
+ }
+ {\tr\
+  {\td width:65%;\Кредит}
+  {\td width:*;align:right;\$ReturnOutcome.Credit$}
+ }
+ {\tr\
+  {\td width:65%;padding:0,0,0,20;\Иная форма оплаты}
+  {\td width:*;align:right;\$ReturnOutcome.Ahead$}
+ }
+ {\tr\
+  {\td width:65%;padding:0,0,0,20;style:bold;\Внесений}
+  {\td width:*;align:right;style:bold;\$CashIn$}
+ }
+ {\tr\
+  {\td width:65%;padding:0,0,0,20;style:bold;\Выплат}
+  {\td width:*;align:right;style:bold;\$CashOut$}
+ }
+ {\tr\
+  {\td width:65%;padding:0,0,0,20;style:bold;\Остаток наличными:    }
+  {\td width:*;align:right;style:bold;\$CashBox$}
+ }
+ {\tr\
+    {\td width:65%;padding:0,0,0,20;style:bold;\Сменный итог прихода:    }
+    {\td width:*;align:right;style:bold;\$Total.Income$}
+  }
+}
+
+{\table width:100%;fontSize:20;\
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+}

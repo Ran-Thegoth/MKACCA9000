@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/tooltip_margin" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Номер чека" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <SearchView
+            android:id="@+id/sw_serach"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:iconifiedByDefault="false"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/v_no_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_button"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Без чека"
+            android:textColor="@drawable/blue_button_text" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Последние чеки" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            
+            android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="#ffcecece"
+                android:layout_height="32dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="50sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4sp"
+                    android:gravity="center"
+                    android:text="№" />
+
+                <TextView
+                    android:layout_width="64sp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Тип" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Сумма" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/v_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/v_list_lock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#7F000000"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

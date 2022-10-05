@@ -1,0 +1,263 @@
+{\table width:100%;fontSize:70%;\
+ {\tr if:$is.Total.Counters$="Да";\{\td align:center;style:bold;\СЧЕТЧИКИ ИТОГОВ ФН}}
+ {\tr if:$is.Total.Counters$="Нет";\{\td align:center;style:bold;\СЧЕТЧИКИ ИТОГОВ СМЕНЫ}}
+ {\tr\
+   {\td width:70%;\ВСЕГО ЧЕКОВ №:}
+   {\td width:*;align:right;nobreak;\$total.Bills$}
+ }
+ {\tr if:$total.Bills$>0\
+    {\td width:100%;\{\table width:98%;\
+ {\tr\{\td align:center;\ПРИХОД}}
+ {\tr\
+  {\td width:70%;\КОЛ.ЧЕКОВ.ПРИХ.}
+  {\td width:*;align:right;nobreak;\$Income.count$}
+ }
+ {\tr if:$Income.count$>0;\
+   {\td width:70%;\СУММА ПРИХ.всего}
+   {\td width:*;align:right;nobreak;\$Income.totalSum$}
+ }
+ {\tr  if:$Income.count$>0;\
+  {\td width:70%;\СУММА ПРИХ.НАЛИЧН}
+  {\td width:*;align:right;nobreak;\$Income.totalSumCash$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:70%;\СУММА ПРИХ.БЕЗНАЛИЧ}
+  {\td width:*;align:right;nobreak;\$Income.totalSumCard$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:80%;\СУММА ПРЕДВАРИТЕЛЬНЫХ ОПЛАТ АВАНСОВ)}
+  {\td width:*;align:right;nobreak;\$Income.totalSumPrepayment$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:80%;\СУММА ПОСЛЕДУЮЩИХ ОПЛАТ (КРЕДИТОВ))}
+  {\td width:*;align:right;nobreak;\$Income.totalSumCredit$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:80%;\СУММА ИНОЙ ФОРМОЙ ОПЛАТЫ}
+  {\td width:*;align:right;nobreak;\$Income.totalSumAhead$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:80%;\СУММА НДС 20% ПРИХ.}
+  {\td width:*;align:right;nobreak;\$Income.totalSumVat_20$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:80%;\СУММА НДС 10% ПРИХ.}
+  {\td width:*;align:right;nobreak;\$Income.totalSumVat_10$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:80%;\СУММА НДС 20/120 ПРИХ.}
+  {\td width:*;align:right;nobreak;\$Income.totalSumVat_20_120$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:80%;\СУММА НДС 10/110 ПРИХ.}
+  {\td width:*;align:right;nobreak;\$Income.totalSumVat_10_110$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:80%;\ОБОРОТ С НДС 0% ПРИХ.}
+  {\td width:*;align:right;nobreak;\$Income.totalSumVat_0$}
+ }
+ {\tr if:$Income.count$>0;\
+  {\td width:80%;\ОБОРОТ БЕЗ НДС ПРИХ.}
+  {\td width:*;align:right;nobreak;\$Income.totalSumVat_none$}
+ }
+
+ {\tr\{\td align:center;\РАСХОД}}
+  {\tr\
+   {\td width:70%;\КОЛ.ЧЕКОВ РАСХ.}
+   {\td width:*;align:right;nobreak;\$Outcome.count$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:70%;\СУММА РАСХ.всего}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSum$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:70%;\СУММА РАСХ.НАЛИЧН.}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumCash$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:70%;\СУММА РАСХ.БЕЗНАЛИЧ.}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumCard$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:80%;\СУММА ПРЕДВАРИТЕЛЬНЫХ ОПЛАТ АВАНСОВ)}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumPrepayment$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:80%;\СУММА ПОСЛЕДУЮЩИХ ОПЛАТ (КРЕДИТОВ))}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumCredit$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:80%;\СУММА ИНОЙ ФОРМОЙ ОПЛАТЫ}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumAhead$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:80%;\СУММА НДС 20% РАСХ.}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumVat_20$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:80%;\СУММА НДС 10% РАСХ.}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumVat_10$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:80%;\СУММА НДС 20/120 РАСХ.}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumVat_20_120$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:80%;\СУММА НДС 10/110 РАСХ.}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumVat_10_110$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:80%;\ОБОРОТ С НДС 0% РАСХ.}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumVat_0$}
+  }
+  {\tr if:$Outcome.count$>0;\
+   {\td width:80%;\ОБОРОТ БЕЗ НДС РАСХ.}
+   {\td width:*;align:right;nobreak;\$Outcome.totalSumVat_none$}
+  }
+
+ {\tr\{\td align:center;\ВОЗВРАТ ПРИХОДА}}
+  {\tr\
+   {\td width:70%;\КОЛ.ЧЕКОВ ВОЗВР.ПРИХ.}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.count$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:70%;\СУММА ВОЗВР.ПРИХ.всего}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSum$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:70%;\СУММА ВОЗВР.ПРИХ.НАЛИЧН.}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumCash$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:70%;\СУММА ВОЗВР.ПРИХ.БЕЗНАЛИЧ.}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumCard$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:80%;\СУММА ПРЕДВАРИТЕЛЬНЫХ ОПЛАТ АВАНСОВ)}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumPrepayment$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:80%;\СУММА ПОСЛЕДУЮЩИХ ОПЛАТ (КРЕДИТОВ))}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumCredit$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:80%;\СУММА ИНОЙ ФОРМОЙ ОПЛАТЫ}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumAhead$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:80%;\СУММА НДС 20% ВОЗВР.ПРИХ.}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumVat_20$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:80%;\СУММА НДС 10% ВОЗВР.ПРИХ.}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumVat_10$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:80%;\СУММА НДС 20/120 ВОЗВР.ПРИХ.}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumVat_20_120$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:80%;\СУММА НДС 10/110 ВОЗВР.ПРИХ.}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumVat_10_110$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:80%;\ОБОРОТ С НДС 0% ВОЗВР.ПРИХ.}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumVat_0$}
+  }
+  {\tr if:$ReturnIncome.count$>0;\
+   {\td width:80%;\ОБОРОТ БЕЗ НДС ВОЗВР.ПРИХ.}
+   {\td width:*;align:right;nobreak;\$ReturnIncome.totalSumVat_none$}
+  }
+ {\tr\{\td align:center;\ВОЗВРАТ РАСХОДА}}
+  {\tr\
+   {\td width:70%;\КОЛ.ЧЕКОВ ВОЗВР.РАСХ.}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.count$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:70%;\СУММА ВОЗВР.РАСХ.всего}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSum$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:70%;\СУММА ВОЗВР.РАСХ.НАЛИЧН.}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumCash$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:70%;\СУММА ВОЗВР.РАСХ.БЕЗНАЛИЧ.}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumCard$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:80%;\СУММА ПРЕДВАРИТЕЛЬНЫХ ОПЛАТ АВАНСОВ)}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumPrepayment$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:80%;\СУММА ПОСЛЕДУЮЩИХ ОПЛАТ (КРЕДИТОВ))}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumCredit$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:80%;\СУММА ИНОЙ ФОРМОЙ ОПЛАТЫ}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumAhead$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:80%;\СУММА НДС 20% ВОЗВР.РАСХ.}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumVat_20$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:80%;\СУММА НДС 10% ВОЗВР.РАСХ.}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumVat_10$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:80%;\СУММА НДС 20/120 ВОЗВР.РАСХ.}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumVat_20_120$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:80%;\СУММА НДС 10/110 ВОЗВР.РАСХ.}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumVat_10_110$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:80%;\ОБОРОТ С НДС 0% ВОЗВР.РАСХ.}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumVat_0$}
+  }
+  {\tr if:$ReturnOutcome.count$>0;\
+   {\td width:80%;\ОБОРОТ БЕЗ НДС ВОЗВР.РАСХ.}
+   {\td width:*;align:right;nobreak;\$ReturnOutcome.totalSumVat_none$}
+  }
+}
+{\tr\{\td align:center;\ЧЕКИ КОРРЕКЦИИ}}
+  {\tr\
+   {\td width:70%;\КОЛ.ЧЕКОВ КОРРЕКЦИИ}
+   {\td width:*;align:right;nobreak;\$Correction.count$}
+  }
+{\p if:$Correction.count$>0;\
+{\tr\
+   {\td width:70%;\КОЛ.ЧЕКОВ ПРИХ}
+   {\td width:*;align:right;nobreak;\$Correction.countIncome$}
+  }
+  {\tr if:$Correction.countIncome$>0;\
+   {\td width:70%;\СУММА ПРИХ.всего}
+   {\td width:*;align:right;nobreak;\$Correction.incomeTotalSum$}
+  }
+  {\tr\
+   {\td width:70%;\КОЛ.ЧЕКОВ ВОЗВР.ПРИХ.}
+   {\td width:*;align:right;nobreak;\$Correction.countReturnIncome$}
+  }
+  {\tr if:$Correction.countReturnIncome$>0;\
+   {\td width:70%;\СУММА ВОЗВР.ПРИХ. всего}
+   {\td width:*;align:right;nobreak;\$Correction.returnIncomeTotalSum$}
+  }
+  {\tr\
+   {\td width:80%;\КОЛ.ЧЕКОВ РАСХ.}
+   {\td width:*;align:right;nobreak;\$Correction.countOutcome$}
+  }
+  {\tr if:$Correction.countOutcome$>0;\
+   {\td width:80%;\СУММА РАСХ. всего}
+   {\td width:*;align:right;nobreak;\$Correction.outcomeTotalSum$}
+  }
+  {\tr\
+   {\td width:80%;\КОЛ.ЧЕКОВ ВОЗВР.РАСХ.}
+   {\td width:*;align:right;nobreak;\$Correction.countReturnOutcome$}}
+  {\tr if:$Correction.countReturnOutcome$>0;\
+   {\td width:80%;\СУММА ВОЗВР.РАСХ. всего}
+   {\td width:*;align:right;nobreak;\$Correction.returnOutcomeTotalSum$}}
+ }
+ }}}
+ 

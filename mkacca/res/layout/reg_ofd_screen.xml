@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rs.mkacca.ui.widgets.pages.NetworkInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выберите ОФД"
+        android:textStyle="bold" />
+
+    <cs.ui.widgets.DialogSpinner
+        android:id="@+id/sp_ofd_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/ed_ofd_name"
+        android:text="Наименование" />
+
+    <EditText
+        android:id="@+id/ed_ofd_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:enabled="false"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/ed_ofd_inn"
+        android:text="ИНН" />
+
+    <EditText
+        android:id="@+id/ed_ofd_inn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:gravity="end"
+        android:inputType="number" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/ed_fns_url"
+        android:text="Адрес сайта ФНС" />
+
+    <EditText
+        android:id="@+id/ed_fns_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/lbl_ofd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:drawableEnd="@drawable/custom_more"
+        android:gravity="center"
+        android:text="НАСТРОЙКИ СЕРВЕРА ОФД"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <include
+        android:id="@+id/v_ofd_server"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        layout="@layout/docs_server"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/lbl_osim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableEnd="@drawable/custom_more"
+        android:gravity="center"
+        android:text="НАСТРОЙКИ СЕРВЕРА ОИCМ"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <include
+        android:id="@+id/v_osim_server"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/docs_server"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/lbl_okp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableEnd="@drawable/custom_more"
+        android:gravity="center"
+        android:text="НАСТРОЙКИ СЕРВЕРА ОКП"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <include
+        android:id="@+id/v_okp_server"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        layout="@layout/docs_server"
+        android:visibility="gone" />
+
+</rs.mkacca.ui.widgets.pages.NetworkInfo>

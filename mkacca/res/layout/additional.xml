@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="@dimen/tooltip_margin"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+<TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Код страны" android:layout_marginEnd="6dp" android:labelFor="@+id/ed_cc"/>
+    <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:inputType="text" android:maxLength="2" android:id="@+id/ed_cc"/>
+</TableRow>    
+<TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="№ там. декларации" android:layout_marginEnd="6dp" android:labelFor="@+id/ed_customer_code"/>
+    <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:inputType="text" android:id="@+id/ed_customer_code"/>
+</TableRow>    
+
+</TableLayout>

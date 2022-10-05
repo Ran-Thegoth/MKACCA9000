@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/ed_op_id"
+        android:text="Идентификатор операции" />
+
+    <EditText
+        android:id="@+id/ed_op_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="end"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/ed_op_date"
+        android:text="Дата, время операции" />
+
+    <EditText
+        android:id="@+id/ed_op_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="end"
+        android:hint="ДД/ММ/ГГГГ ЧЧ:ММ"
+        android:inputType="datetime" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/ed_op_data"
+        android:text="Данные операции" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:id="@+id/ed_op_data"
+        android:inputType="textImeMultiLine"
+        android:lines="3" />
+
+</LinearLayout>

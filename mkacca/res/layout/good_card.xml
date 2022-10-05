@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rs.mkacca.ui.widgets.GoodCard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="4dp"
+     >
+
+    <TextView
+        android:id="@+id/lbl_name"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:drawablePadding="4dp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end" />
+
+</rs.mkacca.ui.widgets.GoodCard>

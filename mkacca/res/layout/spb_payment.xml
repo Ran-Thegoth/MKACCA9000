@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="350dp"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:padding="@dimen/tooltip_margin" >
+
+    <ImageView
+        android:id="@+id/iv_qr"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:contentDescription="Код для оплаты"
+        android:scaleType="centerInside" />
+
+    <TextView
+        android:id="@+id/lb_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:gravity="center"
+        android:text="Подтверждение оплаты…" />
+
+    <TextView
+        android:id="@+id/v_test_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_button"
+        android:textColor="@drawable/blue_button_text"
+        android:gravity="center"
+        android:padding="12sp"
+        android:text="Тестовая оплата"
+        android:visibility="gone" />
+
+</LinearLayout>

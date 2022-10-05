@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rs.mkacca.ui.widgets.pages.NumberInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="6dp" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Каждая Контрольно-кассовая техника должна быть зарегистрирована и иметь свой регистрационный номер.\nСогласно ФЗ-54 регистрация ККТ проводится бесплатно. Такая нумерация присваивается каждому аппарату Федеральной налоговой службой при регистрации кассовой техники.\nНумерация техники представляет собой алгоритм который выдает набор из 16 символов (чисел от 0 до 9), первые 10 символов - порядковый номер аппарата присваиваемый ФНС и 6 символов проверочного контрольного числа." />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp" >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Зав. номер ККТ" />
+
+            <TextView
+                android:id="@+id/lbl_device_serial"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textStyle="bold" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Рег. номер ККТ" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/ed_kkm_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:inputType="number" />
+
+        <ImageView
+            android:id="@+id/iv_generate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:description="@null"
+            android:src="@drawable/ic_menu_random" />
+    </LinearLayout>
+
+</rs.mkacca.ui.widgets.pages.NumberInfo>

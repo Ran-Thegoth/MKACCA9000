@@ -1,0 +1,25 @@
+{\table width:100%;fontSize:100%;\
+ {\tr\{\td align:center;style:bold;\ТЕСТОВАЯ ПЕЧАТЬ}}
+ {\tr\{\td\ }}
+ {\tr\{\td\ABCDEFGHIJKLMNOPQRSTUVWXYZ}}
+ {\tr\{\td\abcdefghijklmnopqrstuvwxyz}}
+ {\tr\{\td\01234567890-+=/%*?!.,:;}}
+ {\tr\{\td\ }}
+ {\tr\{\td\АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЭЮЯ}}
+ {\tr\{\td\абвгдежзиклмнопрстуфхцчшэюя}}
+ {\tr\{\td\ }}
+ {\tr\{\td fontSize:70%;\АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЭЮЯ}}
+ {\tr\{\td fontSize:70%;\абвгдежзиклмнопрстуфхцчшэюя}}
+ {\tr\{\td\ }} 
+ {\tr\{\td fontSize:120%;\ABCDEFGHIJKLMNOPQRSTUVWXYZ}}
+ {\tr\{\td fontSize:120%;\abcdefghijklmnopqrstuvwxyz}}
+ {\tr\{\td\ }} 
+ {\tr\{\td\{\barcode type:qr;width:200;height:200\https://rightscan.ru}}}
+ {\tr\{\td\ }}
+ {\tr\{\td\{\barcode type:code128;width:300;height:60;\01234567890}}}
+ {\tr\{\td\ }}
+ {\tr\{\td\ }}
+}
+
+
+

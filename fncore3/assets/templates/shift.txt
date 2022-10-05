@@ -1,0 +1,115 @@
+{\table width:100%;\
+ {\tr\{\td align:center;style:bold;\$owner.Name$}}
+  {\tr\
+   {\td width:60%;\ИНН ПОЛЬЗОВАТЕЛЯ:}
+   {\td width:*;align:center;style:bold;\$owner.INN$}
+  }
+ {\tr\{\td align:right;\$signature.Date$}}
+ {\tr\
+    {\td align:center;style:bold;\{\s if:$shift.IsOpen$="Нет";\ОТЧ.О ЗАКР.СМ.}{\s if:$shift.IsOpen$="Да";\ОТЧЕТ ОБ ОТКР.СМ.}
+    }
+ }
+ {\tr\{\td\$Address$}}
+ {\tr\{\td\МЕСТО РАСЧЕТОВ}}
+ {\tr\{\td\$Location$}}
+ {\tr\
+   {\td width:25%;\КАССИР}
+   {\td width:*;align:right;\$operator.Name$}
+ }
+ {\tr\
+   {\td width:25%;\СМЕНА}
+   {\td width:*;align:right;\$shift.Number$
+   }
+ }
+ {\tr if:$shift.IsOpen$="Нет";\
+  {\td width:60%;\ЧЕКОВ ЗА СМЕНУ}
+  {\td width:*;align:right;\$shift.NumChecks$}
+ }
+ {\tr if:$shift.IsOpen$="Нет";\
+  {\td width:40%;\ФД ЗА СМЕНУ}
+  {\td width:*;align:right;\$shift.NumDocuments$}
+ }
+ {\tr if:$shift.IsOpen$="Нет";\
+  {\td width:60%;\НЕПЕРЕДАННЫХ ФД}
+  {\td width:*;align:right;\$ofd.NumUnsent$}
+ }
+ {\tr if:$shift.IsOpen$="Нет";\
+  {\td width:70%;\ПЕРВЫЙ НЕПЕРЕДАННЫЙ ФД}
+  {\td width:*;align:right;\$ofd.FirstUnsentNo$}
+ }
+ {\tr if:$shift.IsOpen$="Нет";\
+  {\td width:60%;\ФД НЕ ПЕРЕДАНЫ С}
+  {\td width:*;align:right;\$ofd.DateUnsent$}
+ }
+ {\tr if:$oism.NumUnsent$>0;\
+  {\td width:80%;\НЕПЕРЕДАНО УВЕДОМЛЕНИЙ}
+  {\td width:*;align:right;\$oism.NumUnsent$}
+ }
+ {\tr if:$mark.Incorrect$!="Нет";\
+  {\td\ПОЛУЧЕН ОТВЕТ О НЕКОРРЕКТНОМ КМ}
+ }
+ {\tr if:$mark.Incorrect.InFiscal$!="Нет";\
+  {\td\ПОЛУЧЕНА КВИТАНЦИЯ О НЕКОРРЕКТНОМ КМ}
+ }
+ {\tr if:$shift.IsOpen$="Нет"; if:$warning.3days$="Да";\
+  {\td width:70%;\Ресурс ФН менее 3 дней}
+  {\td width:*;align:right;\$warning.3days$}
+ }
+ {\tr if:$shift.IsOpen$="Нет"; if:$warning.full$="Да";\
+  {\td width:70%;\Память ФН заполнена}
+  {\td width:*;align:right;\$warning.full$}
+ }
+ {\tr if:$shift.IsOpen$="Нет"; if:$warning.30days$="Да";\
+  {\td width:80%;\Ресурс ФН менее 30 дней}
+  {\td width:*;align:right;\$warning.30days$}
+ }
+ {\tr if:$shift.IsOpen$="Да";\
+  {\td\$OKP.Update.Result$}	
+ }
+ {\tr if:$Keys.Days.Remaning$>0;\
+    {\td width:60%;\РЕСУРС КЛЮЧЕЙ}
+    {\td width:*;align:right;\$Keys.Days.Remaning$}
+ }
+ {\tr if:$is.counters.total$="Да";\{\td\$counters.total$}}
+ 
+ {\tr if:$is.counters.shift$="Да";\{\td\$counters.shift$}}
+  
+ {\tr\
+  {\td width:40%;\ЗН ККТ}
+  {\td width:*;align:right;\$device.Number$}
+ }
+ {\tr\
+  {\td width:40%;\РН ККТ}
+  {\td width:*;align:right;\$device.regNo$}
+ }
+ {\tr\
+  {\td width:40%;\ФН №}
+  {\td width:*;align:right;\$device.FN$}
+ }
+ {\tr\
+  {\td width:40%;\ФД №}
+  {\td width:*;align:right;\$signature.Number$}
+ }
+ {\tr\
+  {\td width:40%;\ВЕР.ККТ}
+  {\td width:*;align:right;\$device.Version$}
+ }
+ {\tr\
+    {\td width:40%;\ФФД ККТ}
+    {\td width:*;align:right;\$FFD.KKT$}
+  }
+ {\tr\
+  {\td width:40%;\ФПД}
+  {\td width:*;align:right;\$signature.sign$}
+ }
+}
+
+{\table width:100%;fontSize:20;\
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+    {\tr\ {\td\ }}
+}

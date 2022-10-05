@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/tooltip_margin" >
+
+    <TextView
+        android:id="@+id/lbl_sample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <View
+            android:id="@+id/v_prefix"
+            android:layout_width="1dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="1dp"
+            android:background="#fffff9ac" />
+
+        <View
+            android:id="@+id/v_code"
+            android:layout_width="1dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="1dp"
+            android:background="#ffbaffaa" />
+
+        <View
+            android:id="@+id/v_weight"
+            android:layout_width="1dp"
+            android:layout_height="2dp"
+            android:background="#ffb2c7ff" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:labelFor="@+id/ed_prefix"
+                android:text="Префикс" />
+
+            <EditText
+                android:id="@+id/ed_prefix"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:inputType="number" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:labelFor="@+id/ed_code_len"
+                android:text="Длина кода" />
+
+            <EditText
+                android:id="@+id/ed_code_len"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:inputType="number" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_marginBottom="6dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:labelFor="@+id/ed_weight_len"
+                android:text="Длина веса" />
+
+            <EditText
+                android:id="@+id/ed_weight_len"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:inputType="number" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="Ед. измерения" />
+
+            <cs.ui.widgets.DialogSpinner
+                android:id="@+id/sp_mu"
+                android:layout_width="0dp"
+                android:gravity="end"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

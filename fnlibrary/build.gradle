@@ -1,0 +1,66 @@
+plugins {
+    id  'android-library'
+    id  'maven-publish'
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: './libs/')
+}
+
+android {
+    compileSdkVersion 30
+
+    buildToolsVersion "30.0.2"
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+          abortOnError false
+    }
+
+
+    defaultConfig {
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+    } 
+
+    externalNativeBuild {
+        ndkBuild {
+            path('jni/Android.mk')
+        }
+    }
+    
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['java']
+            resources.srcDirs = ['java']
+            aidl.srcDirs = ['aidl']
+            jni.srcDirs = ['jni']
+            jniLibs.srcDirs = ['jniLibs']
+            renderscript.srcDirs = ['java']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId  'rs.fncore'
+                artifactId  'FNLibrary2'
+                version  '3.0'
+                artifact("$buildDir/outputs/aar/$project.name-release.aar")    
+    
+            }
+        }
+    }
+}
+

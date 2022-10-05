@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/tooltip_margin"
+    android:orientation="vertical" >
+    
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Тип сканера"/>
+    <cs.ui.widgets.DialogSpinner  android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/sp_scan_type" android:layout_marginBottom="8dp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="vertical" android:id="@+id/v_scan_setup"/>
+    
+
+</LinearLayout>

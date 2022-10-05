@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rs.mkacca.ui.widgets.GoodList xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/tooltip_margin"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <SearchView
+            android:id="@+id/sw_serach"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:iconifiedByDefault="false" >
+        </SearchView>
+
+        <ImageView
+            android:id="@+id/iv_scan"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_menu_barcode_b" />
+    </LinearLayout>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/lbl_path"/>
+	<android.support.v7.widget.RecyclerView 
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:id="@id/v_list"
+	    />
+</rs.mkacca.ui.widgets.GoodList>

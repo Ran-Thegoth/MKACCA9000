@@ -1,0 +1,115 @@
+<resources>
+
+    <string name="app_name">Rightscan: MKACCA</string>
+	<string name="do_check">Проверка оборудования</string>
+	<string name="do_reg">Фискализация/изменение реквизитов</string>
+	<string name="do_shift_op">Операции со сменой</string>
+	<string name="do_cash_op">Кассовые операции</string>
+	<string name="good_types">Типы номенклатуры</string>
+	<string name="weight_barcodes">Весовые штрихкода</string>
+	<string name="do_goods">Номенклатура</string>
+	<string name="do_settings">Настройки/инструменты</string>
+	<string name="do_android_settinsg">Настройки android</string>
+	<string name="do_app_settings">Настройки приложений</string>
+	<string name="do_about">О приложении</string>
+	<string name="do_users">Пользователи</string>
+	<string name="sell_report">Отчет о продажах</string>
+    <string name="do_edit">Редактировать</string>
+    <string name="do_move">Переместить</string>
+    
+    <string name="do_delete">Удалить</string>
+	<string name="use_in_future">Разрешить использование</string>
+	<string name="do_not_use_in_future">Запретить использование</string>
+	<string name="request_save_changes">Сохранить изменения?</string>
+	<string name="sure_to_delete_item">Удалить объект?</string>
+	<string name="enter_cur_pin">Введите текущий PIN</string>
+    <string name="enter_new_pin">Введите новый PIN</string>
+    <string name="confirm_new_pin">Подтвердите PIN</string>
+	<string name="can_t_remove_prebuild_user">Вы не можете удалить системного пользователя</string>
+	<string name="can_t_remove_current_user">Вы не можете удалить текущего пользователя</string>
+	<string name="shift_open_close">Открыть смену</string>
+	<string name="change_user">Сменить пользователя</string>
+	<string name="shift_rest">Отчет о состоянии расчетов</string>
+	<string name="dep_with">Внесение/выемка</string>
+	<string name="journals">Журналы</string>
+	<string name="evt_journal">Журнал событий</string>
+	<string name="io_journal">Обмен с ФН</string>
+	<string name="do_archive">Постфискальный режим</string>
+	<string name="servers">Адреса серверов</string>
+    
+	<string-array name="user_roles" >
+	    <item ></item>
+	    <item >Конфигурация оборудования</item>
+	    <item >Управление пользователями</item>
+	    <item >Редактирование справочников</item>
+	    <item >Редактирование скидок</item>
+	    <item >Управление сменой</item>
+	    <item >Внесение/выемка наличных</item>
+	    <item >Продажи</item>
+	    <item >Осуществление возвратов</item>
+	</string-array>
+	<string name="pin_is_not_set">ПИН не задан</string>
+    <string-array name="start_screen_names">
+        <item >Основной</item>
+        <item >Кассовые операции</item>
+        <item >Продажа</item>
+    </string-array>
+    <string name="do_export_marks">Выгрузка уведомлений</string>
+	<string name="do_sell">Продажа</string>
+	<string name="do_refund">Возврат</string>
+	<string name="do_corretion">Коррекция</string>
+	
+	<string name="mu_category">Тип единиц измерения</string>
+	<string name="mu_type_pices">Штучный</string>
+	<string name="mu_type_length">Длина</string>
+	<string name="mu_type_weight">Вес</string>
+	<string name="mu_type_volume">Объем</string>
+	<string name="base_mu">Основная для группы</string>
+	<string name="mul_to_base">Коэффициент к %s</string>
+
+	<string-array name="new_good_menu">
+	    <item >Группа номенклатур</item>
+	    <item >Номенклатура</item>
+	</string-array>
+	<string-array name="good_extra">
+	    <item >Импорт каталога</item>
+	    <item >Экспорт каталога</item>
+	    <item >Заполнить тестовыми данными</item>
+	    <item >Удалить всю номенклатру</item>
+	</string-array>
+	<string name="barcode">Штрихкод</string>
+	<string name="do_income">Приход</string>
+	<string name="do_outcome">Расход</string>
+	<string name="do_refund_op">Возврат</string>
+	<string name="do_correction">Коррекция</string>
+	<string name="fn_mode">Режим работы ФН</string>
+	<string name="prn_mode">Настройки печати</string>
+	<string name="scan_mode">Настройки сканера</string>
+	<string name="card_services">Безналичная оплата</string>
+	<string name="do_reset">Сброс МГМ</string>
+	<string name="export_db">Сохранить базу</string>
+	<string name="journal">Журнал документов</string>
+	<string-array name="sell_item_more">
+	    <item >Данные агента</item>
+	    <item >Данные покупателя</item>
+	    <item>Доп. реквизит</item>
+	    <item>Операционный реквизит</item>
+	    <item>Отраслевой реквизит</item>
+	</string-array>
+	<string-array name="fiscal_disk_ops">
+	    <item >Загрузить из файла</item>
+	    <item >Сохранить в файл</item>
+	</string-array>
+    <string-array name="data_type_names">
+        <item>Дамп</item>
+        <item>Строка</item>
+        <item>Целое</item>
+        <item>Дробное</item>
+        <item>Да/Нет</item>
+        <item>Дата/время</item>
+        <item>STLV</item>
+        <item>Битовая маска</item>
+    </string-array>
+		
+</resources>
+
