@@ -50,6 +50,11 @@ public class NotificationsHelper {
         }
     }
 
+    public static void clear(Service context) {
+    	NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    	notificationManager.cancel(NOTIFICATION_ID);
+    	notificationManager.cancel(NOTIFICATION_ID_STORAGE);
+    }
     public static void initNotifications(Service context) {
         Notification.Builder nb = getNotificationBuilder(context);
         Notification notification = nb

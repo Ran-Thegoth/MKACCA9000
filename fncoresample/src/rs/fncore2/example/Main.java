@@ -58,6 +58,8 @@ public class Main extends Activity implements MessageHandler, View.OnClickListen
 		findViewById(R.id.v_corr).setOnClickListener(this);
 		findViewById(R.id.v_reset).setOnClickListener(this);
 		findViewById(R.id.v_postfiscal).setOnClickListener(this);
+		findViewById(R.id.v_off).setOnClickListener(this);
+		findViewById(R.id.v_on).setOnClickListener(this);
 
 		LOG_VIEW = findViewById(R.id.log_view);
 		LOG_RECORDS = new ArrayAdapter<>(this, R.layout.log_row);
@@ -342,6 +344,14 @@ public class Main extends Activity implements MessageHandler, View.OnClickListen
 					
 				};
 			}.start();
+			break;
+		case R.id.v_off:
+		case R.id.v_on:	
+			try {
+				Core.getInstance().storage().setUSBMonitorMode(v.getId() == R.id.v_on);
+			} catch(Exception e) {
+				
+			}
 			break;
 		}
 

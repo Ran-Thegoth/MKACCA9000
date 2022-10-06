@@ -26,6 +26,7 @@ import rs.fncore2.JsonCommands;
 import rs.fncore2.fn.FNManager;
 import rs.log.Logger;
 import rs.fncore2.utils.DocumentUtils;
+import rs.fncore2.utils.UrovoUtils;
 
 public class ServiceBinder extends FiscalStorage.Stub {
 
@@ -642,5 +643,13 @@ public class ServiceBinder extends FiscalStorage.Stub {
 	public void resetPaperCounter() throws RemoteException {
 		mMainService.resetPaperCounter();
 		
+	}
+
+
+	@Override
+	public void setUSBMonitorMode(boolean enabled) throws RemoteException {
+		mMainService.USB_MONITOR = enabled;
+		if(enabled &&UrovoUtils.isUSBFN())
+			rs.fncore.UrovoUtils.switchOTG(true);
 	}
 }

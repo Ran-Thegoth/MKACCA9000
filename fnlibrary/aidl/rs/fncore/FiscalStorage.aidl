@@ -41,7 +41,7 @@ interface FiscalStorage  {
     PrintSettings getPrintSettings();
     void setPrintSettings(in PrintSettings settings);
     void doPrint(String text);
-
+	
     void pushDocuments();
 
     int openTransaction();
@@ -93,4 +93,5 @@ interface FiscalStorage  {
     
     long getPaperConsume();
     void resetPaperCounter();
+    void setUSBMonitorMode(boolean enabled);
 }

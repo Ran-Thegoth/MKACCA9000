@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import rs.fncore.Const;
 import rs.fncore.Errors;
 import rs.fncore.data.ArchiveReport;
 import rs.fncore.data.Correction;
@@ -31,6 +32,7 @@ import rs.fncore.data.Shift;
 import rs.fncore.data.Tag;
 import rs.fncore2.FNCore;
 import rs.fncore2.R;
+import rs.fncore2.core.utils.NotificationsHelper;
 import rs.fncore2.data.CashWithdraw;
 import rs.fncore2.fn.FNFactory;
 import rs.fncore2.fn.FNManager;
@@ -60,6 +62,7 @@ class ServiceBase extends Service {
     protected Printing mPrinter;
     protected ServiceBinder mBinder;
     protected WakeLockPower mWakelockPower;
+    public boolean USB_MONITOR = true;
 
     public final FNManager mFNManager = FNManager.getInstance();
     private WebServer server;
@@ -88,6 +91,7 @@ class ServiceBase extends Service {
     @Override
     public void onDestroy() {
         mWakelockPower.releaseWakeLock();
+		NotificationsHelper.clear(this);
         super.onDestroy();
     }
 
@@ -565,4 +569,5 @@ class ServiceBase extends Service {
 		mPrinter.resetPrinterCounter();
 		
 	}
+
 }

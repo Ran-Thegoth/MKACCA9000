@@ -30,9 +30,11 @@ import rs.log.Logger;
 
 public class ServiceMain extends ServiceBase implements PropertyChangeListener {
 
+	
 	private static final int FTDI_VID = 0x403;
 //	private static final int FTDI_PID = 0x6001;
 
+	
 	static volatile Boolean mLastUsbCharge = null;
 	static volatile Boolean mLastACCharge = null;
 
@@ -181,6 +183,7 @@ public class ServiceMain extends ServiceBase implements PropertyChangeListener {
 				break;
 			} */
 			case Intent.ACTION_SCREEN_ON: {
+				if(!USB_MONITOR) return;
 				Logger.i("screen on detected");
 				if(UrovoUtils.isUSBFN())
 					rs.fncore.UrovoUtils.switchOTG(true);
@@ -276,7 +279,6 @@ public class ServiceMain extends ServiceBase implements PropertyChangeListener {
 		}
 
 		destroyStorage();
-
 		sendBroadcast(new Intent("rs.fncore2.restart").setPackage(getPackageName()));
 		super.onDestroy();
 	}
