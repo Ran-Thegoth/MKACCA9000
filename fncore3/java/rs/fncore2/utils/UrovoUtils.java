@@ -54,8 +54,6 @@ public class UrovoUtils {
         if ("true".equals(rs.fncore.UrovoUtils.getProp("pwv.have.scanner"))) {
             if (new File(Environment.getExternalStorageDirectory(), "MKACCA/UART").exists()) return 1;
             Log.d("fncore2", "SDK version "+Build.VERSION.SDK_INT);
-            if(Build.VERSION.SDK_INT == 27)
-            	return 3;
             return 2;
         }
 

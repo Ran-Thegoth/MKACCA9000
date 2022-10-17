@@ -1,0 +1,31 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven {
+            url "https://maven.google.com"
+        }
+        google()
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3+'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+    }
+}
+
+allprojects {
+    project.buildDir = './built'
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+        google()
+        maven {
+            url "https://maven.google.com"
+            url "https://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases/"
+        }
+    }
+}
+
+

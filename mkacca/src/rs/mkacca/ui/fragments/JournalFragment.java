@@ -69,7 +69,7 @@ public class JournalFragment extends BaseFragment {
 		private Cursor _c;
 		DocumentsAdapter() {
 			_c = getContext().getContentResolver().
-					query(Const.DOCUMENT_JOURNAL,null,null,null,"DOCNO");
+					query(Const.DOCUMENT_JOURNAL,null,null,null,"DOCNO DESC");
 		}
 		@Override
 		public int getItemCount() {

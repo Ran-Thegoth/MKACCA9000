@@ -247,12 +247,12 @@ public class SellOrder extends Document implements IAgentOwner {
         if (mAgentData.getType() != AgentTypeE.NONE) {
             add(FZ54Tag.T1057_AGENT_FLAG, mAgentData.getType().bVal);
             for(int i=0;i<AgentData.TAGS_1223.size();i++) {
-            	if(mAgentData.hasTag(i)) 
-            		add(mAgentData.getTag(i)); 
+            	if(mAgentData.hasTag(AgentData.TAGS_1223.keyAt(i))) 
+            		add(mAgentData.getTag(AgentData.TAGS_1223.keyAt(i))); 
             }
             for(int i=0;i<AgentData.TAGS_1224.size();i++) {
-            	if(mAgentData.hasTag(i)) 
-            		add(mAgentData.getTag(i)); 
+            	if(mAgentData.hasTag(AgentData.TAGS_1224.keyAt(i))) 
+            		add(mAgentData.getTag(AgentData.TAGS_1224.keyAt(i))); 
             }
         }
 

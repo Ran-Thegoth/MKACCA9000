@@ -168,7 +168,10 @@ class ServiceBase extends Service {
             Logger.e("Storage built error, storage not ready ");
             return Errors.DEVICE_ABSEND;
         }
-        return waitFnReady(100);
+        int r = waitFnReady(100);
+        if(r == Errors.NO_ERROR)
+        	sendBroadcast(new Intent("fncore.ready"));
+        return r;
     }
 
     protected int waitFnReady(long waitFNtimeoutMs) {

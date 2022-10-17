@@ -1,0 +1,11 @@
+include ':fnlibrary'
+project(':fnlibrary').projectDir = file('../fnlibrary')
+
+include  ':fncore3'
+project(':fncore3').projectDir = file('../fncore3')
+
+include  ':sample'
+project(':sample').projectDir = file('../fncoresample')
+
+include ':mkacca'
+project(':mkacca').projectDir = file('../mkacca')

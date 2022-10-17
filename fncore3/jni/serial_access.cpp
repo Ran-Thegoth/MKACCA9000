@@ -22,7 +22,7 @@ static const char *TAG = "rs.serial.fncore2";
 #define  property_get(name, value, default_value)  __system_property_get(name, value)
 
 static const char *DEVICES[] =
-        {"/dev/ttyHSL0", "/dev/ttyHSL1", "/dev/ttyUSB","/dev/ttyUSB1"};
+        {"/dev/ttyHSL0", "/dev/ttyHSL1", "/dev/ttyUSB"};
 
 static const char *PWR_PIN[] = {"/sys/class/ugp_ctrl/gp_usb_sw_ctrl/enable",
                                 "/sys/class/ugp_ctrl/gp_sys_5v_ctrl/enable"};

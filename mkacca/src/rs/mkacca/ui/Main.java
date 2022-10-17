@@ -53,6 +53,29 @@ public class Main extends MainActivity {
 			} catch(RemoteException re) { }
 		}
 	};
+	
+	private BroadcastReceiver FNREADY = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			Main.lock();
+			new AsyncFNTask() {
+
+				@Override
+				protected int execute(FiscalStorage fs) throws RemoteException {
+					try {
+						Core.getInstance().updateInfo();
+					} catch(Exception e) { }
+					return 0;
+				}
+				protected void postExecute(int result, Object results) {
+					Main.unlock();
+				};
+				
+			}.execute();
+		}
+	};
+	
 	@Override
 	protected void onCreate(Bundle saved) {
 		super.onCreate(saved);
@@ -65,7 +88,8 @@ public class Main extends MainActivity {
 				return true;
 			}
 		});
-		registerReceiver(SCREEN_UNLOCK_SENCE, new IntentFilter(Intent.ACTION_SCREEN_ON));
+//		registerReceiver(SCREEN_UNLOCK_SENCE, new IntentFilter(Intent.ACTION_SCREEN_ON));
+		registerReceiver(FNREADY,new IntentFilter("fncore.ready"));
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
 		fl.addView(_lock,lp);
 		
