@@ -1,6 +1,8 @@
 package rs.mkacca.hw.payment.engines;
 
 import java.math.BigDecimal;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.json.JSONException;
 import org.lanter.lan4gate.ICommunicationCallback;
@@ -49,6 +51,8 @@ public class Lanter extends EPayment
 	private BigDecimal _sum;
 	private ProgressDialog _dialog;
 
+	private Queue<IRequest> _requests = new ConcurrentLinkedQueue<>();
+	
 	private enum ConnectionState {
 		NOT_CONNECTED, CONNECTING, CONNECTED
 	};
@@ -66,18 +70,17 @@ public class Lanter extends EPayment
 		try {
 			PackageInfo nfo = Core.getInstance().getPackageManager().getPackageInfo("org.lanter.hits", 0);
 			_lVersion = nfo.versionName;
+			Logger.e("LanterPOS: Версия службы "+_lVersion);
 		} catch (NameNotFoundException nfe) {
+			Logger.e("LanterPOS: Приложение не установлено");
 			_lVersion = null;
 		}
-
 		_h = new Handler(Core.getInstance().getMainLooper(), this);
 		_gate = new Lan4Gate(1);
 		_gate.addResponseCallback(this);
 		_gate.addErrorCallback(this);
 		_gate.addNotificationCallback(this);
 		_gate.addCommunicationCallback(this);
-		if (isEnabled())
-			connect();
 	}
 
 	private int getPort() {
@@ -99,9 +102,9 @@ public class Lanter extends EPayment
 					} catch (InterruptedException ie) {
 						return;
 					}
-				_cState = ConnectionState.CONNECTED;
+				_cState = ConnectionState.CONNECTING;
 				_gate.setPort(getPort());
-
+				Logger.i("LanterPOS: Устанавливается соединение...");
 				_gate.start();
 			}
 		}.start();
@@ -196,7 +199,7 @@ public class Lanter extends EPayment
 		});
 		_dialog.setCancelable(false);
 		_dialog.setCanceledOnTouchOutside(false);
-		_dialog.show();
+		_h.post(new Runnable() {  public void run() { _dialog.show(); }});
 		new Thread(r).start();
 	}
 
@@ -278,7 +281,7 @@ public class Lanter extends EPayment
 
 	@Override
 	public void newResponseMessage(IResponse response, Lan4Gate initiator) {
-		Logger.d("LanterPOS: Получен ответ от сервиса");
+		Logger.d("LanterPOS: Получен ответ от сервиса "+response.getClass().getSimpleName());
 		if (_rState == TransactionState.PROCESSING) {
 			_lastResponse = response;
 			_rState = TransactionState.DONE;
@@ -288,22 +291,24 @@ public class Lanter extends EPayment
 
 	@Override
 	public void communicationStarted(Lan4Gate initiator) {
-		
+		Logger.d("LanterPOS: Соединение начато");
 	}
 
 	@Override
 	public void communicationStopped(Lan4Gate initiator) {
-		
+		Logger.d("LanterPOS: Соединение завершено");
 	}
 
 	@Override
 	public void connected(Lan4Gate initiator) {
 		_cState = ConnectionState.CONNECTED;
+		Logger.d("LanterPOS: Соединение установлено");
 	}
 
 	@Override
 	public void disconnected(Lan4Gate initiator) {
 		_cState = ConnectionState.NOT_CONNECTED;
+		Logger.d("LanterPOS: Соединение разорвано");
 	}
 
 	@Override

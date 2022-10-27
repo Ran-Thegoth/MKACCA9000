@@ -1,5 +1,7 @@
 package rs.fncore.data;
 
+import java.util.Calendar;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import rs.fncore.FZ54Tag;
@@ -124,7 +126,7 @@ public class Signature implements Parcelable, TemplateProcessor {
 	public boolean parseTag(Tag t) {
 		switch (t.getId()) {
 		case FZ54Tag.T1012_DATE_TIME:
-			mSignDate = t.asTimeStamp();
+			mSignDate = t.asTimeStamp() - Calendar.getInstance().getTimeZone().getRawOffset();
 			break;
 		case FZ54Tag.T1013_KKT_SERIAL_NO:
 			if (mSigner == null)

@@ -25,6 +25,7 @@ import rs.fncore2.FNCore;
 import rs.fncore2.JsonCommands;
 import rs.fncore2.fn.FNManager;
 import rs.log.Logger;
+import rs.utils.Utils;
 import rs.fncore2.utils.DocumentUtils;
 import rs.fncore2.utils.UrovoUtils;
 
@@ -87,6 +88,9 @@ public class ServiceBinder extends FiscalStorage.Stub {
     public synchronized int doFiscalization(KKMInfo.FiscalReasonE reason, OU operator, KKMInfo info, KKMInfo signed, String template) {
         try {
             logMethodName();
+            if(!Utils.checkINN(info.getOwner().getINN())) return Errors.WRONG_INN;
+            if(!Utils.checkRegNo(info.getKKMNumber(), info.getOwner().getINN(), FNCore.getInstance().getDeviceSerial()))
+            	return Errors.DATA_ERROR;
             return mMainService.doFiscalization(reason, operator, info, signed, template);
         }
         catch (Exception e){

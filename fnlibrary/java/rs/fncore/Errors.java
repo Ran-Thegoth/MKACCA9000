@@ -91,7 +91,7 @@ public class Errors {
     	ERRORS.put(HAS_UNSENT_DOCS,"Есть неотправленные документы");
     	ERRORS.put(SETTINGS_LOST,"Требуется обновление насторек");
     	ERRORS.put(UNHANDLED_EXCEPTION,"Необработанная ошибка");
-    	ERRORS.put(FN_VERSION_TOO_OLD, "Поддерживается только ФН-М");
+    	ERRORS.put(FN_VERSION_TOO_OLD, "Требуется ФН с поддержкой ФФД 1.1 минимум");
     }
     
     /**

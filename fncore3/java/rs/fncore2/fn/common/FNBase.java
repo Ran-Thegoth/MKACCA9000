@@ -12,6 +12,7 @@ import rs.fncore.data.KKMInfo;
 import rs.fncore.data.OfdStatistic;
 import rs.fncore.data.Tag;
 import rs.fncore2.FNCore;
+import rs.fncore2.fn.NotSupportedFFDException;
 import rs.fncore2.fn.storage.StorageI;
 import rs.fncore2.fn.storage.Transaction;
 import rs.fncore2.utils.BufferFactory;
@@ -105,7 +106,7 @@ public abstract class FNBase implements FNBaseI {
 			transaction.write(FNCommandsE.RESET_MGM, RESET_MGM_SUB_CODE).check(1000 * 20);
 		}
 		mKKMInfo = null;
-		loadKKMInfo(0);
+		try { loadKKMInfo(0); } catch(NotSupportedFFDException e) { }
 		Logger.i("Done reset MGM");
 		return Errors.NO_ERROR;
 	}

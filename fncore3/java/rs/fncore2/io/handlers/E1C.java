@@ -5,7 +5,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import android.R.attr;
 import android.util.Base64;
 import android.util.Log;
 
@@ -24,7 +23,6 @@ import rs.fncore.data.FNCounters;
 import rs.fncore.data.FiscalReport;
 import rs.fncore.data.IAgentOwner;
 import rs.fncore.data.KKMInfo;
-import rs.fncore.data.MarkingCode.PlannedItemStatusE;
 import rs.fncore.data.MeasureTypeE;
 import rs.fncore.data.OU;
 import rs.fncore.data.OfdStatistic;
@@ -533,7 +531,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 					MeasureTypeE measure = MeasureTypeE.PIECE;
 					s = parser.getAttributeValue(null, "MeasureOfQuantity");
 					if(s != null && !s.isEmpty())
-						measure = MeasureTypeE.fromByte(Byte.parseByte(s));
+						measure = MeasureTypeE.fromByte((byte)Integer.parseInt(s));
 					item = new SellItem(type, payment, name, BigDecimal.valueOf(qtty), measure,BigDecimal.valueOf(price),vat);
 					s = parser.getAttributeValue(null,"MarkingCode");
 					if(s != null && !s.isEmpty()) {

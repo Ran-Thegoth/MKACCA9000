@@ -268,7 +268,9 @@ public abstract class BaseTag implements IReableFromParcel{
      * @return значение расширенное до long
      */
     public long asUInt() {
-        return (((long) mData.array()[3] & 0xff) << 24) | ((mData.array()[2]& 0xff) << 16) | ((mData.array()[1]& 0xff) << 8) | (mData.array()[0]& 0xff);
+    	if(mData.position() == 6)
+    		return (((long) mData.array()[2] & 0xff) << 24) | (((long)mData.array()[3]& 0xff) << 16) | (((long)mData.array()[4]& 0xff) << 8) | ((long)mData.array()[5]& 0xff);
+        return (((long) mData.array()[3] & 0xff) << 24) | (((long)mData.array()[2]& 0xff) << 16) | (((long)mData.array()[1]& 0xff) << 8) | ((long)mData.array()[0]& 0xff);
     }
 
     /**

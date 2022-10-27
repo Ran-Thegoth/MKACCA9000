@@ -35,6 +35,7 @@ import rs.fncore.Errors;
 import rs.fncore.FiscalStorage;
 import rs.fncore.data.DocServerSettings;
 import rs.fncore.data.KKMInfo;
+import rs.fncore.data.KKMInfo.FFDVersionE;
 import rs.fncore.data.KKMInfo.FiscalReasonE;
 import rs.mkacca.AsyncFNTask;
 import rs.mkacca.Core;
@@ -47,7 +48,7 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 	private View _content;
 	private ViewPager _pages;
 	private View _left, _right;
-	private DialogSpinner _pageName, reason;
+	private DialogSpinner _pageName, reason; // ,_ffd;
 	private KKMInfo regInfo = new KKMInfo();
 
 	private static final String[] PAGES_NAME = { "Владелец ККМ", "Регистрационные данные", "Налогообложение", "Прочее",
@@ -158,6 +159,8 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 			for (int i = 1; i < FiscalReasonE.values().length; i++)
 				a.add(FiscalReasonE.values()[i]);
 			reason.setAdapter(a);
+//			_ffd = _content.findViewById(R.id.sp_ffd);
+//			_ffd.setAdapter(new ArrayAdapter<FFDVersionE>(getContext(), android.R.layout.simple_list_item_1,FFDVersionE.values()));
 			_pages = _content.findViewById(R.id.v_pages);
 			_left = _content.findViewById(R.id.iv_left);
 			_right = _content.findViewById(R.id.iv_right);
@@ -194,6 +197,7 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 							reason.setSelectedItem(FiscalReasonE.REGISTER);
 					} else if (result == Errors.NEW_FN)
 						reason.setSelectedItem(FiscalReasonE.REPLACE_FN);
+//					_ffd.setSelectedItem(regInfo.getFFDProtocolVersion());
 					Main.unlock();
 
 				}
@@ -218,6 +222,11 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 			U.confirm(getContext(), "Выполнить процедуру регистрации/изменения параметров?", new Runnable() {
 				@Override
 				public void run() {
+/*					FFDVersionE ffd = (FFDVersionE)_ffd.getSelectedItem();
+					if(ffd.ordinal() < regInfo.getFFDProtocolVersion().ordinal() && regInfo.isFNActive()) {
+						U.notify(getContext(), "Нельзя указывать меньшую версию ФФД, чем была устрановлена");
+						return;
+					} */
 					for (int i = 0; i < _pAdapter.getCount(); i++) {
 						if (!_pAdapter.PAGES[i].obtain()) {
 							_pages.setCurrentItem(i);

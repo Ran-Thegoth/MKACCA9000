@@ -572,8 +572,15 @@ public class SellOrder extends Document implements IAgentOwner {
     	case FZ54Tag.T1059_ITEM_TLV:
     		mItems.add(new SellItem(t));
     		return true;
+    	case FZ54Tag.T1057_AGENT_FLAG:
+    		mAgentData.setType(AgentTypeE.fromByte(t.asByte()));
+    		return true;
     	default:
-    		return super.parseTag(t);
+    		if(AgentData.isAgentTag(t.getId())) { 
+    			mAgentData.add(t);
+    			return true;
+    		}
+   			return super.parseTag(t);
     	}
     	return false;
     	

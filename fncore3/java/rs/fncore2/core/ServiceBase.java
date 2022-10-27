@@ -36,6 +36,8 @@ import rs.fncore2.core.utils.NotificationsHelper;
 import rs.fncore2.data.CashWithdraw;
 import rs.fncore2.fn.FNFactory;
 import rs.fncore2.fn.FNManager;
+import rs.fncore2.fn.FNNotSupported;
+import rs.fncore2.fn.NotSupportedFFDException;
 import rs.fncore2.fn.common.FNBaseI;
 import rs.fncore2.fn.storage.StorageI;
 import rs.fncore2.fn.storage.Transaction;
@@ -143,10 +145,12 @@ class ServiceBase extends Service {
 
         if (storage.isReady()) {
             FNBaseI newFN = FNFactory.getFN(storage);
-            if (newFN != null) {
+            if (newFN != null) try {
             	if(newFN.loadKKMInfo(mSettings.getKKMInfoNumber(newFN)) == Errors.NO_ERROR) 
             		mSettings.updateKKMInfo(newFN.getKKMInfo().signature().getFdNumber(), newFN);
                 newFN.setConnectionMode(mSettings.getConnectionMode());
+            } catch(NotSupportedFFDException e) {
+            	newFN = new FNNotSupported(storage);
             }
             int res = mFNManager.setFN(newFN);
 
@@ -401,6 +405,7 @@ class ServiceBase extends Service {
     }
 
     protected int cancelDocument() {
+    	if(mFNManager.getFN() == null) return 0;
         return mFNManager.getFN().cancelDocument();
     }
 

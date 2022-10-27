@@ -20,7 +20,7 @@ import rs.log.Logger;
 
 public abstract class Transaction implements AutoCloseable {
 
-    private boolean mPrintLogs = true;
+    public static boolean mPrintLogs = true;
 
     private static final byte FN_CMD_PREFIX = 0x04;
     private static final int SIZE_POSITION = 1;

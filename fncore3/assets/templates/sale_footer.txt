@@ -27,7 +27,7 @@
   {\td width:50%;\СУММА БЕЗ НДС}
   {\td width:*;align:right;\$order.Vat_none$}
  }
- {\tr if:$order.Sum.Cash$!="";\
+ {\tr if:$order.Sum.Cash$>0;\
   {\td width:40%;\НАЛИЧНЫМИ}
   {\td width:*;align:right;\$order.Sum.Cash$}
  }
@@ -35,19 +35,19 @@
   {\td width:40%;\СДАЧА}
   {\td width:*;align:right;\$order.Refund$}
  }
- {\tr if:$order.Sum.Card$!="";\
+ {\tr if:$order.Sum.Card$>0";\
   {\td width:40%;\БЕЗНАЛИЧНЫМИ}
   {\td width:*;align:right;\$order.Sum.Card$}
  }
- {\tr if:$order.Sum.Prepayment$!="";\
+ {\tr if:$order.Sum.Prepayment>0;\
    {\td width:70%;\ПРЕДВАРИТЕЛЬНАЯ ОПЛАТА(АВАНС)}
    {\td width:*;align:right;\$order.Sum.Prepayment$}
  }
- {\tr if:$order.Sum.Credit$!="";\
+ {\tr if:$order.Sum.Credit$>0;\
    {\td width:70%;\ПОСЛЕДУЮЩАЯ ОПЛАТА (КРЕДИТ)}
    {\td width:*;align:right;\$order.Sum.Credit$}
  }
- {\tr if:$order.Sum.Ahead$!="";\
+ {\tr if:$order.Sum.Ahead$>0;\
    {\td width:70%;\ИНАЯ ФОРМА ОПЛАТЫ}
    {\td width:*;align:right;\$order.Sum.Ahead$}
  }
@@ -60,9 +60,13 @@
     {\td width:60%;\АДРЕС КЛИЕНТА}
     {\td width:*;\$T_1256.1254$}
  }
- {\tr if:"$sender_email$!="";\
+ {\tr if:$sender_email$!="";\
     {\td width:40%;\ЭЛ. АДР. ОТПРАВИТЕЛЯ}
     {\td width:*;align:right;\$sender_email$}
+ }
+ {\tr if:$order.AgentType$!="";\
+    {\td width:40%;\Агент}
+    {\td width:*;align:right;\$order.AgentType$}
  }
  {\tr if:$T_1227$!="";\
    {\td width:60%;\ПОКУПАТЕЛЬ}

@@ -20,12 +20,13 @@ import rs.fncore.data.SellItem;
 import rs.fncore.data.SellOrder;
 import rs.fncore.data.Shift;
 import rs.fncore.data.Tag;
+import rs.fncore2.fn.NotSupportedFFDException;
 import rs.fncore2.fn.storage.StorageI;
 import rs.fncore2.fn.storage.Transaction;
 
 public interface FNBaseI {
     int readKKMInfo(KKMInfo result);
-    int loadKKMInfo(int number);
+    int loadKKMInfo(int number) throws NotSupportedFFDException;
     KKMInfoExBase getKKMInfo();
 
     void setConnectionMode(KKMInfo.FNConnectionModeE mode);

@@ -276,5 +276,17 @@ abstract public class KKMInfoExBase extends KKMInfo  {
         if(mFnRemainedDays < 0) mFnRemainedDays = 470;
         return Errors.NO_ERROR;
     }
+    public void setWorkModes(byte b) {
+    	mWorkModes.clear();
+    	for(WorkModeE m : WorkModeE.values()) {
+    		if((b & m.bVal) == m.bVal) mWorkModes.add(m);
+    	}
+    }
+    public void setWorkModesEx(byte b) {
+    	mWorkModesEx.clear();
+    	for(WorkModeExE m : WorkModeExE.values()) {
+    		if((b & m.bVal) == m.bVal) mWorkModesEx.add(m);
+    	}
+    }
 
 }

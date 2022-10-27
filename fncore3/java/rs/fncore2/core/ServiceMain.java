@@ -16,6 +16,7 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -90,7 +91,7 @@ public class ServiceMain extends ServiceBase implements PropertyChangeListener {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-
+			Log.i("fncore2","Recived signal "+intent.getAction());
 			switch (mSettings.getConnectionMode()) {
 			case CLOUD:
 			case VIRTUAL:

@@ -5,6 +5,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.nio.ByteBuffer;
 
+import android.util.Log;
 import rs.fncore.Errors;
 import rs.fncore.FZ54Tag;
 import rs.fncore2.FNCore;
@@ -118,19 +119,23 @@ public class DocumentsRestore extends BaseThread implements PropertyChangeListen
     private void testDocumentsIntegrity() {
     	long whenShiftOpen = -1;
     	long totalDocsInFN = mFNManager.getFN().getKKMInfo().getLastFNDocNumber();
-    	long totalDocsInDB = FNCore.getInstance().getDB().getDocumentsCount();
-    	if(totalDocsInFN != totalDocsInDB) {
+    	long totalDocsInDB = FNCore.getInstance().getDB().getLastDocumentNumber();
+    	if(totalDocsInFN > totalDocsInDB) {
     		ByteBuffer bb = BufferFactory.allocateRecord();
     		String fnsn = mFNManager.getFN().getKKMInfo().getFNNumber();
     		FNCore.getInstance().getDB().clear();
+    		Transaction.mPrintLogs = false;
     		try (Transaction transaction = mFNManager.getFN().getStorage().open()) {
         		for(long i=totalDocsInFN;i>0;i--) {
-        			if(transaction.write(FNCommandsE.GET_FISCAL_DOC_IN_TLV_INFO, (int)i).getLastError() == Errors.NO_ERROR) {
-        				transaction.read(bb);
+        			if(transaction.write(FNCommandsE.GET_FISCAL_DOC_IN_TLV_INFO, (int)i).getLastError() == Errors.NO_ERROR) try {
+        				if(transaction.read(bb) != Errors.NO_ERROR) {
+        					Log.e("fncore2",String.format("Error reading document %d: %x",i,transaction.getLastError()));
+        					continue;
+        				}
         				long date = 0;
         				int type = bb.getShort();
         				while(true) {
-        					if(transaction.write(FNCommandsE.GET_FISCAL_DOC_IN_TLV_DATA).getLastError() != Errors.NO_ERROR)break;
+        					transaction.write(FNCommandsE.GET_FISCAL_DOC_IN_TLV_DATA);
         					if(transaction.read(bb) != Errors.NO_ERROR || bb.limit() == 0) break;
         					if(bb.getShort() == FZ54Tag.T1012_DATE_TIME) {
         						bb.getShort();
@@ -145,13 +150,18 @@ public class DocumentsRestore extends BaseThread implements PropertyChangeListen
         					mFNManager.getFN().getKKMInfo().getShift().setWhenOpen(date);
         				}
         				FNCore.getInstance().getDB().storeDocument(fnsn, i, date, type);
+        			} catch(Exception e) {
+        				Log.e("fncore2","Error restoring document "+i,e);
+        				break;
         			}
         		}
     			
+        		
     		} finally {
+    			Transaction.mPrintLogs = true;
     			BufferFactory.release(bb);
     		}
-    	}
+    	} 
 
 /*        long totalDocsInFN = mFNManager.getFN().getKKMInfo().getLastFNDocNumber();
         long totalDocsInDB = FNCore.getInstance().getDB().getDocumentsCount();

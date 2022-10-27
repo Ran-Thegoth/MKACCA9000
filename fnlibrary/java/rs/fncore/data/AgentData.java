@@ -41,6 +41,15 @@ public class AgentData extends Tag implements IReableFromParcel {
 
     private AgentTypeE mType = AgentTypeE.NONE;
 
+    public static boolean isAgentTag(int tag) {
+    	for(int i=0;i<TAGS_1223.size();i++)
+    		if(TAGS_1223.keyAt(i) == tag) return true;
+    	for(int i=0;i<TAGS_1224.size();i++)
+    		if(TAGS_1224.keyAt(i) == tag) return true;
+    	return false;
+    }
+    
+    
     public AgentData() {
     }
 

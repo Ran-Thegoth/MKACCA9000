@@ -367,8 +367,8 @@ public class Main extends Activity implements MessageHandler, View.OnClickListen
 				new Thread() {
 					public void run() {
 						try {
-							order.getAgentData().setType(AgentTypeE.OTHER);
-							order.getAgentData().setAgentPhone("+7 999 999 9889");
+/*							order.getAgentData().setType(AgentTypeE.OTHER);
+							order.getAgentData().setAgentPhone("+7 999 999 9889"); */
 							log("Проведение чека");
 							int r = Core.getInstance().storage().doSellOrder(order, new OU("Кассир"), order, true,
 									Const.EMPTY_STRING, Const.EMPTY_STRING, Const.EMPTY_STRING, Const.EMPTY_STRING);

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="rs.mkacca"
-    android:versionCode="120"
-    android:versionName="1.20" >
+    android:versionCode="121"
+    android:versionName="1.21" >
 
     <uses-sdk
         android:minSdkVersion="22"

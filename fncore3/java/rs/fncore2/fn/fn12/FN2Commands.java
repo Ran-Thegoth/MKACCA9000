@@ -410,7 +410,7 @@ public abstract class FN2Commands extends FNBase {
 		} finally {
 			BufferFactory.release(bb);
 		}
-		return null;
+		return new FNCounters(isTotal);
 	}
 
 

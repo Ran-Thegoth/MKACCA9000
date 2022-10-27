@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cs.ui.BackHandler;
 import cs.ui.fragments.BaseFragment;
+import rs.fncore.Errors;
 import rs.fncore.FiscalStorage;
 import rs.fncore.data.DocServerSettings;
 import rs.fncore.data.KKMInfo;
@@ -29,11 +30,12 @@ import rs.mkacca.ui.fragments.menus.Common;
 import rs.mkacca.ui.widgets.Launcher;
 import rs.utils.app.MessageQueue.MessageHandler;
 
-public class MainMenu extends BaseFragment implements View.OnTouchListener,View.OnClickListener, BackHandler, MessageHandler, OnBackStackChangedListener {
+public class MainMenu extends BaseFragment
+		implements View.OnTouchListener, View.OnClickListener, BackHandler, MessageHandler, OnBackStackChangedListener {
 
 	private View _content, kkm_Info;
 
-	private TextView fn_status, fn_sn, kkm_sn, reg_no, shift_state,ffd_fn,mark_allow,ofd_await,v_do_send;
+	private TextView fn_status, fn_sn, kkm_sn, reg_no, shift_state, ffd_fn, mark_allow, ofd_await, v_do_send;
 	private Launcher launcher;
 	private List<String> _messages = new ArrayList<>();
 	private AsyncFNTask FN_CHECKER = new AsyncFNTask() {
@@ -43,6 +45,7 @@ public class MainMenu extends BaseFragment implements View.OnTouchListener,View.
 			Core.getInstance().updateRests();
 			return r;
 		}
+
 		@Override
 		protected void postExecute(int result, Object results) {
 			updateInfoScreen();
@@ -62,94 +65,96 @@ public class MainMenu extends BaseFragment implements View.OnTouchListener,View.
 		mark_allow.setText(null);
 		_messages.clear();
 //		List<String> messages = new ArrayList<>();
-		if(info.isFNPresent()) {
-			ffd_fn.setText(info.getMaxSuppFFDVersion().toString());
-		} else 
+		if (info.isFNPresent()) {
+			ffd_fn.setText(info.getFFDProtocolVersion().toString());
+		} else {
 			ffd_fn.setText("-");
-		if(info.isFNArchived()) {
+		}
+		if (info.isFNArchived()) {
 			fn_status.setText("Постфискальный режим");
 			shift_state.setText("Закрыта");
-			if(!info.isOfflineMode())
+			if (!info.isOfflineMode())
 				ofd_await.setText(String.valueOf(Core.getInstance().ofdInfo().getUnsentDocumentCount()));
-			v_do_send.setVisibility(Core.getInstance().ofdInfo().getUnsentDocumentCount() > 0 ? View.VISIBLE : View.GONE);
-		} else if(info.isFNActive()) {
+			v_do_send.setVisibility(
+					Core.getInstance().ofdInfo().getUnsentDocumentCount() > 0 ? View.VISIBLE : View.GONE);
+		} else if (info.isFNActive()) {
 			fn_status.setText("Готов к работе");
-			v_do_send.setVisibility(Core.getInstance().ofdInfo().getUnsentDocumentCount() > 0 ? View.VISIBLE : View.GONE);
-			mark_allow.setText(info.isMarkingGoods() ? "Да":"Нет");
-			if(info.getFNWarnings().iVal == 0)
-				fn_status.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_stat_notify_ok,0);
+			v_do_send.setVisibility(
+					Core.getInstance().ofdInfo().getUnsentDocumentCount() > 0 ? View.VISIBLE : View.GONE);
+			mark_allow.setText(info.isMarkingGoods() ? "Да" : "Нет");
+			if (info.getFNWarnings().iVal == 0)
+				fn_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_stat_notify_ok, 0);
 			else {
-				if(info.getFNWarnings().isFNCriticalError() || info.getFNWarnings().isMemoryFull99() || 
-						info.getFNWarnings().isFailureFormat() || info.getFNWarnings().isOFDCanceled()) {
-					fn_status.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_stat_notify_stop,0);
-					if(info.getFNWarnings().isFNCriticalError())
+				if (info.getFNWarnings().isFNCriticalError() || info.getFNWarnings().isMemoryFull99()
+						|| info.getFNWarnings().isFailureFormat() || info.getFNWarnings().isOFDCanceled()) {
+					fn_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_stat_notify_stop, 0);
+					if (info.getFNWarnings().isFNCriticalError())
 						_messages.add("Критическая ошибка ФН");
-					if(info.getFNWarnings().isMemoryFull99())
+					if (info.getFNWarnings().isMemoryFull99())
 						_messages.add("Память ФН переполнена, требуется замена");
-					if(info.getFNWarnings().isFailureFormat())
+					if (info.getFNWarnings().isFailureFormat())
 						_messages.add("Ошибка фискальных данных");
-					if(info.getFNWarnings().isOFDCanceled())
+					if (info.getFNWarnings().isOFDCanceled())
 						_messages.add("Работа прекращена по требованию ОФД");
-					if(info.getFNWarnings().isOFDTimeout())
+					if (info.getFNWarnings().isOFDTimeout())
 						_messages.add("Превышен интервал ожидания ответа от ФН");
-				}
-				else {
-					fn_status.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_stat_notify_warn,0);
-					_messages.add(String.format("Предупреждения ФН %02X",info.getFNWarnings().iVal));
+				} else {
+					fn_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_stat_notify_warn, 0);
+					_messages.add(String.format("Предупреждения ФН %02X", info.getFNWarnings().iVal));
 				}
 			}
-			if(!info.getShift().isOpen())
+			if (!info.getShift().isOpen())
 				shift_state.setText("Закрыта");
 			else {
 				String s = String.valueOf(info.getShift().getNumber());
 				long durationInH = (System.currentTimeMillis() - info.getShift().getWhenOpen()) / (60 * 60 * 1000L);
-				if(durationInH >= 24) {
+				if (durationInH >= 24) {
 					shift_state.setTextColor(Color.RED);
 					_messages.add("Смена открыта более 24 часов!");
-					fn_status.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_stat_notify_warn,0);
-				} else if(durationInH > 12)
+					fn_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_stat_notify_warn, 0);
+				} else if (durationInH > 12)
 					shift_state.setTextColor(Color.argb(0xFF, 255, 85, 0));
-				else 
+				else
 					shift_state.setTextColor(Color.GREEN);
 				shift_state.setText(s);
-				
+
 			}
-			if(!info.isOfflineMode()) {
+			if (!info.isOfflineMode()) {
 				try {
 					DocServerSettings ds = Core.getInstance().getStorage().getOFDSettings();
-					if(ds.getServerAddress().isEmpty()) {
+					if (ds.getServerAddress().isEmpty()) {
 						_messages.add("Не настроен сервер ОФД");
-						fn_status.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_stat_notify_warn,0);
+						fn_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_stat_notify_warn, 0);
 					}
-					if(info.isMarkingGoods()) {
+					if (info.isMarkingGoods()) {
 						ds = Core.getInstance().getStorage().getOismSettings();
-						if(ds.getServerAddress().isEmpty()) {
+						if (ds.getServerAddress().isEmpty()) {
 							_messages.add("Не настроен сервер ОИСМ");
-							fn_status.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_stat_notify_warn,0);
+							fn_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_stat_notify_warn, 0);
 						}
 					}
-					
-				} catch(RemoteException re) {
-					
+
+				} catch (RemoteException re) {
+
 				}
 				ofd_await.setText(String.valueOf(Core.getInstance().ofdInfo().getUnsentDocumentCount()));
 			}
-			
-			
-		} else if(info.isFNPresent()) {
+
+		} else if (info.isFNPresent()) {
 			fn_status.setText("Новый ФН");
 			_messages.add("Проведите фискализацию");
-			fn_status.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_stat_notify_warn,0);
+			fn_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_stat_notify_warn, 0);
 		} else {
 			fn_status.setText("ФН не установлен");
 			_messages.add("Установите ФН");
-			fn_status.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_stat_notify_stop,0);
+			fn_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_stat_notify_stop, 0);
 		}
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if(_content == null) {
-			_content = inflater.inflate(R.layout.mmenu, container,false);
+		if (_content == null) {
+			_content = inflater.inflate(R.layout.mmenu, container, false);
 			fn_status = _content.findViewById(R.id.fn_status);
 			fn_status.setOnClickListener(this);
 			fn_sn = _content.findViewById(R.id.fn_sn);
@@ -168,16 +173,17 @@ public class MainMenu extends BaseFragment implements View.OnTouchListener,View.
 			_content.findViewById(R.id.app_button).setOnClickListener(this);
 			launcher = _content.findViewById(R.id.v_launcher);
 			getChildFragmentManager().addOnBackStackChangedListener(this);
-			getChildFragmentManager().beginTransaction().replace(R.id.menu_content,new Common()).commit();
-		} 
+			getChildFragmentManager().beginTransaction().replace(R.id.menu_content, new Common()).commit();
+		}
 		return _content;
 	}
-	
+
 	@Override
 	public void onStop() {
 		Core.getInstance().removeHandler(this);
 		super.onStop();
 	}
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -190,29 +196,30 @@ public class MainMenu extends BaseFragment implements View.OnTouchListener,View.
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(View arg0, MotionEvent arg1) {
-		if(kkm_Info.getVisibility() != View.GONE)
+		if (kkm_Info.getVisibility() != View.GONE)
 			kkm_Info.setVisibility(View.GONE);
 		return false;
 	}
 
 	@Override
 	public void onClick(View v) {
-		switch(v.getId()) {
+		switch (v.getId()) {
 		case R.id.fn_status:
-			if(!_messages.isEmpty()) {
+			if (!_messages.isEmpty()) {
 				String s = "";
-				for(String m : _messages) {
-					if(!s.isEmpty()) s+="\n";
-					s+=m;
+				for (String m : _messages) {
+					if (!s.isEmpty())
+						s += "\n";
+					s += m;
 				}
-				Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();	
+				Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
 			}
 			break;
 		case R.id.v_do_send:
 			Main.pushDocuments(getContext());
 			break;
 		case R.id.kkm_info_button:
-			
+
 			kkm_Info.setVisibility(kkm_Info.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
 			break;
 		case R.id.app_button:
@@ -223,25 +230,27 @@ public class MainMenu extends BaseFragment implements View.OnTouchListener,View.
 
 	@Override
 	public boolean onBackPressed() {
-		if(getChildFragmentManager().getBackStackEntryCount() > 0) {
+		if (getChildFragmentManager().getBackStackEntryCount() > 0) {
 			getChildFragmentManager().popBackStackImmediate();
 			return false;
 		}
-		if(launcher.getVisibility() == View.VISIBLE) {
+		if (launcher.getVisibility() == View.VISIBLE) {
 			launcher.setVisibility(View.GONE);
 			return false;
 		}
 		return true;
 	}
+
 	@Override
 	public boolean onMessage(Message msg) {
-		if(msg.what == Core.EVT_INFO_UPDATED) 
+		if (msg.what == Core.EVT_INFO_UPDATED)
 			updateInfoScreen();
 		return false;
 	}
+
 	@Override
 	public void onBackStackChanged() {
-		((Main)getActivity()).showBackButton(getChildFragmentManager().getBackStackEntryCount() > 0);
-		
+		((Main) getActivity()).showBackButton(getChildFragmentManager().getBackStackEntryCount() > 0);
+
 	}
 }
