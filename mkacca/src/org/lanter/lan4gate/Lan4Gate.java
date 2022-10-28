@@ -24,7 +24,7 @@ public class Lan4Gate implements ICommunicationListener {
 	private final Set<INotificationCallback> mNotificationListeners = new HashSet<>();
 	private final Set<ICommunicationCallback> mCommunicationListeners = new HashSet<>();
 	private final Set<IErrorCallback> mErrorListeners = new HashSet<>();
-	private final int mEcrNumber;
+	private static int mEcrNumber = 1;
 	private final TCPCommunication mTCPCommunication = new TCPCommunication();
 
 	/**
@@ -201,7 +201,7 @@ public class Lan4Gate implements ICommunicationListener {
 	 *
 	 * @return Prepared object, implements {@link IRequest}
 	 */
-	public IRequest getPreparedRequest(OperationsList operation) {
+	public static IRequest getPreparedRequest(OperationsList operation) {
 		RequestBuilder builder = new RequestBuilder(mEcrNumber);
 		return builder.prepareRequest(operation);
 	}

@@ -147,7 +147,7 @@ public class Signature implements Parcelable, TemplateProcessor {
 			mSigner.mKkmNumber = t.asString().trim();
 			break;
 		case FZ54Tag.T1040_DOCUMENT_NO:
-			mFdNumber = t.asInt();
+			mFdNumber = (int)(t.asUInt() & 0xFFFFFFFF);
 			break;
 		case FZ54Tag.T1041_FN_NO:
 			if (mSigner == null)

@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import android.util.Log;
+
 public class TCPCommunication {
     private CommunicationType mCommunicationType = CommunicationType.TcpServer;
     private ServerSocketChannel mServerChannel;
@@ -57,6 +59,7 @@ public class TCPCommunication {
     {
         if(mMonitoringThread == null)
         {
+        	Log.d("fncore2", "Starting lanter service");
             mMonitoringThread = new Thread(new Runnable() {
                 @Override
                 public void run()
@@ -73,6 +76,7 @@ public class TCPCommunication {
                     {
                         notifyException(exception);
                     }
+                    mMonitoringThread = null;
                 }
             });
             mMonitoringThread.start();
@@ -88,6 +92,7 @@ public class TCPCommunication {
     {
         if(mConnectionSelector == null)
         {
+        	Log.i("fncore2", "Lanter: selector");
             mConnectionSelector = Selector.open();
         }
     }
@@ -95,6 +100,7 @@ public class TCPCommunication {
     {
         if (mServerChannel == null)
         {
+        	Log.i("fncore2", "Lanter: Server");
             //каналы платформозависимы, необходимо использовать фабрику
             mServerChannel = ServerSocketChannel.open();
             //в селекторах канал может быть только в неблокирующем состоянии
@@ -106,9 +112,11 @@ public class TCPCommunication {
     private void runServer() throws IOException
     {
         mServerChannel.socket().bind(new InetSocketAddress(mPort));
+        Log.i("fncore2", "Lanter: Binded");
     }
     private void stopSelector() throws IOException
     {
+    	Log.e("fncore2", "Lanter shutdown");
         try
         {
             for (SelectionKey selectionKey : mConnectionSelector.keys()) {
@@ -128,12 +136,17 @@ public class TCPCommunication {
 
                 }
             }
+            
             mConnectionSelector.close();
+            mServerChannel.close();
+            mConnectionSelector = null;
+            mServerChannel = null;
+            mRegisteredConnection = null;
             notifyCommunicationStopped();
         }
         catch (Exception ignored)
         {
-
+        	Log.e("fncore2", "Lanter",ignored);
         }
     }
     private void runSelector() throws IOException
