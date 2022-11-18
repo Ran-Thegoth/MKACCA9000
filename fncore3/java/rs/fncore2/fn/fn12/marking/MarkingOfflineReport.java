@@ -5,10 +5,9 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.zip.CRC32;
 
-import android.util.Log;
 import rs.fncore.Const;
 import rs.fncore.Errors;
-import rs.fncore2.BuildConfig;
+import rs.fncore3.BuildConfig;
 import rs.fncore2.FNCore;
 import rs.fncore2.fn.common.FNCommandsE;
 import rs.fncore2.fn.common.KKMInfoExBase;

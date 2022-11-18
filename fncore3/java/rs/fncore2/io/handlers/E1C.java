@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Set;
 
 import rs.fncore2.utils.DocumentUtils;
+import rs.log.Logger;
 import rs.utils.Utils;
 
 import org.nanohttpd.protocols.http.IHTTPSession;
@@ -129,6 +130,14 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 	@SuppressWarnings("deprecation")
 	@Override
 	public Response handle(IHTTPSession input) {
+		
+		String query = "";
+		for(String key : input.getParms().keySet()) {
+			if(!query.isEmpty()) query += "&";
+			query += key + "="+input.getParms().get(key);
+		}
+		Logger.i("1C: "+input.getUri()+" "+query);
+		
 		E1CResult result = new E1CResult(500 + Errors.NOT_IMPLEMENTED);
 		result.response = "Не реализовано";
 		OU cashier = new OU("Администратор");
@@ -136,6 +145,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 			XmlPullParser parser = XmlPullParserFactory.newInstance().newPullParser();
 			byte b[] = new byte[input.getInputStream().available()];
 			input.getInputStream().read(b);
+			Logger.i("1C: "+new String(b));
 			parser.setInput(new ByteArrayInputStream(b), "UTF-8");
 			if (input.getUri().endsWith("GetDataKKT")) {
 				getDataKKT(result);

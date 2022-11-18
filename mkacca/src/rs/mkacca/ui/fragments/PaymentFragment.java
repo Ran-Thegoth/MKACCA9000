@@ -300,8 +300,7 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 
 	@Override
 	public void onOperationFail(EPayment engine, OperationType type, Exception e) {
-		Toast.makeText(getContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-		
+		U.notify(getContext(), e.getLocalizedMessage());
 	}
 
 }

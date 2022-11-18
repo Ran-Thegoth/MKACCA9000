@@ -34,12 +34,12 @@ public class Const {
     /**
      * Интент для обращения к FiscalStorage
      */
-    public static Intent FISCAL_STORAGE = new Intent("rs.fncore2.FiscalStorage");
+    public static Intent FISCAL_STORAGE = new Intent("rs.fncore3.FiscalStorage");
 
     /**
      * Имя пакета FNCore
      */
-    public static final String CORE_PACKAGE = "rs.fncore2"; 
+    public static final String CORE_PACKAGE = "rs.fncore3"; 
     static {
         FISCAL_STORAGE.setPackage(CORE_PACKAGE);
     }
@@ -47,18 +47,18 @@ public class Const {
     /**
      *  URI для доступа к журналу документов
      */
-    public static final Uri DOCUMENT_JOURNAL = Uri.parse("content://rs.fncore2.data/documents");
+    public static final Uri DOCUMENT_JOURNAL = Uri.parse("content://rs.fncore3.data/documents");
     
     /**
      * 
      * Событие, отправляемое при изменении ФН
      */
-    public static final String FN_STATE_CHANGED_ACTION = "rs.fncore2.fn.changed";
+    public static final String FN_STATE_CHANGED_ACTION = "rs.fncore3.fn.changed";
 
     /**
      * Событие, отправляемое при отправке очередного документа в ОФД
      */
-    public static final String OFD_SENT_ACTION = "rs.fncore2.ofd.info";
+    public static final String OFD_SENT_ACTION = "rs.fncore3.ofd.info";
 
     /**
      * Количество документов, оставшееся к отправке в ОФД, int для OFD_SENT_ACTION

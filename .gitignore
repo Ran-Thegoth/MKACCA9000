@@ -1,4 +1,7 @@
 **/.settings
+**/.gradle
+**/build
+**/built
 **/bin
 **/obj
 **/gen
@@ -7,3 +10,8 @@
 **/libs/arm64-v8a
 **/built
 **/classes.h
+builder/
+docs/jdoc  
+docs/*.zip
+docs/repository
+TEditor/

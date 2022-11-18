@@ -23,6 +23,7 @@ import cs.U;
 import rs.fncore.Errors;
 import rs.fncore.FiscalStorage;
 import rs.fncore.data.ArchiveReport;
+import rs.fncore.data.DocServerSettings;
 import rs.mkacca.AsyncFNTask;
 import rs.mkacca.Core;
 import rs.mkacca.DB;
@@ -106,9 +107,12 @@ public class Settings extends MenuFragment implements DialogSelectionListener {
 								protected int execute(FiscalStorage fs) throws RemoteException {
 									ArchiveReport ar = new ArchiveReport();
 									int r = fs.doArchive(Core.getInstance().user().toOU(), ar, getTag());
-									JSONObject o = null;
+									JSONObject o = new JSONObject();
 									try {
-										o = Core.getInstance().kkmInfo().toJSON();
+										o.put("KKM", Core.getInstance().kkmInfo().toJSON());
+										o.put("OFD", Core.getInstance().getStorage().getOFDSettings().toJSON());
+										o.put("OISM", Core.getInstance().getStorage().getOismSettings().toJSON());
+										o.put("OKP", Core.getInstance().getStorage().getOKPSettings().toJSON());
 									} catch (JSONException jse) {
 										o = null;
 									}

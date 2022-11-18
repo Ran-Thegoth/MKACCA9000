@@ -68,8 +68,8 @@ class ShiftEx2 extends ShiftExBase {
             add(FZ54Tag.T1188_KKT_VERSION, KKMInfo.KKT_VERSION);
             add(FZ54Tag.T1189_KKT_FFD_VERSION, mKKMInfo.getFFDProtocolVersion().bVal);
 
-            add(FZ54Tag.T1276_ADDITIONAL_REQUISIT_OOC, "");
-            add(FZ54Tag.T1277_ADDITIONAL_DATA_OOC, new byte[]{});
+/*            add(FZ54Tag.T1276_ADDITIONAL_REQUISIT_OOC, "");
+            add(FZ54Tag.T1277_ADDITIONAL_DATA_OOC, new byte[]{}); */
 
             byte[][] data = packToFN();
             for (byte[] b : data) {

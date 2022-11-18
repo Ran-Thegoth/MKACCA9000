@@ -93,8 +93,15 @@ public class Lanter extends EPayment
 
 	private Runnable PROCESSOR = new Runnable() {
 
+
+		private void showMessage(String msg) {
+			Message m = _h.obtainMessage(MSG_SET_MESSAGE);
+			m.obj = msg;
+			_h.sendMessage(m);
+			
+		}
 		private boolean awaitState(ConnectionState s) {
-			long opEnd = System.currentTimeMillis() + 30000L;
+			long opEnd = System.currentTimeMillis() + 15000L;
 			while (_cState != s && System.currentTimeMillis() < opEnd)
 				try {
 					Thread.sleep(100);
@@ -104,7 +111,7 @@ public class Lanter extends EPayment
 		}
 
 		private boolean awaitTransactionSuccess() {
-			return awaitTransactionSuccess(30000L);
+			return awaitTransactionSuccess(60000L);
 		}
 		
 		private boolean awaitTransactionSuccess(long time) {
@@ -114,6 +121,8 @@ public class Lanter extends EPayment
 					Thread.sleep(100);
 				} catch (InterruptedException ie) {
 				}
+			if(_rState == TransactionState.PROCESSING)
+				_lastException = new Exception("Истекло время ожидания");
 			return _rState == TransactionState.DONE;
 		}
 
@@ -121,10 +130,12 @@ public class Lanter extends EPayment
 		public void run() {
 			Core.getInstance().sendBroadcast(new Intent("org.lanter.START_SERVICE"));
 			do {
+				showMessage("Подключение к сервису...");
 				_cState = ConnectionState.CONNECTING;
 				_gate.start();
 				if (!awaitState(ConnectionState.CONNECTED))
 					break;
+				
 				Log.d("fncore2", "Processing requests");
 				while (!_requests.isEmpty()) {
 					if(_rState == TransactionState.CANCELED) break;
@@ -144,9 +155,7 @@ public class Lanter extends EPayment
 				msg = _h.obtainMessage(MSG_OP_FAIL);
 				if(_rState == TransactionState.CANCELED) {
 					Log.d("fncore2", "Interrupt operation...");
-					Message m = _h.obtainMessage(MSG_SET_MESSAGE);
-					m.obj = "Отмена операции...";
-					_h.sendMessage(m);
+					showMessage("Отмена операции...");
 					_rState = TransactionState.PROCESSING;
 					_gate.sendRequest(Lan4Gate.getPreparedRequest(OperationsList.Interrupt));
 					awaitTransactionSuccess(3000);
@@ -451,9 +460,8 @@ public class Lanter extends EPayment
 	@Override
 	public void doCancel(Context ctx, String rrn, EPaymentListener listener) {
 		IRequest rq = Lan4Gate.getPreparedRequest(OperationsList.Void); rq.setEcrNumber(1);
-		rq.setReceiptReference(rrn); rq.setEcrMerchantNumber(1);
-		if(!rrn.isEmpty())
-			rq.setRRN(rrn);
+		rq.setReceiptReference(rrn); 
+		rq.setEcrMerchantNumber(1);
 		_listener = listener;
 		_op = OperationType.CANCEL;
 		_sum = BigDecimal.ZERO;

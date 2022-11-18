@@ -254,7 +254,7 @@ public abstract class FN2Commands extends FNBase {
 				result = CheckNeedUpdateKeysE.fromByte(bb.get());
 				return result;
 			}
-			long diff = (new Date()).getTime(); // - kkmInfo.lastUpdateOKPTime;
+			long diff = (new Date()).getTime()  - kkmInfo.lastUpdateOKPTime;
 			int days = (int) (diff / (1000 * 60 * 60 * 24));
 			Logger.w("Последнее обновление ключей %s, %d дней назад", new Date(kkmInfo.lastUpdateOKPTime), days);
 

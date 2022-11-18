@@ -238,7 +238,7 @@ public class Formatter {
 
 		public int getWidth();
 
-		public void print(IPrinter printer, int x, int y);
+		public int print(IPrinter printer, int x, int y);
 	}
 
 	public interface IStyleable {
@@ -469,9 +469,9 @@ public class Formatter {
 		}
 
 		@Override
-		public void print(IPrinter printer, int x, int y) {
-			if(getContidion()!=null && !getContidion().check(ARGS)) return;
-			printer.printString(x, y, STYLE, TEXT);
+		public int print(IPrinter printer, int x, int y) {
+			if(getContidion()!=null && !getContidion().check(ARGS)) return 0;
+			return printer.printString(x, y, STYLE, TEXT);
 		}
 
 		@Override
@@ -550,15 +550,17 @@ public class Formatter {
 		}
 
 		@Override
-		public void print(IPrinter printer, int x, int y) {
-			if(!getContidion().check(null)) return;
+		public int print(IPrinter printer, int x, int y) {
+			if(!getContidion().check(null)) return 0;
 			if (FORMAT == BarcodeFormat.EAN_13) {
 				while (TEXT.length() < 13)
 					TEXT = "0" + TEXT;
 			}
 			if(TEXT != null) {
 				printer.printBarcode(x, y, W, H, FORMAT, TEXT,getStyle().rotation);
+				return H;
 			}
+			return 0;
 		}
 	}
 
@@ -638,7 +640,7 @@ public class Formatter {
 		}
 
 		@Override
-		public void print(IPrinter printer, int x, int y) {
+		public int print(IPrinter printer, int x, int y) {
 			
 			if (B != null && getContidion().check(null)) {
 				Bitmap res = B;
@@ -674,9 +676,12 @@ public class Formatter {
 					c.drawBitmap(B, M, new Paint(Paint.FILTER_BITMAP_FLAG));
 				}
 				printer.printImage(x, y, W, H, res);
+				int h = res.getHeight();
 				if(res != B)
 					res.recycle();
+				return h;
 			}
+			return 0;
 		}
 
 		public String load(String line) {
@@ -742,7 +747,8 @@ public class Formatter {
 		}
 
 		@Override
-		public void print(IPrinter printer, int x, int y) {
+		public int print(IPrinter printer, int x, int y) {
+			int h = 0;
 			if ((OWNER.align & ALIGN_CENTER) == ALIGN_CENTER) {
 				int w = 0;
 				for (Text t : this)
@@ -751,7 +757,7 @@ public class Formatter {
 			}
 			if ((OWNER.align & ALIGN_CENTER) == ALIGN_CENTER || (OWNER.align & ALIGN_LEFT) == ALIGN_LEFT) {
 				for (Text t : this) {
-					t.print(printer, x, y + (H - t.H));
+					h += t.print(printer, x, y + (H - t.H));
 					x += t.getWidth();
 				}
 			} else {
@@ -759,10 +765,10 @@ public class Formatter {
 				for (int i = size() - 1; i >= 0; i--) {
 					Text t = get(i);
 					w -= t.getWidth();
-					t.print(printer, w, y + (H - t.H));
+					h += t.print(printer, w, y + (H - t.H));
 				}
 			}
-
+			return h;
 		}
 
 	}
@@ -967,11 +973,11 @@ public class Formatter {
 		}
 
 		@Override
-		public void print(IPrinter printer, int x, int y) {
+		public int print(IPrinter printer, int x, int y) {
 			if (getContidion() != null && !getContidion().check(ARGS))
-				return;
+				return 0;
 			if (W == 0)
-				return;
+				return 0;
 			int ly = y + padding[1], lx = x + padding[0], lh = H;
 			if ((align & VALIGN_CENTER) == VALIGN_CENTER) {
 				int h = 0;
@@ -979,19 +985,22 @@ public class Formatter {
 					h += p.getHeight();
 				ly += (lh - h) / 2f;
 			}
+			int h = 0;
 			if ((align & VALIGN_CENTER) == VALIGN_CENTER || (align & VALIGN_TOP) == VALIGN_TOP) {
 				for (IPrintable p : LINES) {
-					p.print(printer, lx+XOffset, ly+YOffset);
-					ly += p.getHeight();
+					int h0 = p.print(printer, lx+XOffset, ly+YOffset); 
+					h+= h0;
+					ly += h0;
 				}
 			} else {
 				ly += H - padding[3];
 				for (int i = LINES.size() - 1; i >= 0; i--) {
 					IPrintable p = LINES.get(i);
 					ly -= p.getHeight();
-					p.print(printer, lx+XOffset, ly+YOffset);
+					h+=p.print(printer, lx+XOffset, ly+YOffset);
 				}
 			}
+			return h;
 		}
 
 		@Override
@@ -1028,22 +1037,22 @@ public class Formatter {
 		}
 
 		@Override
-		public void print(IPrinter printer, int x, int y) {
+		public int print(IPrinter printer, int x, int y) {
 			if (getContidion() != null && !getContidion().check(ARGS))
-				return;
-			int h = y;
+				return 0;
+			int h = 0;
 			for (IPrintable p : LINES) {
-				p.print(printer, x, h);
-				h += p.getHeight();
+				h += p.print(printer, x, y+h);
 			}
 			if (border[0] > 0)
-				printer.drawLine(x, y, x, y + H+1, border[0]);
+				printer.drawLine(x, y, x, y + h+1, border[0]);
 			if (border[1] > 0)
 				printer.drawLine(x, y, x + W+1, y, border[1]);
 			if (border[2] > 0)
-				printer.drawLine(x + W-1, y, x + W-1, y + H, border[2]);
+				printer.drawLine(x + W-1, y, x + W-1, y + h, border[2]);
 			if (border[3] > 0)
-				printer.drawLine(x, y + H, x + W, y + H, border[3]);
+				printer.drawLine(x, y + h, x + W, y + h, border[3]);
+			return h;
 		}
 
 		@Override
@@ -1084,8 +1093,7 @@ public class Formatter {
 				W -= cell.getWidth();
 				h = Math.max(h, cell.getHeight());
 			}
-			if(H <= 0) 
-				H = h;
+			H = h;
 			for (IPrintable cell : LINES) {
 				if (cell instanceof Cell)
 					((Cell) cell).H = H;
@@ -1096,12 +1104,13 @@ public class Formatter {
 		}
 
 		@Override
-		public void print(IPrinter printer, int x, int y) {
+		public int print(IPrinter printer, int x, int y) {
 			if (getContidion() != null && !getContidion().check(ARGS))
-				return;
+				return 0;
 			int w = x;
+			int h = 0;
 			for (IPrintable cell : LINES) {
-				cell.print(printer, w, y);
+				h = Math.max(h,cell.print(printer, w, y));
 				w += cell.getWidth();
 			}
 			if (border[0] > 0)
@@ -1112,6 +1121,7 @@ public class Formatter {
 				printer.drawLine(x + W-1, y, x + W-1, y + H + 1, border[2]);
 			if (border[3] > 0)
 				printer.drawLine(x, y + H, x + W, y + H + 1, border[3]);
+			return h;
 		};
 	}
 
@@ -1120,9 +1130,10 @@ public class Formatter {
 		public Field(ContentBlock owner) {
 			super(owner);
 		}
-		public void print(IPrinter printer, int x, int y) {
+		public int print(IPrinter printer, int x, int y) {
+			
 			printer.clip(X, Y, X+W, Y+H);
-			super.print(printer, X, Y);
+			int h = super.print(printer, X, Y);
 			printer.clearClip();
 			if (border[0] > 0)
 				printer.drawLine(X, Y, X, Y + H, border[0]);
@@ -1132,6 +1143,7 @@ public class Formatter {
 				printer.drawLine(X + W-1, Y, X + W-1, Y + H, border[0]);
 			if (border[3] > 0)
 				printer.drawLine(X, Y + H, X + W, Y + H, border[0]);
+			return h;
 		}
 		@Override
 		public void measure(IPrinter printer) throws Exception {
@@ -1169,12 +1181,12 @@ public class Formatter {
 		}
 
 		@Override
-		public void print(IPrinter printer, int x, int y) {
+		public int print(IPrinter printer, int x, int y) {
 			if (getContidion() != null && !getContidion().check(ARGS))
-				return;
+				return 0;
 			if((getStyle().flags & INVERSE) == INVERSE)
 				printer.fill(x,y,x+W,y+H);
-			super.print(printer, x, y);
+			int h = super.print(printer, x, y);
 			if (border[0] > 0)
 				printer.drawLine(x, y, x, y + H, border[0]);
 			if (border[1] > 0)
@@ -1183,6 +1195,7 @@ public class Formatter {
 				printer.drawLine(x + W-1, y, x + W-1, y + H, border[0]);
 			if (border[3] > 0)
 				printer.drawLine(x, y + H, x + W, y + H, border[0]);
+			return h;
 		}
 		@Override
 		public void measure(IPrinter printer) throws Exception {
@@ -1207,10 +1220,11 @@ public class Formatter {
 		_params = new PrintParams();
 		DEFAULT_STYLE = new Style(fontname, fontSize);
 		ROOT = new ContentBlock(null) {
-			public void print(IPrinter printer, int x, int y) {
+			public int print(IPrinter printer, int x, int y) {
 				printer.prePrint(_params);
-				super.print(printer, x, y);
+				int h = super.print(printer, x, y);
 				printer.postPrint (H, _postProcess);
+				return h;
 			};
 		};
 		ROOT.W = pageWidth;

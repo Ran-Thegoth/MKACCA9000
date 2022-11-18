@@ -24,6 +24,7 @@ public class Logger {
 	private static String _mark;
 	private final static SimpleDateFormat DF = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
 	public static String BUILD_VERSION;
+	public static boolean LOG_IO = false;
 
 	
 	public static void beginMark(String m) {
@@ -47,7 +48,7 @@ public class Logger {
 			}
 			
 			_logFile = new File(logFolder, "MKACCA.log");
-			if("fncore2".equals(_source)) {
+			if("fncore2".equals(_source) && LOG_IO) {
 				_fnIOFile = new File(logFolder, "FNIO.log");
 				if(_logFile.exists()) try {
 					FileInputStream fis = new FileInputStream(_logFile);

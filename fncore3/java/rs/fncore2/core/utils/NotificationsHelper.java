@@ -8,7 +8,7 @@ import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 
 
-import rs.fncore2.R;
+import rs.fncore3.R;
 
 public class NotificationsHelper {
 

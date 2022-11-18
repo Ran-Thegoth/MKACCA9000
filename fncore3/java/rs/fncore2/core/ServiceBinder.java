@@ -16,6 +16,7 @@ import rs.fncore.data.OismStatistic;
 import rs.fncore.data.OU;
 import rs.fncore.data.ParcelableBytes;
 import rs.fncore.data.ParcelableStrings;
+import rs.fncore.data.PrintFormTypeE;
 import rs.fncore.data.PrintSettings;
 import rs.fncore.data.SellItem;
 import rs.fncore.data.SellOrder;
@@ -656,4 +657,5 @@ public class ServiceBinder extends FiscalStorage.Stub {
 		if(enabled &&UrovoUtils.isUSBFN())
 			rs.fncore.UrovoUtils.switchOTG(true);
 	}
+
 }

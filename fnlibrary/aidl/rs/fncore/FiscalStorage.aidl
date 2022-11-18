@@ -2,6 +2,7 @@ package rs.fncore;
 import rs.fncore.data.KKMInfo;
 import rs.fncore.data.KKMInfo.FiscalReasonE;
 import rs.fncore.data.KKMInfo.FNConnectionModeE;
+import rs.fncore.data.PrintFormTypeE;
 import rs.fncore.data.OU;
 import rs.fncore.data.Location;
 import rs.fncore.data.Shift;
@@ -94,4 +95,6 @@ interface FiscalStorage  {
     long getPaperConsume();
     void resetPaperCounter();
     void setUSBMonitorMode(boolean enabled);
+    
+    
 }

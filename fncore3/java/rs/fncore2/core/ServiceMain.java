@@ -23,7 +23,7 @@ import java.beans.PropertyChangeListener;
 
 import rs.fncore.Const;
 import rs.fncore2.FNCore;
-import rs.fncore2.R;
+import rs.fncore3.R;
 import rs.fncore2.core.utils.NotificationsHelper;
 import rs.fncore2.fn.FNManager;
 import rs.fncore2.utils.UrovoUtils;

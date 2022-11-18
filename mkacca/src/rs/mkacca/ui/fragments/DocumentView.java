@@ -1,10 +1,17 @@
 package rs.mkacca.ui.fragments;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.developer.filepicker.controller.DialogSelectionListener;
+import com.developer.filepicker.model.DialogProperties;
+import com.developer.filepicker.view.FilePickerDialog;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,16 +104,41 @@ public class DocumentView extends BaseFragment  implements TabContentFactory, Vi
 		super.onStart();
 		if(_document.getChilds().isEmpty())
 			new DocumentReader().execute();
+		setupButtons(this, R.id.iv_save);
 		setCustomButtom(R.drawable.ic_menu_do_fiscal, this);
 	}
 	@Override
-	public void onClick(View arg0) {
-		if(!_pf.isEmpty()) try {
-			Core.getInstance().getStorage().doPrint(_pf);
-			Toast.makeText(getContext(), "Документ отправлен на печать",Toast.LENGTH_SHORT).show();
-		} catch(RemoteException re) {
-			Toast.makeText(getContext(), "Ошибка печати", Toast.LENGTH_LONG).show();
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.iv_custom:
+			if(!_pf.isEmpty()) try {
+				Core.getInstance().getStorage().doPrint(_pf);
+				Toast.makeText(getContext(), "Документ отправлен на печать",Toast.LENGTH_SHORT).show();
+			} catch(RemoteException re) {
+				Toast.makeText(getContext(), "Ошибка печати", Toast.LENGTH_LONG).show();
+			}
+			break;
+		case R.id.iv_save: {
+			DialogProperties dp = new DialogProperties();
+			dp.save_mode = true;
+			dp.root = new File(Environment.getExternalStorageDirectory(),"MKACCA");
+			new FilePickerDialog(getContext(), dp ).show(new DialogSelectionListener() {
+				@Override
+				public void onSelectedFilePaths(FilePickerDialog dlg, String[] files) {
+					try(FileOutputStream fs = new FileOutputStream(files[0])) {
+						fs.write(_document.toJSON().toString(1).getBytes());
+						Toast.makeText(getContext(), "Документ успешно сохранен", Toast.LENGTH_SHORT).show();
+					} catch(Exception e) { 
+						U.notify(getContext(), "Ошибка сохранения документа\n"+e.getLocalizedMessage());
+					}
+				}
+				
+			});
 		}
+		break;
+			
+		}
+		
 		
 	}
 	@Override

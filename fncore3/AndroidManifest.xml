@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="302376"
+    android:versionCode="302379"
     android:versionName="3.02.34"
-    package="rs.fncore2">
+    package="rs.fncore3">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -37,7 +37,7 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="rs.fncore2.restart" />
+                <action android:name="rs.fncore3.restart" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
@@ -54,7 +54,7 @@
             android:stopWithTask="false">
 
             <intent-filter>
-                <action android:name="rs.fncore2.FiscalStorage" />
+                <action android:name="rs.fncore3.FiscalStorage" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
@@ -64,7 +64,7 @@
         </service>
         <provider
             android:name="rs.fncore2.DataProvider"
-            android:authorities="rs.fncore2.data"
+            android:authorities="rs.fncore3.data"
             android:exported="true" />
 
     </application>

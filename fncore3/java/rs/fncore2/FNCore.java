@@ -30,6 +30,8 @@ public class FNCore extends AppCore implements Utils.SerialReader, Utils.Counter
 	private DB mDb;
 	private String CHECKSUM = Const.EMPTY_STRING;
 
+	
+	
 	public static FNCore getInstance() {
 		return mInstance;
 	}
@@ -77,9 +79,7 @@ public class FNCore extends AppCore implements Utils.SerialReader, Utils.Counter
 		mInstance = this;
 		Utils.setSerialReader(this);
 		Utils.setCountersPrinter(this);
-		Log.d("fncore2", "!!!!!! FNSN");
 		mFNsn = new FNSNAccess(this);
-		Log.d("fncore2", "!!!!!! FNSN "+mFNsn.getFnSN());
 		mDb = new DB(this);
 		try {
 			File f = getFilesDir().getParentFile();
@@ -88,7 +88,6 @@ public class FNCore extends AppCore implements Utils.SerialReader, Utils.Counter
 			InputStream is = new FileInputStream(f);
 			CHECKSUM = crcCheck(is);
 			is.close();
-			Log.d("fncore2", "Контрольная сумма ядра "+ CHECKSUM);
 		} catch (IOException e) {
 			Logger.e(e,"Ошибка подсчета контрольной суммы");
 			CHECKSUM = "0102030405060708090A0B0C0D0E0F0102030405";

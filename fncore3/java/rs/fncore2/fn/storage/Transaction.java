@@ -28,7 +28,7 @@ public abstract class Transaction implements AutoCloseable {
     private static final int ANSWER_SIZE=1;
     public static final int CRC_LENGTH = 2;
 
-    private static final long READ_TIMEOUT_MS = 3000;
+    private static final long READ_TIMEOUT_MS = 5000;
 
     private ByteBuffer mBufferRead;
     private ByteBuffer mBufferWrite;

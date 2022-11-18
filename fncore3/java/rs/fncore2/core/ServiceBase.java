@@ -31,7 +31,7 @@ import rs.fncore.data.SellOrder;
 import rs.fncore.data.Shift;
 import rs.fncore.data.Tag;
 import rs.fncore2.FNCore;
-import rs.fncore2.R;
+import rs.fncore3.R;
 import rs.fncore2.core.utils.NotificationsHelper;
 import rs.fncore2.data.CashWithdraw;
 import rs.fncore2.fn.FNFactory;
@@ -81,8 +81,7 @@ class ServiceBase extends Service {
 
         SharedPreferences mSp = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
         mSettings = new Settings(mSp);
-        mPrinter = new Printing( this);
-        mBinder = new ServiceBinder(this);
+        mPrinter = new Printing( this)r = new WakeLockPower("ServiceBainder(this);
     }
 
     @Override

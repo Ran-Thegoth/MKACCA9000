@@ -14,6 +14,7 @@ import rs.mkacca.Core;
 import rs.mkacca.hw.payment.engines.CardEmulator;
 import rs.mkacca.hw.payment.engines.Lanter;
 import rs.mkacca.hw.payment.engines.SPBPayment;
+import rs.mkacca.hw.payment.engines.TTK;
 
 public abstract class EPayment {
 
@@ -39,6 +40,7 @@ public abstract class EPayment {
 		ENGINES.put(SPBPayment.ENGINE_NAME, new SPBPayment());
 		ENGINES.put(CardEmulator.ENGINE_NAME,new CardEmulator());
 		ENGINES.put(Lanter.ENGINE_NAME,new Lanter());
+		ENGINES.put(TTK.ENGINE_NAME,new TTK());
 	}
 	public static interface EPaymentListener {
 		public void onOperationSuccess(EPayment engine, OperationType type, String rrn, BigDecimal sum);

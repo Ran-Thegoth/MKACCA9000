@@ -14,7 +14,7 @@ public class DataProvider extends ContentProvider {
     private static final int LOGS=101;
     private static final int REPORTS=102;
 
-    private static final String CONTENT_AUTHORITY = "rs.fncore2.data";
+    private static final String CONTENT_AUTHORITY = "rs.fncore3.data";
     private static final String DOCUMENTS_TYPE = "vnd.android.cursor.dir/vnd." + CONTENT_AUTHORITY + ".documents";
     private static final String LOGS_TYPE = "vnd.android.cursor.dir/vnd." + CONTENT_AUTHORITY + ".logs";
     private static final String REPORTS_TYPE = "vnd.android.cursor.dir/vnd." + CONTENT_AUTHORITY + ".reports";
