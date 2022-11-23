@@ -81,7 +81,8 @@ class ServiceBase extends Service {
 
         SharedPreferences mSp = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
         mSettings = new Settings(mSp);
-        mPrinter = new Printing( this)r = new WakeLockPower("ServiceBainder(this);
+        mPrinter = new Printing( this);
+        mBinder = new ServiceBinder(this);
     }
 
     @Override

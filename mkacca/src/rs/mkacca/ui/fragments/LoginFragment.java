@@ -10,6 +10,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import cs.U;
 import cs.orm.ORMHelper;
+import cs.ui.BackHandler;
 import cs.ui.fragments.BaseFragment;
 import cs.ui.widgets.DialogSpinner;
 import cs.ui.widgets.PinPad;
@@ -17,14 +18,21 @@ import cs.ui.widgets.PinPad.OnPinChangedListener;
 import rs.data.User;
 import rs.mkacca.Core;
 import rs.mkacca.R;
+import rs.mkacca.ui.Main;
 
-public class LoginFragment extends BaseFragment implements OnItemSelectedListener, OnPinChangedListener {
+public class LoginFragment extends BaseFragment implements OnItemSelectedListener, OnPinChangedListener, BackHandler {
 
 	private static final String USER_INDEX = "usedIndex";
 	private DialogSpinner _users;
 	private User _u;
+	private boolean _lockMode;
 	private PinPad _pinpad;
 
+	public static LoginFragment lockMode() {
+		LoginFragment result = new LoginFragment();
+		result._lockMode = true;
+		return result;
+	}
 	public LoginFragment() {
 	}
 
@@ -46,10 +54,15 @@ public class LoginFragment extends BaseFragment implements OnItemSelectedListene
 		_users.setOnItemSelectedListener(this);
 		_users.setAdapter(new ArrayAdapter<User>(getContext(), android.R.layout.simple_list_item_1,
 				ORMHelper.loadAll(User.class, U.pair("ENABLED", 1))));
-		if (savedInstanceState != null)
+		if (savedInstanceState != null) 
 			_users.setSelection(savedInstanceState.getInt(USER_INDEX));
-		else
-			_users.setSelection(indexOf(Core.getInstance().getLastUserName()));
+		else {
+			if(_lockMode) {
+				_users.setSelection(indexOf(Core.getInstance().user().name()));
+				_users.setEnabled(false);
+			} else 
+				_users.setSelection(indexOf(Core.getInstance().getLastUserName()));
+		}
 		_u = (User) _users.getSelectedItem();
 		return v;
 	}
@@ -86,18 +99,25 @@ public class LoginFragment extends BaseFragment implements OnItemSelectedListene
 		if (_u.getPIN().equals(pin)) {
 			_pinpad.setPinOK();
 			enableViews(getView().findViewById(R.id.v_pinpad), false);
-			Core.getInstance().setUser(_u);
-			new Handler(getContext().getMainLooper()).postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					setFragment(Core.getInstance().getActiveFragment());
-				}
-			}, 800);
+			if(!_lockMode) {
+				Core.getInstance().setUser(_u);
+				new Handler(getContext().getMainLooper()).postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						((Main)getActivity()).enableWorkMode();
+					}
+				}, 800);
+			} else
+				((Main)getActivity()).unlockUser();
 		}
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
+	}
+	@Override
+	public boolean onBackPressed() {
+		return false;
 	}
 }

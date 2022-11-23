@@ -13,6 +13,7 @@ import org.lanter.lan4gate.IRequest;
 import org.lanter.lan4gate.IResponse;
 import org.lanter.lan4gate.IResponseCallback;
 import org.lanter.lan4gate.Lan4Gate;
+import org.lanter.lan4gate.Implementation.Messages.Requests.Operations.SaleOperations.QuickPayment;
 import org.lanter.lan4gate.Messages.OperationsList;
 import org.lanter.lan4gate.Messages.Fields.StatusList;
 
@@ -44,12 +45,12 @@ public class Lanter extends EPayment
 	public static final String ENGINE_NAME = "Лантер: Сбер";
 	private Lan4Gate _gate;
 	private Handler _h;
-	private EPaymentListener _listener;
+	protected EPaymentListener _listener;
 	private IResponse _lastResponse;
 	private Exception _lastException;
-	private OperationType _op;
+	protected OperationType _op;
 	private String _rrn;
-	private BigDecimal _sum;
+	protected BigDecimal _sum;
 	private ProgressDialog _dialog;
 
 	private static final int MSG_CONN_FAIL = 1;
@@ -142,7 +143,7 @@ public class Lanter extends EPayment
 					IRequest rq = _requests.poll();
 					_rState = TransactionState.PROCESSING;
 					_gate.sendRequest(rq);
-					if (!awaitTransactionSuccess())
+					if (!awaitTransactionSuccess(rq instanceof QuickPayment ? 300000L : 60000L ))
 						break;
 				}
 			} while (false);
@@ -153,7 +154,8 @@ public class Lanter extends EPayment
 				msg = _h.obtainMessage(MSG_OP_SUCCESS);
 			else {
 				msg = _h.obtainMessage(MSG_OP_FAIL);
-				if(_rState == TransactionState.CANCELED) {
+				msg.obj = _lastException;
+				if(_rState == TransactionState.CANCELED && _gate != null) {
 					Log.d("fncore2", "Interrupt operation...");
 					showMessage("Отмена операции...");
 					_rState = TransactionState.PROCESSING;
@@ -162,11 +164,13 @@ public class Lanter extends EPayment
 				}
 			}
 			_h.sendMessage(msg);
-			_gate.stop();
+			if(_gate != null)
+				_gate.stop();
+			Core.getInstance().sendBroadcast(new Intent("org.lanter.STOP_SERVICE"));
 		}
 	};
 
-	private void startOperation(final Context ctx, final String msg, IRequest... requests) {
+	protected void startOperation(final Context ctx, final String msg, IRequest... requests) {
 		_requests.clear();
 		for (IRequest rq : requests)
 			_requests.add(rq);
@@ -257,14 +261,14 @@ public class Lanter extends EPayment
 	}
 
 	@Override
-	public boolean handleMessage(Message msg) {
+	public boolean handleMessage(final Message msg) {
 		switch (msg.what) {
 		case MSG_CONN_FAIL:
-			_lastException = new Exception("Истекло время соединения с сервисом Lan-4TAP");
+			msg.obj = new Exception("Истекло время соединения с сервисом Lan-4TAP");
 			_h.post(new Runnable() {
 				@Override
 				public void run() {
-					_listener.onOperationFail(Lanter.this, _op, _lastException);
+					_listener.onOperationFail(Lanter.this, _op, (Exception)msg.obj);
 				}
 			});
 			break;
@@ -273,12 +277,12 @@ public class Lanter extends EPayment
 				_dialog.setMessage(msg.obj.toString());
 			return true;
 		case MSG_OP_FAIL:
-			if (_lastException == null)
-				_lastException = new Exception("Ошибка обработки транзакции");
+			if (msg.obj == null)
+				msg.obj = new Exception("Ошибка обработки транзакции");
 			_h.post(new Runnable() {
 				@Override
 				public void run() {
-					_listener.onOperationFail(Lanter.this, _op, _lastException);
+					_listener.onOperationFail(Lanter.this, _op, (Exception)msg.obj);
 				}
 			});
 			break;
@@ -321,7 +325,7 @@ public class Lanter extends EPayment
 	 * startOperation(ctx, "Оплата", new Runnable() {
 	 * 
 	 * @Override public void run() { IRequest rq =
-	 * _gate.getPreparedRequest(OperationsList.Sale); rq.setCurrencyCode(643);
+	 * Lan4Gate.getPreparedRequest(OperationsList.Sale); rq.setCurrencyCode(643);
 	 * rq.setEcrMerchantNumber(1);
 	 * rq.setAmount(_sum.multiply(BigDecimal.valueOf(100)).longValue());
 	 * processRequest(rq); _h.sendEmptyMessage(_rState.ordinal()); } });
@@ -337,7 +341,7 @@ public class Lanter extends EPayment
 	 * startOperation(ctx, "Возврат", new Runnable() {
 	 * 
 	 * @Override public void run() { IRequest rq =
-	 * _gate.getPreparedRequest(OperationsList.Refund); if(rrn != null &&
+	 * Lan4Gate.getPreparedRequest(OperationsList.Refund); if(rrn != null &&
 	 * !rrn.isEmpty()) rq.setRRN(rrn); rq.setCurrencyCode(643);
 	 * rq.setEcrMerchantNumber(1);
 	 * rq.setAmount(_sum.multiply(BigDecimal.valueOf(100)).longValue());
@@ -350,7 +354,7 @@ public class Lanter extends EPayment
 	 * Core.getInstance().sendBroadcast(new Intent("org.lanter.START_SERVICE")); _op
 	 * = OperationType.PAYMENT; _sum = BigDecimal.ZERO; _listener = listener;
 	 * startOperation(ctx, "Оплата", new Runnable() { public void run() { IRequest
-	 * rq = _gate.getPreparedRequest(OperationsList.Void); rq.setEcrNumber(1);
+	 * rq = Lan4Gate.getPreparedRequest(OperationsList.Void); rq.setEcrNumber(1);
 	 * rq.setReceiptReference(rrn); rq.setEcrMerchantNumber(1); processRequest(rq);
 	 * _h.sendEmptyMessage(_rState.ordinal()); }; });
 	 * 
@@ -365,7 +369,7 @@ public class Lanter extends EPayment
 	 * @Override public void onClick(DialogInterface arg0, int arg1) { if(_rState ==
 	 * TransactionState.PROCESSING) { _rState = TransactionState.FAIL;
 	 * _lastException = new CanceledByUserException();
-	 * _gate.sendRequest(_gate.getPreparedRequest(OperationsList.Interrupt)); } }
+	 * _gate.sendRequest(Lan4Gate.getPreparedRequest(OperationsList.Interrupt)); } }
 	 * }); _dialog.setCancelable(false); _dialog.setCanceledOnTouchOutside(false);
 	 * _h.post(new Runnable() { public void run() { _dialog.show(); }}); new
 	 * Thread(r).start(); }
@@ -503,7 +507,7 @@ public class Lanter extends EPayment
 		_listener = listener;
 		_sum = BigDecimal.ZERO;
 		_op = OperationType.SETTLEMENT;
-		startOperation(ctx, "Сверка итогов...", _gate.getPreparedRequest(OperationsList.Settlement));
+		startOperation(ctx, "Сверка итогов...", Lan4Gate.getPreparedRequest(OperationsList.Settlement));
 	}
 
 	@Override

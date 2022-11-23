@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import rs.mkacca.Core;
 import rs.mkacca.hw.payment.engines.CardEmulator;
 import rs.mkacca.hw.payment.engines.Lanter;
+import rs.mkacca.hw.payment.engines.SPBLanter;
 import rs.mkacca.hw.payment.engines.SPBPayment;
 import rs.mkacca.hw.payment.engines.TTK;
 
@@ -38,9 +39,10 @@ public abstract class EPayment {
 	public static Map<String, EPayment> knownEngines() { return ENGINES; }
 	static {
 		ENGINES.put(SPBPayment.ENGINE_NAME, new SPBPayment());
-		ENGINES.put(CardEmulator.ENGINE_NAME,new CardEmulator());
+//		ENGINES.put(CardEmulator.ENGINE_NAME,new CardEmulator());
 		ENGINES.put(Lanter.ENGINE_NAME,new Lanter());
-		ENGINES.put(TTK.ENGINE_NAME,new TTK());
+		ENGINES.put(SPBLanter.ENGINE_NAME,new SPBLanter());
+//		ENGINES.put(TTK.ENGINE_NAME,new TTK());
 	}
 	public static interface EPaymentListener {
 		public void onOperationSuccess(EPayment engine, OperationType type, String rrn, BigDecimal sum);

@@ -22,10 +22,11 @@ import rs.fncore.data.KKMInfo;
 import rs.mkacca.AsyncFNTask;
 import rs.mkacca.Core;
 import rs.mkacca.R;
+import rs.mkacca.ui.fragments.LoginFragment;
 
 public class Main extends MainActivity {
+	private  boolean _userLocked;
 	private static View _lock;
-	
 	private BroadcastReceiver SCREEN_UNLOCK_SENCE = new BroadcastReceiver() {
 		KKMInfo i = new KKMInfo();
 		@Override
@@ -54,6 +55,16 @@ public class Main extends MainActivity {
 		}
 	};
 	
+	private BroadcastReceiver LOCKER = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context ctx, Intent e) {
+			if(!_userLocked) {
+				showFragment(LoginFragment.lockMode());
+				_userLocked = true;
+			}
+		}
+	};
+
 	private BroadcastReceiver FNREADY = new BroadcastReceiver() {
 		
 		@Override
@@ -94,6 +105,11 @@ public class Main extends MainActivity {
 		fl.addView(_lock,lp);
 		
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
 	@Override
 	protected void onNewInstance() {
 		setFragment(Core.getInstance().getActiveFragment());
@@ -116,6 +132,9 @@ public class Main extends MainActivity {
 	@Override
 	protected void onDestroy() {
 		unregisterReceiver(SCREEN_UNLOCK_SENCE);
+		try {
+			unregisterReceiver(LOCKER);
+		} catch(Exception | Error e) { }
 		super.onDestroy();
 	}
 	@SuppressWarnings("deprecation")
@@ -151,5 +170,19 @@ public class Main extends MainActivity {
 			Toast.makeText(ctx, "Ошибка при отправке документов", Toast.LENGTH_SHORT).show();
 		}
 		
+	}
+	public void enableWorkMode() {
+		setFragment(Core.getInstance().getActiveFragment());
+		registerReceiver(LOCKER , new IntentFilter(Intent.ACTION_USER_PRESENT));
+	}
+
+	public void unlockUser() {
+		getSupportFragmentManager().popBackStack();
+		_userLocked = false;
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		return super.onTouchEvent(event);
 	}
 }
