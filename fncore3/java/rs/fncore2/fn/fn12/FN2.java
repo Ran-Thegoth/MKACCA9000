@@ -369,15 +369,12 @@ public class FN2 extends FN2Commands {
 			if(mKKMInfo.getLastFNDocNumber() == 0) return Errors.NEW_FN;
 			Transaction.mPrintLogs = false;
 			if (docNumber == 0) {
-				Log.i("fncore2", "Try to found KKM info in " + mKKMInfo.getLastFNDocNumber() + " documents");
 				for (long i = mKKMInfo.getLastFNDocNumber(); i > 0; i--) {
 					if (transaction.write(FNCommandsE.GET_FISCAL_DOC_IN_TLV_INFO, (int) i)
 							.getLastError() == Errors.NO_ERROR && transaction.read(bb) == Errors.NO_ERROR) {
 
 						int type = bb.getShort();
-						Log.i("DOCS", "# " + i + " : " + type);
 						if (type == 1 || type == 11) {
-							Log.i("fncore2", "KKM INFO found at " + i);
 							if (readDocumentFromTLV(i, doc, transaction) == Errors.NO_ERROR) {
 
 								Document mInfo = doc.createInstance();
@@ -391,11 +388,9 @@ public class FN2 extends FN2Commands {
 						}
 					}
 				}
-				Log.i("fncore2", "All documents parsed no KKM info found, try restore");
 			}
 			transaction.write(FNCommandsE.GET_FISCALIZATION_RESULT);
 			if (transaction.read(bb) == Errors.NO_ERROR) {
-				Log.i("fncore2", "KKMInfo found");
 				long fDate = Utils.readDate5(bb);
 				byte[] buf = new byte[12];
 				bb.get(buf);
@@ -456,18 +451,13 @@ public class FN2 extends FN2Commands {
 	            applyTag(mKKMInfo,transaction, FZ54Tag.T1013_KKT_SERIAL_NO, bb, String.class);
 	            applyTag(mKKMInfo,transaction, FZ54Tag.T1209_FFD_VERSION, bb, byte.class);
 	            applyTag(mKKMInfo,transaction, FZ54Tag.T1189_KKT_FFD_VERSION, bb, byte.class);
-	            if(mKKMInfo.hasTag(FZ54Tag.T1209_FFD_VERSION))
-	            	Log.i("fncore2","1209 "+mKKMInfo.getTag(FZ54Tag.T1209_FFD_VERSION).asByte());
-	            if(mKKMInfo.hasTag(FZ54Tag.T1189_KKT_FFD_VERSION))
-	            	Log.i("fncore2","1189 "+mKKMInfo.getTag(FZ54Tag.T1189_KKT_FFD_VERSION).asByte());
 	            
 	            applyTag(mKKMInfo,transaction, FZ54Tag.T1117_SENDER_EMAIL, bb, String.class);
 	            applyTag(mKKMInfo,transaction, FZ54Tag.T1036_AUTOMAT_NO, bb, String.class);
-				Log.i("fncore2", "KKMInfo number " + number);
 				return Errors.NO_ERROR;
 
 			}
-			Log.i("fncore2", "Wrong FN???");
+			Logger.e("Wrong FN???");
 			return Errors.NEW_FN;
 		} finally {
 			Transaction.mPrintLogs = true;

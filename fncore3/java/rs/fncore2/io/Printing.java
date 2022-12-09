@@ -99,7 +99,6 @@ public class Printing extends BaseThread {
                         mPrinter.setupPage(PAPER_WIDTH, -1);
 
                         try {
-                        	Log.d("fncore2", "Font size is "+mSettings.getDefaultFontSize());
                             Formatter fmt = new Formatter(this);
                             fmt.init(PAPER_WIDTH - mSettings.getMargins()[0] - mSettings.getMargins()[1],
                                     -1, mSettings.getDefaultFontName(),

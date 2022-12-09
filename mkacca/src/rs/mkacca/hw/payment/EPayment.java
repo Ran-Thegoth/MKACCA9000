@@ -10,12 +10,11 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.LinearLayout;
+import rs.data.PayInfo;
 import rs.mkacca.Core;
 import rs.mkacca.hw.payment.engines.CardEmulator;
 import rs.mkacca.hw.payment.engines.Lanter;
-import rs.mkacca.hw.payment.engines.SPBLanter;
 import rs.mkacca.hw.payment.engines.SPBPayment;
-import rs.mkacca.hw.payment.engines.TTK;
 
 public abstract class EPayment {
 
@@ -40,12 +39,11 @@ public abstract class EPayment {
 	static {
 		ENGINES.put(SPBPayment.ENGINE_NAME, new SPBPayment());
 //		ENGINES.put(CardEmulator.ENGINE_NAME,new CardEmulator());
-		ENGINES.put(Lanter.ENGINE_NAME,new Lanter());
-		ENGINES.put(SPBLanter.ENGINE_NAME,new SPBLanter());
+		ENGINES.put(Lanter.ENGINE_NAME,Lanter.SHARER_INSTANCE);
 //		ENGINES.put(TTK.ENGINE_NAME,new TTK());
 	}
 	public static interface EPaymentListener {
-		public void onOperationSuccess(EPayment engine, OperationType type, String rrn, BigDecimal sum);
+		public void onOperationSuccess(EPayment engine, OperationType type, PayInfo info, BigDecimal sum);
 		public void onOperationFail(EPayment engine, OperationType type, Exception e);
 	}
 
@@ -63,8 +61,8 @@ public abstract class EPayment {
 	}
 	
 	public abstract void doPayment(Context ctx, BigDecimal sum, EPaymentListener listener);
-	public abstract void doRefund(Context ctx,BigDecimal sum, String rrn, EPaymentListener listener);
-	public abstract void doCancel(Context ctx,String rrn, EPaymentListener listener);
+	public abstract void doRefund(Context ctx,BigDecimal sum, PayInfo info, EPaymentListener listener);
+	public abstract void doCancel(Context ctx,PayInfo info, EPaymentListener listener);
 	public abstract void setup(LinearLayout holder);
 	public abstract void requestSettlement(Context ctx,EPaymentListener listener);
 	public abstract boolean applySetup(LinearLayout holder);

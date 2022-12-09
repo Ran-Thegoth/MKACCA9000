@@ -80,7 +80,7 @@ class ShiftEx extends ShiftExBase {
             if (transaction.read(bb) == Errors.NO_ERROR) mOFDStat.update(bb);
             mWhenOpen = now.getTimeInMillis();
             Settings.getInstance().setWhenShiftOpen(mKKMInfo.getFNNumber(), mWhenOpen);
-            FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),2);
+            FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),2,null);
             
             return Errors.NO_ERROR;
 
@@ -143,7 +143,7 @@ class ShiftEx extends ShiftExBase {
             if (transaction.read(bb) != Errors.NO_ERROR) return transaction.getLastError();
             read(bb);
 
-            FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),5);
+            FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),5,null);
             return Errors.NO_ERROR;
 
         } finally {

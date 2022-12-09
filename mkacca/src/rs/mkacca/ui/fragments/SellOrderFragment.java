@@ -26,6 +26,7 @@ import rs.data.goods.ISellable;
 import rs.data.goods.Variant;
 import rs.data.BarcodeValue;
 import rs.data.CheckStorage;
+import rs.data.PayInfo;
 import rs.data.WeigthService;
 import rs.data.goods.Good;
 import rs.data.goods.Good.MarkTypeE;
@@ -63,7 +64,7 @@ public class SellOrderFragment extends BaseFragment
 	private TextView sum, done;
 //	private List<SellItem> _items;
 	private Handler _h;
-
+	protected PayInfo _pInfo;
 	public static SellOrderFragment newInstance(SellOrder order) {
 		SellOrderFragment result = new SellOrderFragment();
 		result._order = order;
@@ -244,7 +245,7 @@ public class SellOrderFragment extends BaseFragment
 			break;
 		case R.id.do_pay:
 			if (commit())
-				showFragment(PaymentFragment.newInstance(_order));
+				showFragment(PaymentFragment.newInstance(_order,_pInfo));
 			break;
 		}
 	}

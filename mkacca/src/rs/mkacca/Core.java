@@ -91,6 +91,7 @@ public class Core extends AppCore {
 		nf.updateProgress(10, "Открытие базы данных");
 		db();
 		Logger.init(this);
+		Logger.enableExceptionHandler(this);
 		Logger.i("=================== МКАССА ======================");
 		_lastFn.load();
 		_settings = ORMHelper.load(AppSettings.class);

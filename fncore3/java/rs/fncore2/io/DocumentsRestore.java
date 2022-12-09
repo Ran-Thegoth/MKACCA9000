@@ -129,7 +129,6 @@ public class DocumentsRestore extends BaseThread implements PropertyChangeListen
         		for(long i=totalDocsInFN;i>0;i--) {
         			if(transaction.write(FNCommandsE.GET_FISCAL_DOC_IN_TLV_INFO, (int)i).getLastError() == Errors.NO_ERROR) try {
         				if(transaction.read(bb) != Errors.NO_ERROR) {
-        					Log.e("fncore2",String.format("Error reading document %d: %x",i,transaction.getLastError()));
         					continue;
         				}
         				long date = 0;
@@ -149,9 +148,9 @@ public class DocumentsRestore extends BaseThread implements PropertyChangeListen
         					Settings.getInstance().setWhenShiftOpen(fnsn, date);
         					mFNManager.getFN().getKKMInfo().getShift().setWhenOpen(date);
         				}
-        				FNCore.getInstance().getDB().storeDocument(fnsn, i, date, type);
+        				FNCore.getInstance().getDB().storeDocument(fnsn, i, date, type,null);
         			} catch(Exception e) {
-        				Log.e("fncore2","Error restoring document "+i,e);
+        				Logger.e("Error while loading document no "+i,e);
         				break;
         			}
         		}

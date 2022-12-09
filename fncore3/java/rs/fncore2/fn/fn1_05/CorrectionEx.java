@@ -74,7 +74,7 @@ class CorrectionEx extends CorrectionExBase {
             mBillNumber = readUint16LE(bb);
             sign(bb, new SignerEx(mKKMInfo, getLocation()), operator, now.getTimeInMillis());
             FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),
-            		31);
+            		31,null);
             return Errors.NO_ERROR;
         } finally {
             BufferFactory.release(bb);

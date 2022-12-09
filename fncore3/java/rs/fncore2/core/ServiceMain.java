@@ -42,7 +42,6 @@ public class ServiceMain extends ServiceBase implements PropertyChangeListener {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        Logger.init(this);
 		NotificationsHelper.createServiceChannel(this);
 		NotificationsHelper.initNotifications(this);
 		updateNotification();
@@ -91,7 +90,7 @@ public class ServiceMain extends ServiceBase implements PropertyChangeListener {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.i("fncore2","Recived signal "+intent.getAction());
+			Logger.d("Recived signal "+intent.getAction());
 			switch (mSettings.getConnectionMode()) {
 			case CLOUD:
 			case VIRTUAL:
@@ -184,8 +183,13 @@ public class ServiceMain extends ServiceBase implements PropertyChangeListener {
 				break;
 			} */
 			case Intent.ACTION_SCREEN_ON: {
+				Log.i("fncore3","Screen ON");
 				if(!USB_MONITOR) return;
-				Logger.i("screen on detected");
+				if(mFNManager.getFN() != null) {
+					Log.i("fncore3","Send ready");
+					sendBroadcast(new Intent("fncore.ready"));
+					break;
+				}
 				if(UrovoUtils.isUSBFN())
 					rs.fncore.UrovoUtils.switchOTG(true);
 				break;

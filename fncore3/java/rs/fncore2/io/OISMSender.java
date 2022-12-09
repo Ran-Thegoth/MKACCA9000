@@ -121,7 +121,6 @@ public class OISMSender extends BaseThread implements PropertyChangeListener {
 				synchronized (mSendNowSync) {
 					if (mOismSettings.getServerAddress().isEmpty() || mSendNow) {
 						mSendNowSync.wait(1000);
-						Log.d("fncore2", "Await 0");
 						continue;
 					}
 				}

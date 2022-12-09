@@ -42,7 +42,8 @@ public class JSONParser {
                     result = parseResponse(objectField);
                 } else if (mType == ClassFieldValuesList.Notification) {
                     result = parseNotification(objectField);
-                }
+                } else if(mType == ClassFieldValuesList.Control)
+                	result = true;
             } 
         }
         Log.d("LanterPOS", "Parser is "+result);

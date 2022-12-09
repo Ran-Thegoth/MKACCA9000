@@ -178,7 +178,6 @@ public class MarkingCodeParam {
     } */
 
     private CodeTypesParamE getCodeType(String code) {
-    	Log.d("fncore2", "Code length is "+code.length());
         if (checkEAN8(code)) {
             return CodeTypesParamE.EAN_8;
         } else if (checkEAN13(code)) {

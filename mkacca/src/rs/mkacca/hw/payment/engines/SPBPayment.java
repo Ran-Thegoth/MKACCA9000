@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import rs.data.PayInfo;
 import rs.fncore.Const;
 import rs.mkacca.R;
 import rs.mkacca.hw.payment.EPayment;
@@ -197,8 +198,8 @@ public class SPBPayment extends EPayment {
 		@Override
 		public boolean handleMessage(Message msg) {
 			_dialog.dismiss();
-			if (msg.what == MSG_SUCCESS)
-				_listener.onOperationSuccess(SPBPayment.this, _opType, _id, _sum);
+			if (msg.what == MSG_SUCCESS) 
+				_listener.onOperationSuccess(SPBPayment.this, _opType, new PayInfo(String.valueOf(_id), String.valueOf(_id)), _sum);
 			return super.handleMessage(msg);
 		}
 
@@ -318,11 +319,11 @@ public class SPBPayment extends EPayment {
 	}
 
 	@Override
-	public void doRefund(Context ctx, BigDecimal sum, String rrn, EPaymentListener listener) {
+	public void doRefund(Context ctx, BigDecimal sum, PayInfo payment, EPaymentListener listener) {
 	}
 
 	@Override
-	public void doCancel(Context ctx, String rrn, EPaymentListener listener) {
+	public void doCancel(Context ctx, PayInfo payment, EPaymentListener listener) {
 	}
 
 	@Override
@@ -374,7 +375,7 @@ public class SPBPayment extends EPayment {
 
 	@Override
 	public void requestSettlement(Context ctx, EPaymentListener listener) {
-		listener.onOperationSuccess(this,OperationType.SETTLEMENT, Const.EMPTY_STRING, BigDecimal.ZERO);
+		listener.onOperationSuccess(this,OperationType.SETTLEMENT, null, BigDecimal.ZERO);
 		
 	}
 	@Override

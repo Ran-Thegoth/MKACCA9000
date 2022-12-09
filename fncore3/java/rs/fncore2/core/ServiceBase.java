@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.webkit.WebSettings;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import rs.fncore.Const;
 import rs.fncore.Errors;
 import rs.fncore.data.ArchiveReport;
 import rs.fncore.data.Correction;
@@ -576,6 +574,10 @@ class ServiceBase extends Service {
 	public void resetPaperCounter() {
 		mPrinter.resetPrinterCounter();
 		
+	}
+
+	public boolean isFNOK() {
+		return mFNManager.getFN() != null;
 	}
 
 }

@@ -20,7 +20,6 @@ import java.util.Map;
 import rs.fncore.Const;
 import rs.fncore.FZ54Tag;
 import rs.fncore.data.Payment.PaymentTypeE;
-import rs.fncore.data.SellItem.ItemPaymentTypeE;
 import rs.utils.Utils;
 
 /**
@@ -35,6 +34,7 @@ public class SellOrder extends Document implements IAgentOwner {
 
     private static final SimpleDateFormat QR_DF = new SimpleDateFormat("yyyyMMdd'T'HHmm");
     
+    private byte [] _payload = new byte[0];
     /**
      * Тип чека
      *
@@ -628,7 +628,7 @@ public class SellOrder extends Document implements IAgentOwner {
                     }
                     try {
                         Payment p = getPaymentByType(PaymentTypeE.valueOf(key.toUpperCase()));
-                        if (p == null) return "";
+                        if (p == null) return "0.0";
 
                         BigDecimal v = p.getValue();
                         if (p.getType() == PaymentTypeE.CASH) {
@@ -644,4 +644,8 @@ public class SellOrder extends Document implements IAgentOwner {
             }
         }
     }
+/*    public byte [] getPayload() { return _payload; }
+    public void setPayload(byte [] val) {
+    	_payload = val == null ? new byte[0] : val;
+    } */
 }

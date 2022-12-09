@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.RemoteException;
 import android.widget.Toast;
 import cs.U;
+import rs.data.PayInfo;
 import rs.fncore.Const;
 import rs.fncore.FiscalStorage;
 import rs.fncore.data.FiscalReport;
@@ -73,7 +74,7 @@ public class ShiftUtils extends AsyncFNTask {
 					p.requestSettlement(_ctx, new EPayment.EPaymentListener() {
 						
 						@Override
-						public void onOperationSuccess(EPayment engine, OperationType type, String rrn, BigDecimal sum) {
+						public void onOperationSuccess(EPayment engine, OperationType type, PayInfo pInfo, BigDecimal sum) {
 							_lStatus = 1;
 							
 						}

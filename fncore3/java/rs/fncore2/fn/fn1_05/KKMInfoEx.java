@@ -104,7 +104,7 @@ class KKMInfoEx extends KKMInfoExBase {
 
             readBase(transaction, bb);
             FNCore.getInstance().getDB().storeDocument(getFNNumber(),signature().getFdNumber(),signature().signDate(),
-            		reason == FiscalReasonE.REGISTER ? 1 : 11);
+            		reason == FiscalReasonE.REGISTER ? 1 : 11,null);
             return Errors.NO_ERROR;
         } finally {
             BufferFactory.release(bb);

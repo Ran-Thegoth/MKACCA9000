@@ -240,6 +240,10 @@ public class Lan4Gate implements ICommunicationListener {
 					for (INotificationCallback callback : mNotificationListeners) {
 						callback.newNotificationMessage(notification, this);
 					}
+				} else if (parser.getType() == ClassFieldValuesList.Control) {
+					for (IResponseCallback callback : mResponseListeners) {
+						callback.newControlMessage(this);
+					}
 				}
 			}
 		} catch (JSONException jse) {

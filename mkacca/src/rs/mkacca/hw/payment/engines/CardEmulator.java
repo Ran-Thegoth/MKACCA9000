@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import rs.data.PayInfo;
 import rs.fncore.Const;
 import rs.mkacca.hw.payment.EPayment;
 import rs.mkacca.hw.payment.EPayment.EPaymentListener;
@@ -19,6 +20,7 @@ public class CardEmulator extends EPayment {
 
 	public static final String ENGINE_NAME = "Эмуляция";
 	private AtomicInteger _rrn = new AtomicInteger(100);
+	private AtomicInteger _number = new AtomicInteger(1);
 	public CardEmulator() {
 		if(!_settings.has("Enabled")) try {
 			_settings.put("Enabled", false);
@@ -30,7 +32,7 @@ public class CardEmulator extends EPayment {
 		return true;
 	}
 	@Override
-	public void doPayment(Context ctx, final BigDecimal sum, final EPaymentListener listener) {
+	public void doPayment(final Context ctx, final BigDecimal sum, final EPaymentListener listener) {
 		AlertDialog.Builder b = new AlertDialog.Builder(ctx);
 		b.setTitle("К оплате");
 		TextView tv = new TextView(ctx);
@@ -41,7 +43,7 @@ public class CardEmulator extends EPayment {
 		b.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
-				listener.onOperationSuccess(CardEmulator.this, OperationType.PAYMENT, String.format("%05d", _rrn.getAndIncrement()), sum);
+				doPayment(ctx, sum, listener);
 			}
 		});
 		b.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -58,14 +60,16 @@ public class CardEmulator extends EPayment {
 	}
 
 	@Override
-	public void doRefund(Context ctx, BigDecimal sum, String rrn, EPaymentListener listener) {
-		listener.onOperationSuccess(this, OperationType.REFUND, String.format("%05d", _rrn.getAndIncrement()), sum);
+	public void doRefund(Context ctx, BigDecimal sum, PayInfo info, EPaymentListener listener) {
+		PayInfo i = new PayInfo(String.valueOf(_number.getAndIncrement()), String.format("%05d", _rrn.getAndIncrement()));
+		listener.onOperationSuccess(this, OperationType.REFUND, i, sum);
 
 	}
 
 	@Override
-	public void doCancel(Context ctx, String rrn, EPaymentListener listener) {
-		listener.onOperationSuccess(this, OperationType.CANCEL, String.format("%05d", _rrn.getAndIncrement()), BigDecimal.ZERO);
+	public void doCancel(Context ctx, PayInfo info, EPaymentListener listener) {
+		PayInfo i = new PayInfo(String.valueOf(_number.getAndIncrement()), String.format("%05d", _rrn.getAndIncrement()));
+		listener.onOperationSuccess(this, OperationType.REFUND, i, BigDecimal.ZERO);
 	}
 
 	@Override
@@ -94,7 +98,7 @@ public class CardEmulator extends EPayment {
 
 	@Override
 	public void requestSettlement(Context ctx,EPaymentListener listener) {
-		listener.onOperationSuccess(this,OperationType.SETTLEMENT, Const.EMPTY_STRING, BigDecimal.ZERO);
+		listener.onOperationSuccess(this,OperationType.SETTLEMENT, null, BigDecimal.ZERO);
 	}
 	
 	@Override

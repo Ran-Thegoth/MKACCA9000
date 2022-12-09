@@ -69,7 +69,7 @@ class FiscalReportEx2 extends FiscalReportExBase {
             Utils.readDate3(bb);
 
             FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),
-            		21);
+            		21,null);
 
             FnMarkingStatus info = new FnMarkingStatus(mKKMInfo);
             int res = info.read(transaction, bb);

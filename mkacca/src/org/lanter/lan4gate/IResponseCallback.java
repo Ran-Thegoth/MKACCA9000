@@ -12,4 +12,5 @@ public interface IResponseCallback {
      * @param initiator Reference to {@link Lan4Gate} example, that has called this callback
      */
     void newResponseMessage(IResponse response, Lan4Gate initiator);
+    void newControlMessage(Lan4Gate initiator);
 }

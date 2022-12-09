@@ -87,7 +87,7 @@ class ShiftEx2 extends ShiftExBase {
             transaction.write(FNCommandsE.GET_OFD_STATUS);
             if (transaction.read(bb) == Errors.NO_ERROR) mOFDStat.update(bb);
 
-            FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),2);
+            FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),2,null);
             mWhenOpen = now.getTimeInMillis();
             Settings.getInstance().setWhenShiftOpen(mKKMInfo.getFNNumber(), mWhenOpen);
             return Errors.NO_ERROR;
@@ -167,7 +167,7 @@ class ShiftEx2 extends ShiftExBase {
             mNumUnsentMarkNotify = info.mNumMarkingNotifyUnsent;
             if (read(transaction, bb)!= Errors.NO_ERROR) return transaction.getLastError();
 
-            FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),5);
+            FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),5,null);
             return Errors.NO_ERROR;
 
         } finally {

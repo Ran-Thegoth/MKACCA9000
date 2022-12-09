@@ -11,6 +11,8 @@ public enum ClassFieldValuesList {
 
     Notification ( "LANTER::Notification"),
 	
+    Control( "LANTER::Control"),
+    
 	Interaction ("LANTER::Interaction");
 
     private final String mValue;

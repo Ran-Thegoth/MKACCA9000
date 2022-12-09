@@ -12,7 +12,9 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 import rs.fncore.Const;
 
 public class Logger {
@@ -34,7 +36,7 @@ public class Logger {
 		_mark = null;
 	}
 	@SuppressWarnings("deprecation")
-	public static void init(Context ctx) {
+	public static void init(final Context ctx) {
 		try {
 			PackageInfo info = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
 			BUILD_VERSION = info.versionName;
@@ -47,8 +49,9 @@ public class Logger {
 				_source = s.charAt(i)+_source;
 			}
 			
+			
 			_logFile = new File(logFolder, "MKACCA.log");
-			if("fncore2".equals(_source) && LOG_IO) {
+			if(_source.contains("fncore") && LOG_IO) {
 				_fnIOFile = new File(logFolder, "FNIO.log");
 				if(_logFile.exists()) try {
 					FileInputStream fis = new FileInputStream(_logFile);
@@ -69,6 +72,30 @@ public class Logger {
 		
 	}
 
+	public static void enableExceptionHandler(final Context ctx) {
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread owner, Throwable err) {
+				final File e = new File(_logFile.getParentFile(),"crash-"+(System.currentTimeMillis()/1000)+".log");
+				try {
+					Log.e(_source, "App crash",err);
+					PrintStream ps = new PrintStream(new FileOutputStream(e));
+					ps.write((DF.format(System.currentTimeMillis()) + "\t" + _source+"\tCRASH:\n").getBytes());
+					err.printStackTrace(ps);
+					ps.close();
+				} catch(IOException ioe) { }
+				new Thread() {
+					public void run() {
+						Looper.prepare();
+						Toast.makeText(ctx, "Приложение было аварийно завершено. Лог сохранен "+e.getName(),Toast.LENGTH_LONG).show();
+						Looper.loop();
+					};
+				}.start();
+				try { Thread.sleep(400); } catch(InterruptedException ie) { }
+				android.os.Process.killProcess(android.os.Process.myPid());
+			}
+		});
+	}
 	public static void e(Throwable e) {
 		e(e, null);
 	}

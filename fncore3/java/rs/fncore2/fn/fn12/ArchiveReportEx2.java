@@ -62,7 +62,7 @@ class ArchiveReportEx2 extends ArchiveReportExBase {
             sign(bb, new SignerEx(mKKMInfo, getLocation()), operator, now.getTimeInMillis());
 
             FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),
-            		6);
+            		6,null);
             return mKKMInfo.read(transaction);
         } finally {
             BufferFactory.release(bb);

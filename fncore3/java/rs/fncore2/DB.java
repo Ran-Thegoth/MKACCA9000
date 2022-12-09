@@ -57,13 +57,14 @@ class DatabaseManager {
 
 public class DB extends SQLiteOpenHelper {
 
-	private static final int CURR_VERSION = 302;
+	private static final int CURR_VERSION = 305;
 	private static final String DOCUMENTS_TABLE = "DOCUMENTS";
 	private static final String DOC_NO_FIELD = "DOCNO";
 	private static final String DOC_DATE_FIELD = "DOCDATE";
 	public static final String DOC_TYPE_FIELD = "DOCTYPE";
 	private static final String DOC_OFD_DATA_FIELD = "OFD";
 	private static final String DOC_OISM_DATA_FIELD = "OISM";
+	private static final String DOC_PAYLOAD_FIELD = "PAYLOAD"; 
 	private static final String LOG_TABLE = "LOGS";
 	private static final String LOG_WHEN = "ETIME";
 	private static final String LOG_MSG = "MSG";
@@ -85,7 +86,7 @@ public class DB extends SQLiteOpenHelper {
 
 		db.execSQL("CREATE TABLE " + DOCUMENTS_TABLE + "( FNSN TEXT, " + DOC_NO_FIELD + " INTEGER NOT NULL PRIMARY KEY,"
 				+ DOC_DATE_FIELD + " INTEGER NOT NULL," + DOC_TYPE_FIELD + " INTEGER NOT NULL," + DOC_OFD_DATA_FIELD
-				+ " INTEGER ," + DOC_OISM_DATA_FIELD + " INTEGER);");
+				+ " INTEGER ," + DOC_OISM_DATA_FIELD + " INTEGER,"+DOC_PAYLOAD_FIELD+" BLOB);");
 
 		db.execSQL("CREATE TABLE " + LOG_TABLE + " ( " + LOG_WHEN + " INTEGER NOT NULL," + LOG_MSG + " TEXT NOT NULL,"
 				+ LOG_DATA + " TEXT);");
@@ -99,13 +100,18 @@ public class DB extends SQLiteOpenHelper {
 		if (oldVersion < 201) {
 			db.execSQL("CREATE TABLE " + LOG_TABLE + " ( " + LOG_WHEN + " INTEGER NOT NULL," + LOG_MSG
 					+ " TEXT NOT NULL," + LOG_DATA + " TEXT);");
-		} else if (oldVersion == 201) {
+		} 
+		if (oldVersion < 300) {
 			db.execSQL("ALTER TABLE " + DOCUMENTS_TABLE + " ADD " + DOC_OISM_DATA_FIELD + " BLOB;");
 			Logger.w("table updated ...");
-		} else if (oldVersion == 301) {
+		} 
+		if (oldVersion < 301) {
 			db.execSQL("CREATE TABLE " + REPORTS_TABLE + " ( " + REPORT_WHEN + " INTEGER NOT NULL,"
 					+ REPORT_START_DOC_NO + " INTEGER NOT NULL," + REPORT_END_DOC_NO + " INTEGER NOT NULL,"
 					+ REPORT_DATA + " BLOB NOT NULL);");
+		} 
+		if (oldVersion < CURR_VERSION) {
+			db.execSQL("ALTER TABLE " + DOCUMENTS_TABLE + " ADD " +DOC_PAYLOAD_FIELD+" BLOB;");
 		}
 	}
 
@@ -178,12 +184,13 @@ public class DB extends SQLiteOpenHelper {
 		DatabaseManager.getInstance().closeDatabase();
 	}
 
-	public void storeDocument(String fnsn, long id, long date, int type) {
+	public void storeDocument(String fnsn, long id, long date, int type, byte [] payload) {
 		ContentValues cv = new ContentValues();
 		cv.put("FNSN", fnsn);
 		cv.put(DOC_NO_FIELD, id);
 		cv.put(DOC_DATE_FIELD, date);
 		cv.put(DOC_TYPE_FIELD, type);
+		cv.put(DOC_PAYLOAD_FIELD,payload);
 
 		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
 		System.err.println("db insert doc: " + db.replace(DOCUMENTS_TABLE, null, cv));
@@ -245,5 +252,18 @@ public class DB extends SQLiteOpenHelper {
 
 	public Cursor queryReports(String[] columns, String selection, String[] args, String order) {
 		return getReadableDatabase().query(REPORTS_TABLE, columns, selection, args, null, null, order);
+	}
+
+	public void setPayload(int number, byte[] payload) {
+		ContentValues cv = new ContentValues();
+		cv.put(DOC_PAYLOAD_FIELD, payload);
+		getWritableDatabase().update(DOCUMENTS_TABLE, cv, DOC_NO_FIELD+"=?", new String [] { String.valueOf(number)});
+		
+	}
+
+	public byte[] getPayload(int number) {
+		Cursor c = getReadableDatabase().query(DOCUMENTS_TABLE, new String [] { DOC_PAYLOAD_FIELD}, DOC_NO_FIELD+"=?", new String [] { String.valueOf(number) },null,null,null);
+		if(c.moveToFirst()) return c.getBlob(0);
+		return new byte [] {};
 	}
 }

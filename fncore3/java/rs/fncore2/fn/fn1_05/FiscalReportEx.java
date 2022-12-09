@@ -66,7 +66,7 @@ class FiscalReportEx extends FiscalReportExBase {
             if (transaction.read(bb) == Errors.NO_ERROR) {
                 sign(bb, new SignerEx(mKKMInfo, getLocation()), operator, now.getTimeInMillis());
                 FNCore.getInstance().getDB().storeDocument(mKKMInfo.getFNNumber(),signature().getFdNumber(),signature().signDate(),
-                		21);
+                		21,null);
             }
             return transaction.getLastError();
 

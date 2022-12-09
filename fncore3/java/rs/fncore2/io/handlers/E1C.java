@@ -512,7 +512,15 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 					
 				}
 				else if("VendorData".equals(parser.getName())) {
-					
+					if(agentOwner == null) return false;
+					if(agentOwner.getAgentData().getType() != AgentTypeE.NONE) {
+						String s = parser.getAttributeValue(null, "VendorPhone");
+						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setProviderPhone(s);
+						s = parser.getAttributeValue(null, "VendorName");
+						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setProviderName(s);
+						s = parser.getAttributeValue(null, "VendorINN");
+						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setProviderINN(s);
+					}
 				}
 				else if("FiscalString".equals(parser.getName())) {
 					SellItem item = null;

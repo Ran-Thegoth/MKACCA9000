@@ -658,4 +658,20 @@ public class ServiceBinder extends FiscalStorage.Stub {
 			rs.fncore.UrovoUtils.switchOTG(true);
 	}
 
+	@Override
+	public boolean isFNOK() throws RemoteException {
+		return mMainService.isFNOK();
+	}
+
+	@Override
+	public void setDocumentPayload(int number, byte[] payload) throws RemoteException {
+		FNCore.getInstance().getDB().setPayload(number,payload);
+		
+	}
+
+	@Override
+	public byte[] getDocumentPayload(int number) throws RemoteException {
+		return FNCore.getInstance().getDB().getPayload(number);
+	}
+
 }

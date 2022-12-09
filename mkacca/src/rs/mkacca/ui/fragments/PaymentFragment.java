@@ -28,10 +28,12 @@ import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.procedure.TIntObjectProcedure;
 import rs.data.CheckStorage;
+import rs.data.PayInfo;
 import rs.data.ShiftSells;
 import rs.data.goods.GoodGroup.GoodCategorySetter;
 import rs.data.goods.ISellable;
 import rs.fncore.Const;
+import rs.fncore.Errors;
 import rs.fncore.FiscalStorage;
 import rs.fncore.data.Correction;
 import rs.fncore.data.Payment;
@@ -61,11 +63,13 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 	private TIntObjectMap<BigDecimal> _payed = new TIntObjectHashMap<>();
 	private Map<String, EPayment> _pEngines = new HashMap<>();
 	private EPayment _engine;
-	private String _rrn;
 
-	public static PaymentFragment newInstance(SellOrder order) {
+	private PayInfo _pInfo;
+	
+	public static PaymentFragment newInstance(SellOrder order,PayInfo pay) {
 		PaymentFragment result = new PaymentFragment();
 		result._order = order;
+		result._pInfo = pay;
 		return result;
 	}
 
@@ -119,14 +123,19 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 
 	private void doEPayment(EPayment engine) {
 		_engine = engine;
-		if(_order.getType() == OrderTypeE.OUTCOME || _order.getType() == OrderTypeE.RETURN_INCOME) { 
-			engine.doRefund(getContext(), _payed.get(PaymentTypeE.CARD.ordinal()), _rrn, this);
+		if(_order.getType() == OrderTypeE.OUTCOME || _order.getType() == OrderTypeE.RETURN_INCOME) {
+			if(_pInfo == null) return;
+			if(_order.getShiftNumber() == Core.getInstance().kkmInfo().getShift().getNumber()) {
+				engine.doCancel(getContext(), _pInfo, this);
+			} else
+				engine.doRefund(getContext(), _payed.get(PaymentTypeE.CARD.ordinal()), _pInfo, this);
 		} else 
 			engine.doPayment(getContext(), _payed.get(PaymentTypeE.CARD.ordinal()), this);
 	}
 	private void doEPaymentRollback() {
-		if(_engine != null && _rrn != null)
-			_engine.doCancel(getContext(), _rrn, this);
+		if(_engine != null && _pInfo != null) {
+			_engine.doCancel(getContext(), _pInfo, this);
+		}
 	}
 
 	private class SellInfo {
@@ -170,8 +179,11 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 				if (_order instanceof Correction)
 					return fs.doCorrection((Correction) _order, Core.getInstance().user().toOU(), (Correction) _order,
 							Const.EMPTY_STRING);
-				return fs.doSellOrder(_order, Core.getInstance().user().toOU(), _order, _printCheck, Const.EMPTY_STRING,
+				int r = fs.doSellOrder(_order, Core.getInstance().user().toOU(), _order, _printCheck, Const.EMPTY_STRING,
 						Const.EMPTY_STRING, Const.EMPTY_STRING, Const.EMPTY_STRING);
+				if(Errors.isOK(r) && _pInfo != null) 
+					fs.setDocumentPayload(_order.signature().getFdNumber(), _pInfo.toString().getBytes());
+				return r;
 			}
 
 			@Override
@@ -217,7 +229,6 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 			doPayment();
 			break;
 		case R.id.v_card:
-			_rrn = null;
 			if(_pEngines.size() == 1) {
 				doEPayment(_pEngines.values().iterator().next());
 			} else {
@@ -291,10 +302,14 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 	}
 
 	@Override
-	public void onOperationSuccess(EPayment engine, OperationType type, String rrn, BigDecimal sum) {
-		if(type == OperationType.PAYMENT || type == OperationType.REFUND) {
-			_rrn = rrn;
+	public void onOperationSuccess(EPayment engine, OperationType type, PayInfo pay, BigDecimal sum) {
+		switch(type) {
+		case PAYMENT:
+		case REFUND:
+		case CANCEL:
+			_pInfo = pay;
 			doPayment();
+			break;
 		}
 	}
 

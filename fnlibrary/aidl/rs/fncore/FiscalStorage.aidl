@@ -95,6 +95,8 @@ interface FiscalStorage  {
     long getPaperConsume();
     void resetPaperCounter();
     void setUSBMonitorMode(boolean enabled);
-    
+    void setDocumentPayload(int number, in byte [] payload);
+    byte [] getDocumentPayload(int number);
+	boolean isFNOK();    
     
 }

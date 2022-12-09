@@ -6,15 +6,19 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Parcel;
+import android.os.RemoteException;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import cs.U;
+import rs.data.PayInfo;
 import rs.data.goods.Good;
 import rs.data.goods.ISellable;
 import rs.fncore.data.MeasureTypeE;
 import rs.fncore.data.SellItem;
 import rs.fncore.data.SellOrder;
 import rs.fncore.data.SellOrder.OrderTypeE;
+import rs.mkacca.Core;
 import rs.mkacca.R;
 import rs.utils.SellOrderUtils;
 import rs.utils.SellOrderUtils.OnSellItemClickListener;
@@ -82,6 +86,14 @@ public class ReturnOrderFragment extends SellOrderFragment  {
 		ReturnOrderFragment result = new ReturnOrderFragment();
 		result._order = new SellOrder(o.getType() == OrderTypeE.INCOME ? OrderTypeE.RETURN_INCOME : OrderTypeE.RETURN_OUTCOME , o.getTaxMode());
 		result._baseItems = new ArrayList<>(o.getItems());
+		try {
+			byte [] b = Core.getInstance().getStorage().getDocumentPayload(o.signature().getFdNumber());
+			if(b.length > 0) {
+				result._pInfo  = new PayInfo(new String(b));
+				Log.d("LanterPOS", "Pay info "+result._pInfo.toString());
+			}
+		} catch(RemoteException re) { }
+		
 		return result;
 	}
 	

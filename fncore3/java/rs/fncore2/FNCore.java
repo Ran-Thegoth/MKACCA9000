@@ -50,7 +50,7 @@ public class FNCore extends AppCore implements Utils.SerialReader, Utils.Counter
 				TEMPLATES_MKACCA_PATH.mkdir();
 
 		} catch (Exception e) {
-			Log.e("fncore2","init FnCore exc",e);
+			Logger.e("Init FnCore exc",e);
 		}
 	}
 
@@ -76,6 +76,8 @@ public class FNCore extends AppCore implements Utils.SerialReader, Utils.Counter
 	@Override
 	public void onCreate() {
 		super.onCreate();
+        Logger.init(this);
+        Logger.enableExceptionHandler(this);
 		mInstance = this;
 		Utils.setSerialReader(this);
 		Utils.setCountersPrinter(this);

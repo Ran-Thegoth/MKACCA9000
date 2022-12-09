@@ -210,7 +210,6 @@ public abstract class FNBase implements FNBaseI {
 			return transaction.getLastError();
 		if(bb.limit() == 0) return Errors.NO_MORE_DATA;
 		short type = bb.getShort();
-		Log.d("fncore2", "Doc type is " + type);
 		document.add(new Tag(FZ54Tag.T1000_DOCUMENT_NAME, type));
 		while (transaction.write(FNCommandsE.GET_FISCAL_DOC_IN_TLV_DATA).getLastError() == Errors.NO_ERROR) {
 			if (transaction.read(bb) == Errors.NO_ERROR && bb.limit() > 0) {

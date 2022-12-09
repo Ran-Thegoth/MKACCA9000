@@ -118,8 +118,9 @@ public class Formatter {
 		private CCheck check = null;
 
 		public boolean check(Map<String, String> args) {
-			if (lval == null || rval == null || check == null)
+			if (lval == null || rval == null || check == null) {
 				return true;
+			}
 			if (args.containsKey(lval))
 				lval = args.get(lval);
 			if (args.containsKey(rval))
@@ -132,25 +133,25 @@ public class Formatter {
 			case less:
 				try {
 					return Double.parseDouble(lval.replace(",", ".")) < Double.parseDouble(rval.replace(",", "."));
-				} catch (NumberFormatException nfe) {
+				} catch (Exception nfe) {
 					return false;
 				}
 			case less_eq:
 				try {
 					return Double.parseDouble(lval.replace(",", ".")) <= Double.parseDouble(rval.replace(",", "."));
-				} catch (NumberFormatException nfe) {
+				} catch (Exception nfe) {
 					return false;
 				}
 			case great:
 				try {
 					return Double.parseDouble(lval.replace(",", ".")) > Double.parseDouble(rval.replace(",", "."));
-				} catch (NumberFormatException nfe) {
+				} catch (Exception nfe) {
 					return false;
 				}
 			case great_eq:
 				try {
 					return Double.parseDouble(lval.replace(",", ".")) >= Double.parseDouble(rval.replace(",", "."));
-				} catch (NumberFormatException nfe) {
+				} catch (Exception nfe) {
 					return false;
 				}
 			}

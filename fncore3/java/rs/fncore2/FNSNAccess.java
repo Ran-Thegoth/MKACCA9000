@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import dalvik.system.DexFile;
+import rs.log.Logger;
 
 @SuppressWarnings("deprecation")
 public class FNSNAccess {
@@ -35,7 +36,7 @@ public class FNSNAccess {
                     is = context.getAssets().open("SQ29/classes.dex");
                     break;
                 default:
-                    Log.e("fncore2", String.format("unknown model: %s", deviceModel));
+                    Logger.e(String.format("unknown model: %s", deviceModel));
                 case rs.fncore.UrovoUtils.DM_SQ27T:
                 case rs.fncore.UrovoUtils.DM_SQ27TGW:
                     is = context.getAssets().open("SQ27/classes.dex");
@@ -61,7 +62,7 @@ public class FNSNAccess {
                     break;
                 }
                 default:
-                	Log.e("fncore2", String.format("unknown model: %s", deviceModel));
+                	Logger.e(String.format("unknown model: %s", deviceModel));
                 case rs.fncore.UrovoUtils.DM_SQ27T:
                 case rs.fncore.UrovoUtils.DM_SQ27TGW: {
                     dexer.loadClass("android.device.KeyMaster", getClass().getClassLoader());
@@ -87,10 +88,10 @@ public class FNSNAccess {
                 mFNSN = String.valueOf(s.hashCode());
             }
 
-            Log.e("fncore2", String.format("Device serial is %s", mFNSN));
+            Logger.i(String.format("Device serial is %s", mFNSN));
 
         } catch (Exception ioe) {
-        	Log.e("fncore2", "Error reading device serial",ioe);
+        	Logger.e("Error reading device serial",ioe);
             mFNSN="12345467890";
         }
     }
