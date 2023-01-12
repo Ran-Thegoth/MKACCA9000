@@ -176,13 +176,17 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 					for(SellItem i : _order.getItems())
 						_selled.add(new SellInfo(i));
 				}
-				if (_order instanceof Correction)
-					return fs.doCorrection((Correction) _order, Core.getInstance().user().toOU(), (Correction) _order,
+				if (_order instanceof Correction) {
+					Correction result = new Correction();
+					return fs.doCorrection((Correction) _order, Core.getInstance().user().toOU(), result,
 							Const.EMPTY_STRING);
-				int r = fs.doSellOrder(_order, Core.getInstance().user().toOU(), _order, _printCheck, Const.EMPTY_STRING,
+				}
+				SellOrder result = new SellOrder();
+				int r = fs.doSellOrder(_order, Core.getInstance().user().toOU(), result, _printCheck, Const.EMPTY_STRING,
 						Const.EMPTY_STRING, Const.EMPTY_STRING, Const.EMPTY_STRING);
-				if(Errors.isOK(r) && _pInfo != null) 
+				if(Errors.isOK(r) && _pInfo != null)  
 					fs.setDocumentPayload(_order.signature().getFdNumber(), _pInfo.toString().getBytes());
+					
 				return r;
 			}
 
@@ -205,7 +209,7 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 					fm.popBackStackImmediate();
 					fm.popBackStackImmediate();
 				} else {
-					U.notify(getContext(), "Ошибка выполнения операции, выполняется отмена платежа");
+					U.notify(getContext(), Errors.getErrorDescr(result));
 					doEPaymentRollback();
 				}
 			}
