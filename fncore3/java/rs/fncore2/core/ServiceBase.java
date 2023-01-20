@@ -109,7 +109,9 @@ class ServiceBase extends Service {
 	protected void destroyStorage() {
 		Logger.i("Destroy storage");
 
-		server.stop();
+		if(server != null)
+			server.stop();
+		server = null;
 		stopServerThread(mOismSender);
 		mOismSender = null;
 		stopServerThread(mDocRestore);

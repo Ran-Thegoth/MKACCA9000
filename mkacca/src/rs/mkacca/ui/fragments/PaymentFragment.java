@@ -184,8 +184,11 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 				SellOrder result = new SellOrder();
 				int r = fs.doSellOrder(_order, Core.getInstance().user().toOU(), result, _printCheck, Const.EMPTY_STRING,
 						Const.EMPTY_STRING, Const.EMPTY_STRING, Const.EMPTY_STRING);
-				if(Errors.isOK(r) && _pInfo != null)  
-					fs.setDocumentPayload(_order.signature().getFdNumber(), _pInfo.toString().getBytes());
+				if(Errors.isOK(r)) {
+					_order = result;
+					if(_pInfo != null) 
+						fs.setDocumentPayload(_order.signature().getFdNumber(), _pInfo.toString().getBytes());
+				}
 					
 				return r;
 			}
@@ -295,6 +298,7 @@ public class PaymentFragment extends BaseFragment implements BanknoteListener, V
 
 			_done.setEnabled(total.compareTo(_order.getTotalSum()) >= 0);
 		} finally {
+			if(refund.compareTo(BigDecimal.ZERO) < 0) refund = BigDecimal.ZERO;
 			_refund.setText(String.format("%.2f", refund));
 		}
 

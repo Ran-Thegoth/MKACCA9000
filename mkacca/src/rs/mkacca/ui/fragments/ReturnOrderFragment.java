@@ -88,7 +88,7 @@ public class ReturnOrderFragment extends SellOrderFragment  {
 		result._baseItems = new ArrayList<>(o.getItems());
 		try {
 			byte [] b = Core.getInstance().getStorage().getDocumentPayload(o.signature().getFdNumber());
-			if(b.length > 0) {
+			if(b!= null && b.length > 0) {
 				result._pInfo  = new PayInfo(new String(b));
 				Log.d("LanterPOS", "Pay info "+result._pInfo.toString());
 			}
