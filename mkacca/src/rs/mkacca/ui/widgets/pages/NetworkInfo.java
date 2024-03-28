@@ -91,7 +91,7 @@ public class NetworkInfo extends LinearLayout
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ofd_screen = findViewById(R.id.v_ofd_server);
-		
+
 
 		findViewById(R.id.lbl_ofd).setOnClickListener(this);
 		osim_screen = findViewById(R.id.v_osim_server);
@@ -162,17 +162,15 @@ public class NetworkInfo extends LinearLayout
 		name.setEnabled(false);
 		ofd_select.setEnabled(false);
 		fns.setEnabled(false);
-		
+
 	}
-	
+
 	@Override
 	public boolean obtain() {
 		if (!ofd_screen.obtain())
 			return false;
-		if (!osim_screen.obtain())
-			return false;
-		if (!okp_screen.obtain())
-			return false;
+		osim_screen.obtain();
+		okp_screen.obtain();
 		if(!Utils.checkINN(inn.getText().toString())) {
 			Toast.makeText(getContext(), "Неверно указан ИНН ОФД", Toast.LENGTH_SHORT).show();
 			return false;

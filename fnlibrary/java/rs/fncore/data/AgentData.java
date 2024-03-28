@@ -48,8 +48,8 @@ public class AgentData extends Tag implements IReableFromParcel {
     		if(TAGS_1224.keyAt(i) == tag) return true;
     	return false;
     }
-    
-    
+
+
     public AgentData() {
     }
 
@@ -291,12 +291,14 @@ public class AgentData extends Tag implements IReableFromParcel {
         return tag;
     }
 
-    public Tag packSupplier() {
+    public Tag packSupplier(boolean ignore1226) {
         if (getType() == AgentTypeE.NONE) return null;
         Tag tag = new Tag(FZ54Tag.T1224_SUPPLIER_DATA_TLV);
 
         for(int i = 0; i < TAGS_1224.size(); i++) {
             int tagId=TAGS_1224.keyAt(i);
+            if(tagId == FZ54Tag.T1226_SUPPLIER_INN && ignore1226)
+            	continue;
             tag.add(getTag(tagId));
         }
 

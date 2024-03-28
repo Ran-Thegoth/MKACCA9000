@@ -26,6 +26,10 @@ public class FNSNAccess {
 	private String mFNSN;
 
 	public FNSNAccess(Context context) {
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			mFNSN = Build.getSerial();
+			return;
+		}
 		int deviceModel = rs.fncore.UrovoUtils.getDeviceModelId();
 		File f = new File(context.getFilesDir(), "dex");
 		if (!f.exists())
@@ -87,9 +91,9 @@ public class FNSNAccess {
 				mFNSN += NUMBERS.charAt(NUMBERS.indexOf((char) b[i]));
 			}
 
-			if (mFNSN.isEmpty()) 
+			if (mFNSN.isEmpty())
 				mFNSN = Build.getSerial();
-			
+
 			Logger.i(String.format("Device serial is %s", mFNSN));
 
 		} catch (Exception ioe) {

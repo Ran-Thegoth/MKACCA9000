@@ -1,8 +1,7 @@
 package rs.fncore2.fn.common;
 
 import android.os.Parcel;
-
-
+import rs.fncore.Const;
 import rs.fncore.data.SellItem;
 import rs.fncore.data.SellOrder;
 import rs.fncore2.PrintHelper;
@@ -39,14 +38,13 @@ public class SellOrderExBase extends SellOrder  {
         header = PrintHelper.loadTemplate(header, "sale_header");
         item = PrintHelper.loadTemplate(item, "sale_item");
         footer = PrintHelper.loadTemplate(footer, "sale_footer");
-
+        if(footerEx == null) footerEx = Const.EMPTY_STRING;
+        footer = footer.replace("$footerEx$", footerEx);
         String s = PrintHelper.processTemplate(header, this);
 
         for (SellItem i : getItems())
             s += PrintHelper.processTemplate(item, i);
-
         s += PrintHelper.processTemplate(footer, this);
-        if (footerEx != null && !footerEx.isEmpty()) s += PrintHelper.processTemplate(footerEx, this);
         return s;
     }
 

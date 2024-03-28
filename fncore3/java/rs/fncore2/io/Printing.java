@@ -18,6 +18,7 @@ import android.view.WindowManager;
 
 import com.google.zxing.BarcodeFormat;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -97,7 +98,9 @@ public class Printing extends BaseThread {
                     mPrinter.open();
                     try {
                         mPrinter.setupPage(PAPER_WIDTH, -1);
-
+                        Logger.i("====================================");
+                        Logger.i("%s",mText);
+                        Logger.i("====================================");
                         try {
                             Formatter fmt = new Formatter(this);
                             fmt.init(PAPER_WIDTH - mSettings.getMargins()[0] - mSettings.getMargins()[1],
@@ -110,7 +113,9 @@ public class Printing extends BaseThread {
 
                             Logger.i("Paper consume: " + paperConsumeMm + "mm");
                             addPaperCount(paperConsumeMm);
-
+                            try { Thread.sleep(100); } catch(InterruptedException e) { }
+                            while(mPrinter.getStatus() == PrinterManager.PRNSTS_BUSY)
+                            	try { Thread.sleep(100); } catch(InterruptedException e) { }
                         } catch (Exception e) {
                             Logger.e(e, "Ошибка печати");
                         }
@@ -120,12 +125,16 @@ public class Printing extends BaseThread {
                     return;
 
                 } else {
-                    DialogNotifier dn;
+                    DialogNotifier dn = null;
 
                     switch (mPrinterStatus) {
                     case PrinterManager.PRNSTS_OUT_OF_PAPER:
                         dn = new DialogNotifier("Вставьте бумагу и проверьте крышку принтера.");
                         break;
+                    case PrinterManager.PRNSTS_BUSY:
+                    	try { Thread.sleep(500); } catch(InterruptedException ie) { }
+                    	mPrinterStatus=mPrinter.getStatus();
+                    	continue;
                     case PrinterManager.PRNSTS_OVER_HEAT:
                         dn = new DialogNotifier("Принтер перегрелся. Повторите попытку через некоторое время.");
                         break;
@@ -207,7 +216,7 @@ public class Printing extends BaseThread {
             String fn = getFontName(s.fontName);
 //            Log.d("fncore2", ""+y+" '"+string+"'");
             mPrinter.drawText(string, mSettings.getMargins()[0] + x, y,
-                fn, s.fontSize, (s.flags & Typeface.BOLD) == Typeface.BOLD,
+                fn,mSettings.getDefaultFontSize(), (s.flags & Typeface.BOLD) == Typeface.BOLD,
                 (s.flags & Typeface.ITALIC) == Typeface.ITALIC, 0);
             return getHeight(s, string);
         }
@@ -255,7 +264,7 @@ public class Printing extends BaseThread {
 		@Override
 		public void fill(int arg0, int arg1, int arg2, int arg3) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -264,13 +273,13 @@ public class Printing extends BaseThread {
 				for(int i=0;i<5;i++)
 					y+=mPrinter.drawText(" ", y, 0, "monospace",20,false,false,0);
 			}
-				
+
 		}
 
 		@Override
 		public void prePrint(PrintParams arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
     }
 
@@ -291,7 +300,7 @@ public class Printing extends BaseThread {
         mContext = ctx;
         mHnd = new Handler(mContext.getMainLooper());
         mPrinter = new PrinterManager();
-
+        mPrinter.setGrayLevel(1);
         mPreferences = ctx.getSharedPreferences(PREFS_PAPER, Context.MODE_PRIVATE);
         mPaperCounter = mPreferences.getLong(PREFS_KEY_COUNT_MM, 0);
         FONTS.put(PrintSettings.DEFAULT_FONT.toLowerCase(), Typeface.MONOSPACE);
@@ -300,7 +309,7 @@ public class Printing extends BaseThread {
         FONTS.put("Sans-Serif".toLowerCase(), Typeface.SANS_SERIF);
         FONTS.put("Sans".toLowerCase(), Typeface.SANS_SERIF);
         FONTS.put("Serif".toLowerCase(), Typeface.SERIF);
-
+        setPriority(Thread.MIN_PRIORITY);
         start();
     }
 
@@ -320,7 +329,8 @@ public class Printing extends BaseThread {
                         Logger.w("Printer error: " + newPrinterStatus);
                     }
                     mPrinterStatus = newPrinterStatus;
-                    newTask.start();
+					newTask.start();
+
                 }
             } catch (InterruptedException e) {
                 break;
@@ -353,6 +363,6 @@ public class Printing extends BaseThread {
 	public void resetPrinterCounter() {
 		mPreferences.edit().putLong(PREFS_KEY_COUNT_MM, 0).commit();
 		mPaperCounter = 0;
-		
+
 	}
 }

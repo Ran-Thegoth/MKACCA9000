@@ -6,6 +6,7 @@ import rs.fncore.data.PrintFormTypeE;
 import rs.fncore.data.OU;
 import rs.fncore.data.Location;
 import rs.fncore.data.Shift;
+import rs.fncore.data.Tag;
 import rs.fncore.data.OfdStatistic;
 import rs.fncore.data.OismStatistic;
 import rs.fncore.data.FiscalReport;
@@ -42,7 +43,7 @@ interface FiscalStorage  {
     PrintSettings getPrintSettings();
     void setPrintSettings(in PrintSettings settings);
     void doPrint(String text);
-	
+
     void pushDocuments();
 
     int openTransaction();
@@ -91,12 +92,12 @@ interface FiscalStorage  {
     String getPF(in Tag tag);
     int getFNCounters(out FNCounters counters, boolean shiftCounters);
     int exportMarking(String file);
-    
+
     long getPaperConsume();
     void resetPaperCounter();
     void setUSBMonitorMode(boolean enabled);
     void setDocumentPayload(int number, in byte [] payload);
     byte [] getDocumentPayload(int number);
-	boolean isFNOK();    
-    
+	boolean isFNOK();
+
 }

@@ -1,4 +1,4 @@
- 
+
  {\tr fontSize:120%;style:bold;\
   {\td width:40%; padding:0,0,0,20;\ИТОГ}
   {\td width:*;align:right; padding:0,0,0,20;\$order.Sum.Total$}
@@ -127,7 +127,7 @@
  		}
  	}
 }
-
+$footerEx$
 {\table width:100%;fontSize:20;\
     {\tr\ {\td\ }}
     {\tr\ {\td\ }}

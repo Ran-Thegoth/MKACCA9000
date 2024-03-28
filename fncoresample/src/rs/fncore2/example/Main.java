@@ -349,7 +349,6 @@ public class Main extends Activity implements MessageHandler, View.OnClickListen
 		case R.id.v_off:
 		case R.id.v_on:	
 			try {
-				Core.getInstance().storage().setUSBMonitorMode(v.getId() == R.id.v_on);
 			} catch(Exception e) {
 				
 			}

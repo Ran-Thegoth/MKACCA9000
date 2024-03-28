@@ -33,7 +33,7 @@ public class SellOrder extends Document implements IAgentOwner {
     public static final String CLASS_UUID="c8bed264-ebae-11eb-9a03-0242ac130003";
 
     private static final SimpleDateFormat QR_DF = new SimpleDateFormat("yyyyMMdd'T'HHmm");
-    
+
     private byte [] _payload = new byte[0];
     /**
      * Тип чека
@@ -102,7 +102,7 @@ public class SellOrder extends Document implements IAgentOwner {
     }
 
     /**
-     * Создать новый чек 
+     * Создать новый чек
      * @param type - тип чека
      * @param mode - система налогообложения
      */
@@ -205,11 +205,16 @@ public class SellOrder extends Document implements IAgentOwner {
         boolean [] isZeo = new boolean[VatE.values().length];
         Arrays.fill(vat, BigDecimal.ZERO);
         for (SellItem item : mItems) {
-        	if (item.getSum().compareTo(BigDecimal.ZERO) == 0) 
+        	if (item.getSum().compareTo(BigDecimal.ZERO) == 0)
         		isZeo[item.getVATType().ordinal()]  = true;
             vat[item.getVATType().ordinal()] = vat[item.getVATType().ordinal()].add(item.getVATValue());
             if (item.getAgentData().getType() != AgentTypeE.NONE) {
-//                agents.add(item.getAgentData().getType());
+/*            	Tag supplier = item.getAgentData().getTag(FZ54Tag.T1226_SUPPLIER_INN);
+            	if(supplier != null) {
+            		item.add(supplier);
+            		item.getAgentData().remove(FZ54Tag.T1226_SUPPLIER_INN);
+            	}
+*/
             }
         }
 
@@ -247,12 +252,12 @@ public class SellOrder extends Document implements IAgentOwner {
         if (mAgentData.getType() != AgentTypeE.NONE) {
             add(FZ54Tag.T1057_AGENT_FLAG, mAgentData.getType().bVal);
             for(int i=0;i<AgentData.TAGS_1223.size();i++) {
-            	if(mAgentData.hasTag(AgentData.TAGS_1223.keyAt(i))) 
-            		add(mAgentData.getTag(AgentData.TAGS_1223.keyAt(i))); 
+            	if(mAgentData.hasTag(AgentData.TAGS_1223.keyAt(i)))
+            		add(mAgentData.getTag(AgentData.TAGS_1223.keyAt(i)));
             }
             for(int i=0;i<AgentData.TAGS_1224.size();i++) {
-            	if(mAgentData.hasTag(AgentData.TAGS_1224.keyAt(i))) 
-            		add(mAgentData.getTag(AgentData.TAGS_1224.keyAt(i))); 
+            	if(mAgentData.hasTag(AgentData.TAGS_1224.keyAt(i)))
+            		add(mAgentData.getTag(AgentData.TAGS_1224.keyAt(i)));
             }
         }
 
@@ -528,7 +533,7 @@ public class SellOrder extends Document implements IAgentOwner {
     private static final String FNS_URL = "fns_url";
     private static final String SENDER_EMAIL = "sender_email";
     private static final String SHIFT_NUMBER = "shift.Number";
-    
+
     @Override
     protected boolean parseTag(Tag t) {
     	switch(t.getId()) {
@@ -543,7 +548,7 @@ public class SellOrder extends Document implements IAgentOwner {
     		break;
     	case FZ54Tag.T1102_VAT_20_SUM:
     	case FZ54Tag.T1107_VAT_10_110_SUM:
-    	
+
     	case FZ54Tag.T1020_TRANSACTION_SUM:
     		break;
     	case FZ54Tag.T1055_USED_TAX_SYSTEM:
@@ -554,16 +559,16 @@ public class SellOrder extends Document implements IAgentOwner {
     	case FZ54Tag.T1031_CASH_SUM:
     		mPayments.put(PaymentTypeE.CASH, new Payment(BigDecimal.valueOf(t.asDouble())));
     		break;
-    	case FZ54Tag.T1081_CARD_SUM:	
+    	case FZ54Tag.T1081_CARD_SUM:
     		mPayments.put(PaymentTypeE.CARD, new Payment(BigDecimal.valueOf(t.asDouble())));
     		break;
-    	case FZ54Tag.T1215_PREPAY_SUM:	
+    	case FZ54Tag.T1215_PREPAY_SUM:
     		mPayments.put(PaymentTypeE.PREPAYMENT, new Payment(BigDecimal.valueOf(t.asDouble())));
     		break;
-    	case FZ54Tag.T1216_POSTPAY_SUM:	
+    	case FZ54Tag.T1216_POSTPAY_SUM:
     		mPayments.put(PaymentTypeE.CREDIT, new Payment(BigDecimal.valueOf(t.asDouble())));
     		break;
-    	case FZ54Tag.T1217_OTHER_SUM:	
+    	case FZ54Tag.T1217_OTHER_SUM:
     		mPayments.put(PaymentTypeE.AHEAD, new Payment(BigDecimal.valueOf(t.asDouble())));
     		break;
     	case FZ54Tag.T1117_SENDER_EMAIL:
@@ -576,14 +581,14 @@ public class SellOrder extends Document implements IAgentOwner {
     		mAgentData.setType(AgentTypeE.fromByte(t.asByte()));
     		return true;
     	default:
-    		if(AgentData.isAgentTag(t.getId())) { 
+    		if(AgentData.isAgentTag(t.getId())) {
     			mAgentData.add(t);
     			return true;
     		}
    			return super.parseTag(t);
     	}
     	return false;
-    	
+
     }
     @SuppressLint("DefaultLocale")
 	@Override

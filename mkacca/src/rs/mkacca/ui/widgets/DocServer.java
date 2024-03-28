@@ -38,7 +38,7 @@ public class DocServer extends LinearLayout implements ItemCard<DocServerSetting
 		_sendImmediate = findViewById(R.id.sw_send_now);
 		_timeout = findViewById(R.id.ed_ofd_timeout);
 	}
-	
+
 	@Override
 	public void setItem(DocServerSettings item) {
 		_settings = item;
@@ -46,14 +46,14 @@ public class DocServer extends LinearLayout implements ItemCard<DocServerSetting
 		_timeout.setText(String.valueOf(_settings.getServerTimeout()));
 		_port.setText(String.valueOf(_settings.getServerPort()));
 		_sendImmediate.setChecked(_settings.getImmediatelyMode());
-		
+
 	}
 
 	@Override
 	public boolean obtain() {
 		try {
 			int p = Integer.parseInt(_port.getText().toString());
-			if(p < 0 || p > Short.MAX_VALUE) throw new NumberFormatException(); 
+			if(p < 0 || p > Short.MAX_VALUE) throw new NumberFormatException();
 			int t = Integer.parseInt(_timeout.getText().toString());
 			if(t < 0 ) throw new NumberFormatException();
 			_settings.setImmediatelyMode(_sendImmediate.isChecked());
@@ -62,6 +62,7 @@ public class DocServer extends LinearLayout implements ItemCard<DocServerSetting
 			_settings.setServerAddress(_server.getText().toString());
 			return true;
 		} catch(NumberFormatException nfe) {
+
 			return false;
 		}
 	}
@@ -89,7 +90,7 @@ public class DocServer extends LinearLayout implements ItemCard<DocServerSetting
 
 	public void setOFDMode(boolean b) {
 		_sendImmediate.setVisibility(b ? View.VISIBLE : View.GONE);
-		
+
 	}
 
 }

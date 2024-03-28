@@ -28,7 +28,7 @@ public class Logger {
 	public static String BUILD_VERSION;
 	public static boolean LOG_IO = false;
 
-	
+
 	public static void beginMark(String m) {
 		_mark = m;
 	}
@@ -48,8 +48,8 @@ public class Logger {
 				if(s.charAt(i) == '.') break;
 				_source = s.charAt(i)+_source;
 			}
-			
-			
+
+
 			_logFile = new File(logFolder, "MKACCA.log");
 			if(_source.contains("fncore") && LOG_IO) {
 				_fnIOFile = new File(logFolder, "FNIO.log");
@@ -62,14 +62,14 @@ public class Logger {
 						_logFile.delete();
 					}
 				} catch(IOException ioe) {
-					
+
 				}
 			}
-			
-			
+
+
 		} catch (NameNotFoundException nfe) {
 		}
-		
+
 	}
 
 	public static void enableExceptionHandler(final Context ctx) {
@@ -157,8 +157,8 @@ public class Logger {
 				if(_mark != null) s+=_mark+": ";
 				s += msg+"\n";
 				fos.write(s.getBytes());
-			} catch(IOException ioe) { } 
-		
+			} catch(IOException ioe) { }
+
 	}
 	public static void log(int level, Throwable e, String fmt, Object... args) {
 		if((fmt == null || fmt.isEmpty()) && e  == null) return;
@@ -166,7 +166,7 @@ public class Logger {
 		String msg = "";
 		if (fmt != null)
 			msg = String.format(fmt, args);
-		
+
 		switch (level) {
 		case Log.DEBUG:
 			Log.d(_source, msg, e);
@@ -190,7 +190,7 @@ public class Logger {
 					for (int i = 1; i < v.length; i++)
 						fos.write(("\t\t\t" + v[i] + "\n").getBytes());
 				}
-				else 
+				else
 					fos.write("\n".getBytes());
 				if (e != null) {
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();

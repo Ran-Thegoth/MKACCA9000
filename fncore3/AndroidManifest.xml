@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="302382"
-    android:versionName="3.02.34-82"
+    android:versionCode="3023498"
+    android:versionName="3.02.34-98"
     package="rs.fncore3">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -49,7 +49,7 @@
         <service
             android:name="rs.fncore2.core.ServiceMain"
             android:permission="android.permission.INTERNET"
-			android:process=":remote"	
+			android:process=":remote"
             android:singleUser="true"
             android:stopWithTask="false">
 

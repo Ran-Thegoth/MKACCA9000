@@ -6,7 +6,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.util.Base64;
-import android.util.Log;
+
 
 import org.nanohttpd.protocols.http.response.IStatus;
 
@@ -81,7 +81,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 	}
 	private Map<String,KMSession> KM_SESSIONS = new HashMap<>();
 	private SellItem _lastChecked;
-	
+
 	private class CheckedItem extends SellItem {
 		CheckedItem(SellItem src) {
 			readFromParcel(Utils.writeToParcel(src));
@@ -91,7 +91,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 			mMarkResult = item.getMarkCheckResult();
 		}
 	}
-	
+
 	private class E1CResult implements IStatus {
 		private int code;
 		private String response;
@@ -130,14 +130,14 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 	@SuppressWarnings("deprecation")
 	@Override
 	public Response handle(IHTTPSession input) {
-		
+
 		String query = "";
 		for(String key : input.getParms().keySet()) {
 			if(!query.isEmpty()) query += "&";
 			query += key + "="+input.getParms().get(key);
 		}
-		Logger.i("1C: "+input.getUri()+" "+query);
-		
+		Logger.i("1C: %s",input.getUri()+" "+query);
+
 		E1CResult result = new E1CResult(500 + Errors.NOT_IMPLEMENTED);
 		result.response = "Не реализовано";
 		OU cashier = new OU("Администратор");
@@ -145,7 +145,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 			XmlPullParser parser = XmlPullParserFactory.newInstance().newPullParser();
 			byte b[] = new byte[input.getInputStream().available()];
 			input.getInputStream().read(b);
-			Logger.i("1C: "+new String(b));
+			Logger.i("1C: %s",new String(b));
 			parser.setInput(new ByteArrayInputStream(b), "UTF-8");
 			if (input.getUri().endsWith("GetDataKKT")) {
 				getDataKKT(result);
@@ -156,6 +156,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 				try {
 					printCopy(result, Integer.parseInt(no));
 				} catch (NumberFormatException nfe) {
+					Logger.e(nfe,"1C Ошибка при вызове %s",input.getUri());
 					result.code = 500 + Errors.DATA_ERROR;
 					result.response = "Неверный номер документа";
 				}
@@ -172,21 +173,21 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 					}
 					cashInOutcome(result, sum, cashier);
 				} catch (NumberFormatException e) {
-					
+					Logger.e(e,"1C Ошибка при вызове %s",input.getUri());
 					result.code = 500 + Errors.DATA_ERROR;
 					result.response = "Неверный параметр запроса";
 				}
 			}
 			else if(input.getUri().endsWith("PrintDocument")) {
 				Tag doc = new Tag();
-				result.code = 500 + Errors.NO_MORE_DATA; 
+				result.code = 500 + Errors.NO_MORE_DATA;
 				result.response = "Неверный номер документа";
 				long no = Long.parseLong(input.getParms().get("number"));
 				if(FNManager.getInstance().getFN().readDocumentFromTLV(no, doc) == Errors.NO_ERROR) {
 					result.response = "Ошибка печати документа";
 					String pf = DocumentUtils.getPrintForm(doc);
 					if(pf != null) {
-						
+
 						result.code = 200;
 						result.response = "Выполнено успешно";
 						Printing.getInstance().queue(pf);
@@ -210,14 +211,14 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 					evt = parser.next();
 				}
 				closeShift(result, cashier);
-			} 
+			}
 			else if(input.getUri().endsWith("ReportCurrentStatusOfSettlements")) {
 				requestReport(result, parser);
 			}
 			else if(input.getUri().endsWith("PrintTextDocument"))
 				printTextDocument(result, parser);
 			else if(input.getUri().endsWith("RequestKM")) {
-				KMSession session = KM_SESSIONS.get(input.getRemoteIpAddress()); 
+				KMSession session = KM_SESSIONS.get(input.getRemoteIpAddress());
 				if(session == null) {
 					result.code = 500+Errors.SYSTEM_ERROR;
 					result.response = "Сессия работы с КМ не открыта";
@@ -233,7 +234,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 				result.code = 200;
 				result.response = "Операция выполнена успешно";
 			}
-			
+
 			else if(input.getUri().endsWith("CloseSessionRegistrationKM")) {
 				KM_SESSIONS.remove(input.getRemoteIpAddress());
 				FNManager.getInstance().getFN().cancelDocument();
@@ -269,7 +270,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 					result.response = "Операция выполнена успешно";
 				}
 				else throw new Exception();
-			} 
+			}
 			else if(input.getUri().endsWith("ProcessCheck")) {
 				KMSession session = KM_SESSIONS.get(input.getRemoteIpAddress());
 				doSellOrder(result,parser,session, "true".equalsIgnoreCase(input.getParms().get("doPrint")));
@@ -281,8 +282,10 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 		} catch(Exception e) {
 			result.code = 500 + Errors.DATA_ERROR;
 			result.response = "Неверный параметр запроса";
-			Log.d("Web", "Exception ", e);
+			Logger.e(e,"1C Ошибка при вызове %s",input.getUri());
 		}
+		if(result.code > 500)
+			Logger.e("1C Ошибка при вызове %s: %s",input.getUri(),result.response);
 		return new Response(result, result.mime, result.getStream(), result.size());
 	}
 
@@ -290,7 +293,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 	private interface ParserCallback {
 		void onTag(SellOrder order, XmlPullParser parser);
 	}
-	
+
 	private boolean doSellOrder(E1CResult response, XmlPullParser parser,KMSession km, boolean doPrint) throws XmlPullParserException,IOException {
 		response.code = 500;
 		response.response = "Неверный формат данных";
@@ -314,7 +317,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 					order = new SellOrder(type,tax);
 					order.attach(after);
 					if(!parseOrder(order, parser,km, new ParserCallback() {
-						
+
 						@Override
 						public void onTag(SellOrder order, XmlPullParser parser) {
 							if("TextString".equals(parser.getName())) {
@@ -323,7 +326,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 								after+= parser.getAttributeValue(null, "Text");
 								order.attach(after);
 							}
-							
+
 						}
 					})) return false;
 					break;
@@ -351,8 +354,8 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 			response.code = 500+res.code;
 			return false;
 		}
-			
-		
+
+
 	}
 	private boolean doCorrection(E1CResult response, KMSession km, XmlPullParser parser) throws XmlPullParserException,IOException {
 		response.code = 500;
@@ -387,12 +390,12 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 									cor.setBaseDocumentDate(DF.parse(s));
 								} catch(ParseException pe) { }
 								s = parser.getAttributeValue(null, "Number");
-								if(s != null && !s.isEmpty()) 
+								if(s != null && !s.isEmpty())
 									cor.setBaseDocumentNumber(s);
 							}
-							
+
 						}
-						
+
 					})) return false;
 					break;
 				}
@@ -418,10 +421,10 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 			response.code = 500+res.code;
 			return false;
 		}
-			
-		
+
+
 	}
-	
+
 	private boolean parseOrder(SellOrder order,XmlPullParser parser, KMSession km, ParserCallback callback) throws XmlPullParserException,IOException {
 		IAgentOwner agentOwner = null;
 		Tag attrOwner = null;
@@ -430,22 +433,22 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 		while(event != XmlPullParser.END_DOCUMENT) {
 			if(event == XmlPullParser.START_TAG) {
 				if("Parameters".equals(parser.getName())) {
-					
+
 					String s = parser.getAttributeValue(null, "SaleAddress");
 					if(s != null && !s.isEmpty()) order.getLocation().setAddress(s);
 					s = parser.getAttributeValue(null, "SaleLocation");
 					if(s != null && !s.isEmpty()) order.getLocation().setPlace(s);
 					s = parser.getAttributeValue(null, "CustomerEmail");
-					if(s != null && !s.isEmpty()) order.getClientData().add(FZ54Tag.T1008_BUYER_PHONE_EMAIL, s);
+					if(s != null && !s.isEmpty()) order.add(FZ54Tag.T1008_BUYER_PHONE_EMAIL, s);
 					s = parser.getAttributeValue(null, "CustomerPhone");
-					if(s != null && !s.isEmpty()) order.getClientData().add(FZ54Tag.T1008_BUYER_PHONE_EMAIL,s);
+					if(s != null && !s.isEmpty()) order.add(FZ54Tag.T1008_BUYER_PHONE_EMAIL,s);
 					s = parser.getAttributeValue(null, "AgentType");
-					if(s !=null && !s.isEmpty()) 
+					if(s !=null && !s.isEmpty())
 						order.getAgentData().setType(AgentTypeE.values()[Integer.parseInt(s)]);
 					s = parser.getAttributeValue(null, "AdditionalAttribute");
 					if(s != null && !s.isEmpty())
 						order.add(FZ54Tag.T1192_EXTRA_BILL_FIELD,s);
-					agentOwner = order;	
+					agentOwner = order;
 					attrOwner = order;
 					iTag = FZ54Tag.T1261_INDUSTRY_CHECK_REQUISIT;
 				}
@@ -490,6 +493,12 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setOperatorAddress(s);
 						s = parser.getAttributeValue(null, "AcquirerOperatorINN");
 						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setOperatorINN(s);
+						s = parser.getAttributeValue(null, "MoneyTransferOperatorPhone");
+						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setOperatorPhone(s);
+						s = parser.getAttributeValue(null, "MoneyTransferOperatorName");
+						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setOperatorName(s);
+						s = parser.getAttributeValue(null, "MoneyTransferOperatorVATIN");
+						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setOperatorINN(s);
 					}
 				} else if("IndustryAttribute".equals(parser.getName())) {
 					if(iTag == 0 || attrOwner == null) return false;
@@ -503,13 +512,13 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 					s = parser.getAttributeValue(null, "DocumentNumber");
 					if(s != null && !s.isEmpty())
 						tag.add(FZ54Tag.T1264_DOC_BASE_NO,s);
-					
+
 					s = parser.getAttributeValue(null, "AttributeValue");
 					if(s != null && !s.isEmpty())
 						tag.add(FZ54Tag.T1265_INDUSTRY_REQUISIT_VALUE,s);
 					if(!tag.getChilds().isEmpty())
 						attrOwner.add(tag);
-					
+
 				}
 				else if("VendorData".equals(parser.getName())) {
 					if(agentOwner == null) return false;
@@ -519,12 +528,18 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 						s = parser.getAttributeValue(null, "VendorName");
 						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setProviderName(s);
 						s = parser.getAttributeValue(null, "VendorINN");
-						if(s != null && !s.isEmpty()) agentOwner.getAgentData().setProviderINN(s);
+						if(s != null && !s.isEmpty()) {
+							if(agentOwner instanceof SellItem) {
+								((SellItem)agentOwner).add(FZ54Tag.T1226_SUPPLIER_INN, Utils.formatInn(s));
+							} else
+								agentOwner.getAgentData().setProviderINN(s);
+						}
 					}
 				}
 				else if("FiscalString".equals(parser.getName())) {
 					SellItem item = null;
 					String name = parser.getAttributeValue(null, "Name");
+					if(name.length() > 127) name = name.substring(0,124)+"...";
 					String s = parser.getAttributeValue(null, "Quantity");
 					if (s == null || s.isEmpty()) s = "1.0";
 					double qtty  = Double.parseDouble(s.replace(",", "."));
@@ -564,7 +579,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 								item = new CheckedItem(item);
 								((CheckedItem)item).applyCheckResult(checked);
 							}
-						} 
+						}
 						if(needCheck) {
 							item.setMarkingCode(s, order.getType());
 							FNManager.getInstance().getFN().checkMarkingItem(item, Settings.getInstance().getOISMServer());
@@ -572,7 +587,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 								FNManager.getInstance().getFN().confirmMarkingItem(item, true);
 						}
 					}
-					
+
 					order.addItem(item);
 					s = parser.getAttributeValue(null, "CountryOfOrigin");
 					if(s != null && !s.isEmpty()) item.add(FZ54Tag.T1230_COUNTRY_ORIGIN,s);
@@ -584,7 +599,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 					if(s!=null && !s.isEmpty()) item.add(FZ54Tag.T1191_EXTRA_ITEM_FIELD,s);
 					s = parser.getAttributeValue(null, "CalculationAgent");
 					if(s!=null && !s.isEmpty()) {
-						item.getAgentData().setType(AgentTypeE.values()[Integer.parseInt(s)]);
+						item.getAgentData().setType(AgentTypeE.values()[Integer.parseInt(s)+1]);
 					}
 					agentOwner = item;
 					attrOwner = item;
@@ -618,11 +633,17 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 				if(callback != null)
 					callback.onTag(order, parser);
 			}
+			else if(event == XmlPullParser.END_TAG) {
+				if("FiscalString".equals(parser.getName())) {
+					agentOwner = order;
+					attrOwner = order;
+				}
+			}
 			event = parser.next();
 		}
 		return true;
 	}
-	
+
 	private boolean doCheck(E1CResult response) {
 		response.code = 500 + Errors.DEVICE_ABSEND;
 		response.response = "ФН не установлен";
@@ -679,7 +700,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 		}
 		Printing.getInstance().queue(s);
 	}
-	
+
 	private void requestKM(E1CResult response, XmlPullParser parser, KMSession session) throws Exception {
 		if (!doCheck(response))
 			return;
@@ -706,15 +727,6 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 				response.response = XML_HEADER;
 				response.response+="<RequestKMResult";
 				if(response.code == Errors.NO_ERROR) {
-					Log.d("FNCORE", "------ MARK "+code+" --------------------");
-					Log.d("FNCORE","check code : "+String.format("%02X",item.getMarkCheckResult().bVal));
-					Log.d("FNCORE","Local only: "+item.getMarkCheckResult().autonomousMode);
-					Log.d("FNCORE","local checked: "+item.getMarkCheckResult().codeChecked);
-					Log.d("FNCORE","local processed: "+item.getMarkCheckResult().codeProcessed);
-					Log.d("FNCORE","OISM checked: "+item.getMarkCheckResult().codeOISMChecked);
-					Log.d("FNCORE","OISM processed: "+item.getMarkCheckResult().codeOISMProcessed);
-					
-					
 					response.response+=" Checking=\"true\"";
 					response.response+=" CheckingResult=\""+item.getMarkCheckResult().isPositiveChecked()+"\"";
 				} else {
@@ -732,7 +744,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 			evt = parser.next();
 		}
 	}
-	
+
 	private void closeShift(E1CResult response, OU cashier) {
 		if (!doCheck(response))
 			return;
@@ -784,16 +796,16 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 			response.response += " CorrectionCheckCount=\""+shift.getShiftCounters().Corrections().countReturnOutcome+"\"";
 			response.response += String.format(Locale.ROOT," TotalCorrectionChecksAmount=\"%.2f\"",shift.getShiftCounters().Corrections().returnOutcomeTotalSum/100.0);
 			response.response += "/>";
-			
+
 			response.response += "</OutputParameters>";
 			Printing.getInstance().queue(r.print);
 		} else {
 			response.response = Errors.getErrorDescr(r.code);
 			response.code = r.code + 500;
 		}
-		
+
 	}
-	
+
 	private void openShift(E1CResult response, OU cashier) {
 		if (!doCheck(response))
 			return;
@@ -826,7 +838,7 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 			response.response = Errors.getErrorDescr(r.code);
 			response.code = r.code + 500;
 		}
-		
+
 
 	}
 
@@ -852,8 +864,8 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 		response.response = "Операция выполнена успешно";
 	}
 
-	
-	
+
+
 	private void getCurrentStatus(E1CResult response) {
 		if (!doCheck(response))
 			return;
@@ -940,9 +952,9 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 			response.code = rs.code + 500;
 			response.response = Errors.getErrorDescr(rs.code);
 		}
-		
+
 	}
-	
+
 	private void doXReports(E1CResult response) {
 		if (!doCheck(response))
 			return;
@@ -988,8 +1000,6 @@ public class E1C implements IHandler<IHTTPSession, Response> {
 
 				response.response += " DateTime=\"" + DF.format(info.signature().signDate()) + "\"";
 				response.response += " CompanyName=\"" + escape(info.getOwner().getName()) + "\"";
-				Log.d("Web", "Name " + info.getOwner().getName());
-				Log.d("Web", "Addr " + info.getLocation().getAddress());
 				response.response += " INN=\"" + info.getOwner().getINN() + "\"";
 				response.response += " SaleAddress=\"" + escape(info.getLocation().getAddress()) + "\"";
 				response.response += " SaleLocation=\"" + escape(info.getLocation().getPlace()) + "\"";

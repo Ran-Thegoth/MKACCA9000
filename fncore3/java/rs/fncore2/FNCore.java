@@ -30,8 +30,8 @@ public class FNCore extends AppCore implements Utils.SerialReader, Utils.Counter
 	private DB mDb;
 	private String CHECKSUM = Const.EMPTY_STRING;
 
-	
-	
+
+
 	public static FNCore getInstance() {
 		return mInstance;
 	}
@@ -54,7 +54,7 @@ public class FNCore extends AppCore implements Utils.SerialReader, Utils.Counter
 		}
 	}
 
-	
+
 	public static String crcCheck(InputStream is) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA1");
@@ -70,14 +70,16 @@ public class FNCore extends AppCore implements Utils.SerialReader, Utils.Counter
 		} catch(Exception e) {
 			return "0102030405060708090A0B0C0D0E0F0102030405";
 		}
-		
+
 	}
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Logger.LOG_IO = true;
         Logger.init(this);
         Logger.enableExceptionHandler(this);
+
 		mInstance = this;
 		Utils.setSerialReader(this);
 		Utils.setCountersPrinter(this);

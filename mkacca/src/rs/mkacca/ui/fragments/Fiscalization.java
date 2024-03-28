@@ -37,6 +37,7 @@ import rs.fncore.data.DocServerSettings;
 import rs.fncore.data.KKMInfo;
 import rs.fncore.data.KKMInfo.FFDVersionE;
 import rs.fncore.data.KKMInfo.FiscalReasonE;
+import rs.log.Logger;
 import rs.mkacca.AsyncFNTask;
 import rs.mkacca.Core;
 import rs.mkacca.R;
@@ -233,6 +234,7 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 							return;
 						}
 					}
+					Logger.i("Начата фискализация");
 					Main.lock();
 					new AsyncFNTask() {
 
@@ -245,6 +247,7 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 							int r = fs.doFiscalization((FiscalReasonE) reason.getSelectedItem(),
 									Core.getInstance().user().toOU(), regInfo, regInfo, Const.EMPTY_STRING);
 							regInfo.attach(ss);
+							Logger.i("фискализация завершена с кодом "+r);
 							return r;
 						}
 
@@ -284,7 +287,7 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 						public void onSelectedFilePaths(FilePickerDialog dlg,String[] files) {
 							if(mode == SAVE_MODE) try {
 								JSONObject o = new JSONObject();
-								for (int i = 0; i < _pAdapter.getCount(); i++) 
+								for (int i = 0; i < _pAdapter.getCount(); i++)
 									_pAdapter.PAGES[i].obtain();
 								o.put("KKM", regInfo.toJSON());
 								DocServerSettings [] ss = (DocServerSettings[])regInfo.attachment();
@@ -293,7 +296,7 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 								o.put("OKP", ss[2].toJSON());
 								try(FileOutputStream fos = new FileOutputStream(files[0])) {
 									fos.write(o.toString(1).getBytes());
-								} 
+								}
 								Toast.makeText(getContext(), "Файл успешно сохранен!", Toast.LENGTH_SHORT).show();
 							} catch(Exception e) {
 								U.notify(getContext(), "Ошибка сохранения файла настроек:\n"+e.getLocalizedMessage());
@@ -321,7 +324,7 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 							} catch(Exception e) {
 								U.notify(getContext(), "Ошибка чтения файла настроек:\n"+e.getLocalizedMessage());
 							}
-							
+
 						}
 					});
 				}
@@ -329,7 +332,7 @@ public class Fiscalization extends BaseFragment implements View.OnClickListener 
 			b.show();
 		}
 		break;
-			
+
 		}
 	}
 }

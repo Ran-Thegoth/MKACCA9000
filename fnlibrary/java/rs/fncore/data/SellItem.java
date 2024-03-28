@@ -204,9 +204,9 @@ public class SellItem extends Tag implements IReableFromParcel,TemplateProcessor
     private VatE mVat = VatE.VAT_NONE;
     private volatile AgentData mAgentData = new AgentData();
     protected volatile MarkingCode mMarkingCode = new MarkingCode();
-    protected ItemCheckResult2106 mMarkResult = new ItemCheckResult2106((byte)0); 
+    protected ItemCheckResult2106 mMarkResult = new ItemCheckResult2106((byte)0);
     public String mUUID = UUID.randomUUID().toString();
-    
+
 
     public SellItem(SellItemTypeE type, ItemPaymentTypeE paymentType, String name, BigDecimal qtty, MeasureTypeE measure,
                     BigDecimal price, VatE vat) {
@@ -420,6 +420,7 @@ public class SellItem extends Tag implements IReableFromParcel,TemplateProcessor
         remove(FZ54Tag.T1224_SUPPLIER_DATA_TLV);
         remove(FZ54Tag.T1223_AGENT_DATA_TLV);
         remove(FZ54Tag.T1057_AGENT_FLAG);
+        remove(FZ54Tag.T1226_SUPPLIER_INN);
 
         if (mMeasure == null) {
             if (mQtty.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) > 0) {
@@ -429,13 +430,17 @@ public class SellItem extends Tag implements IReableFromParcel,TemplateProcessor
                 mMeasure = MeasureTypeE.PIECE;
             }
         }
-
         if(mAgentData.getType() != AgentTypeE.NONE) {
         	add(FZ54Tag.T1222_AGENT_FLAGS,mAgentData.getType().bVal);
         	add(mAgentData.packAgent());
-        	add(mAgentData.packSupplier());
+        	Tag supplierINN = mAgentData.getTag(FZ54Tag.T1226_SUPPLIER_INN);
+        	if(supplierINN != null) {
+        		add(supplierINN);
+        	}
+        	add(mAgentData.packSupplier(true));
         }
-        
+
+
         add(FZ54Tag.T1214_PAYMENT_TYPE, mItemPaymentType.bVal);
         add(FZ54Tag.T1212_ITEM_TYPE, mType.bVal);
         if (mItemPaymentType != ItemPaymentTypeE.AVANCE) {
@@ -483,9 +488,9 @@ public class SellItem extends Tag implements IReableFromParcel,TemplateProcessor
         mUUID=p.readString();
         mAgentData.readFromParcel(p);
         mMarkingCode.readFromParcel(p);
-        mMarkResult = new ItemCheckResult2106(p.readByte()); 
+        mMarkResult = new ItemCheckResult2106(p.readByte());
     }
-    
+
     /**
      * Установить количество предмета расчета
      * @param val новое значение количества
@@ -500,7 +505,7 @@ public class SellItem extends Tag implements IReableFromParcel,TemplateProcessor
     public SellItem attach(Object o) {
     	return (SellItem)super.attach(o);
     }
-    
+
     public static final Creator<SellItem> CREATOR = new Creator<SellItem>() {
         @Override
         public SellItem createFromParcel(Parcel p) {
@@ -528,7 +533,7 @@ public class SellItem extends Tag implements IReableFromParcel,TemplateProcessor
     private static final String ITEM_MARK_CODE = "item.MarkCode";
     private static final String ITEM_CHECK_CODE = "item.CheckCode";
     private static final String TAG_NAME = "T_";
-    
+
     @Override
     public String onKey(String key) {
         switch (key) {
@@ -536,11 +541,11 @@ public class SellItem extends Tag implements IReableFromParcel,TemplateProcessor
             	if(mMarkingCode.getChilds().isEmpty())
             		return Const.EMPTY_STRING;
             	String s =  mMarkResult.getMarkTag();
-            	if(mMarkResult.bVal != 0) 
+            	if(mMarkResult.bVal != 0)
             		s = "KM? "+s;
             	return s;
             }
-            case ITEM_CHECK_CODE: 
+            case ITEM_CHECK_CODE:
             	return getTagString(2115);
             case ITEM_NAME:
                 return getItemName();
@@ -587,7 +592,7 @@ public class SellItem extends Tag implements IReableFromParcel,TemplateProcessor
                 }
         }
     }
-    
+
     /**
      * Получить полное наименование предмета расчета по коду
      * @return полное наименование предмета расчета согласно ФФД
